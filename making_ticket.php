@@ -28,6 +28,7 @@ if(isset($_POST['submit']))
     $pusresult=mysql_query($pupsql) or exit('query failed: '.mysql_error());
 }
 ?>
+<title>টিকেট মেকিং</title>
 <style type="text/css">@import "css/bush.css";</style>
 <script  type="text/javascript">
     function getname(type)

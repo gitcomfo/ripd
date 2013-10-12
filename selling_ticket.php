@@ -6,6 +6,7 @@ include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 $sqlerror="";
 ?>
+<title>টিকেট সেলিং</title>
 <style type="text/css">@import "css/bush.css";</style>
 <link href="css/print.css" rel="stylesheet" type="text/css" media="print"/>
 <script  type="text/javascript">
@@ -654,7 +655,7 @@ elseif ($_GET['opt']=='submit_account') {
     ?>
     <div class="column6">
         <div class="main_text_box">
-            <div style="padding-left: 110px;"><a href="index.php?apps=CA"><b>ফিরে যান</b></a></div> 
+            <div style="padding-left: 110px;"><a href="index.php?apps=PROGRA"><b>ফিরে যান</b></a></div> 
             <div>
                 <form method="POST" onsubmit="" action="selling_ticket.php?opt=submit_ticket">	
                     <table  class="formstyle" style="font-family: SolaimanLipi !important;">          
