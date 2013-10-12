@@ -24,6 +24,10 @@ include_once 'includes/columnLeft.php';
                 <td><a href="published_information.php">পাবলিশড ইনফরমেশন</a></td>
                 <td><a href="area_divider.php">এরিয়া ডিভাইডার</a></td>
             </tr>
+            <tr>
+                 <td><a href="salary_making.php?iffimore=1m10a01i11n">সেলারী মেইকিং</a></td>
+                  <td><a href="#">লোন মেইকিং</a></td>
+            </tr>
         </table>
     </form>
 </div>
