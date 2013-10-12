@@ -2,9 +2,7 @@
 error_reporting(0);
 include_once 'includes/';
 ?>
-<style type="text/css">
-    @import "css/domtab.css";
-</style>
+<style type="text/css">@import "css/domtab.css";</style>
 <?php
 include_once 'includes/columnLeft.php';
 ?>
@@ -14,11 +12,11 @@ include_once 'includes/columnLeft.php';
             <tr><th style="text-align: center" colspan="2"><h1>একাউন্ট তৈরির ফর্মসমূহ</h1></th></tr>
             <tr>                                
                 <td><a href="create_powerstore_account.php">ক্রিয়েট মেইন পাওয়ারস্টোর একাউন্ট</a></td>
-                <td><a href="update_powerstore_account.php">আপডেট মেইন পাওয়ারস্টোর একাউন্ট</a></td>
+                <td><a href="update_office_account.php?pwr=1">আপডেট মেইন পাওয়ারস্টোর একাউন্ট</a></td>
             </tr>
             <tr>                                
                 <td><a href="create_office_account.php">ক্রিয়েট অফিস একাউন্ট</a></td>
-                <td><a href="update_office_account.php">আপডেট অফিস একাউন্ট</a></td>
+                <td><a href="update_office_account.php?pwr=0">আপডেট অফিস একাউন্ট</a></td>
             </tr>
             <tr>                                
                 <td><a href="create_salesStore_account.php">ক্রিয়েট সেলস স্টোর একাউন্ট</a></td>

@@ -2,30 +2,38 @@
             error_reporting(0);
             include_once 'includes/header.php';
             include 'includes/ConnectDB.inc';
-            
-            if(isset($_POST['submit']))
+if(isset($_POST['submit']))
 {
     $name = $_POST['sales_name'];
-    $sales_type = $_POST['sales_type'];
     $sales_add = $_POST['sales_address'];
     $sales_no = $_POST['sales_no'];
     $sales_mail = $_POST['sales_mail'];
     $sales_acc = $_POST['sales_acc'];
-    $thana = $_POST['thana_id'];
-    echo $thana;
+    $whatPwr = $_POST['pwrstore'];
+    if($whatPwr == 'yes')
+    {
+        $powrid = $_POST['parentPwr_id'];
+        $offsql = mysql_query("SELECT * FROM office WHERE idOffice = $powrid");
+      $offrow = mysql_fetch_assoc($offsql);
+      $topparent_id = $offrow['top_parent'];
+    }
+    else {$powrid = 0; $topparent_id = 0;}
+    $officeID = $_POST['parentOff_id'];
+   $thana = $_POST['thana_id'];
     
-   $sql= "INSERT INTO ". $dbname .".`sales_store` (`salesStore_type` ,`salesStore_name` ,`salesStore_number` ,`account_number` ,`salesStore_details_address` ,`salesStore_email` ,`Thana_idThana`) VALUES ( '$sales_type', '$name','$sales_no' , '$sales_acc', '$sales_add','$sales_mail' , '$thana')";
+   $sql= "INSERT INTO ". $dbname .".`sales_store` (`salesStore_name` ,`salesStore_number` ,`account_number` ,`salesStore_details_address` ,`salesStore_email` ,`office_id`, `powerstore_officeid`,`top_pwr`, `Thana_idThana`) 
+            VALUES ( '$name','$sales_no' , '$sales_acc', '$sales_add','$sales_mail', '$officeID', '$powrid', '$topparent_id', '$thana')";
     $reslt=mysql_query($sql) or exit('query failed insert into sales store: '.mysql_error());
     $off = mysql_insert_id();
     
-     $ssql = "INSERT INTO ". $dbname .".`ons_relation` ( `catagory` ,`insert_date` ,`add_ons_id`) VALUES (  'S_store', NOW(), '$off');";
+     $ssql = "INSERT INTO ". $dbname .".`ons_relation` ( `catagory` ,`insert_date` ,`add_ons_id`) VALUES (  's_store', NOW(), '$off');";
     $sreslt = mysql_query($ssql);
     $ons = mysql_insert_id();
     
     $b_space = $_POST['office_space'];
     $b_type = $_POST['building_type'];
     $b_floor = $_POST['floor_number'];
-    $isql = "INSERT INTO ". $dbname .".`ons_information` ( `space` ,`building_type` ,`floor` ,`powerStore_accountNumber` ,`ons_relation_idons_relation`) VALUES ( '$b_space', '$b_type', '$b_floor', 'hgfhg', '$ons');";
+    $isql = "INSERT INTO ". $dbname .".`ons_information` ( `space` ,`building_type` ,`floor` ,`ons_relation_idons_relation`) VALUES ( '$b_space', '$b_type', '$b_floor', '$ons');";
     $ireslt = mysql_query($isql);
     
   
@@ -124,12 +132,17 @@
      $own_valid = $_POST['validity'];
     
      $ownsql = "INSERT INTO ". $dbname .".`ons_deed` (`owner_name` ,`owner_address` ,`cell_number` ,`owner_email` ,`owner_photo` ,`owner_signature` ,`expire_date` ,`scan_documents` ,`ons_relation_idons_relation`,`owner_fingerprint` ) VALUES  ( '$own_name', '$own_add' , '$own_mbl' , '$own_mail'  , '$image_path' , '$sing_path'  , '$own_valid' , '$scan_path' , '$ons', '$finger_path');";
-     $ownreslt = mysql_query($ownsql) or exit('query failed: '.mysql_error());;
+     $ownreslt = mysql_query($ownsql) or exit('query failed: '.mysql_error());
+     if($ownreslt == 1)
+     {
+         $msg = "সেলসস্টোর তৈরি হয়েছে";
+     }
+     else
+     {$msg = "দুঃখিত, সেলসস্টোর তৈরি হয়নি";}
 }
 ?>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<title>ক্রিয়েট সেলসস্টোর অ্যাকাউন্ট</title>
+<style type="text/css">@import "css/bush.css";</style>
 <link rel="stylesheet" type="text/css" media="all" href="javascripts/jsDatePick_ltr.min.css" />
 <script type="text/javascript" src="javascripts/jsDatePick.min.1.3.js"></script>
 <script type="text/javascript" src="javascripts/jquery-1.4.3.min.js"></script>
@@ -164,6 +177,21 @@ var unicode=e.charCode? e.charCode : e.keyCode
         if (unicode<48||unicode>57) //if not a number
         return false //disable key press
     }
+}
+function enableIT() { document.getElementById('parentPwr').disabled = false;}
+function disableIT() { document.getElementById('parentPwr').disabled = true;}
+
+function setPwr(office,offid)
+{
+        document.getElementById('parentPwr').value = office;
+        document.getElementById('parentPwr_id').value = offid;
+         document.getElementById('pwrResult').style.display = "none";
+}
+function setRipd(office,offid)
+{
+        document.getElementById('parent').value = office;
+        document.getElementById('parentOff_id').value = offid;
+        document.getElementById('offResult').style.display = "none";
 }
 </script> 
 
@@ -269,6 +297,60 @@ xmlhttp.onreadystatechange=function()
 xmlhttp.open("GET","includes/check.php?x="+str,true);
 xmlhttp.send();
 }
+
+function getParentPwr(key)
+{
+var xmlhttp;
+        if (window.XMLHttpRequest)
+        {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp=new XMLHttpRequest();
+        }
+        else
+        {// code for IE6, IE5
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange=function()
+        {
+            if(key.length ==0)
+                {
+                   document.getElementById('pwrResult').style.display = "none";
+               }
+                else
+                    {document.getElementById('pwrResult').style.visibility = "visible";
+                document.getElementById('pwrResult').setAttribute('style','position:absolute;top:64%;left:43%;width:250px;z-index:10;border: 1px inset black; overflow:auto; height:105px; background-color:#F5F5FF;');
+                    }
+                document.getElementById('pwrResult').innerHTML=xmlhttp.responseText;
+        }
+        xmlhttp.open("GET","includes/getParentOffices.php?searchkey="+key+"&pwr=1",true);
+        xmlhttp.send();	
+}
+
+function getParentOffice(key)
+{
+var xmlhttp;
+    if (window.XMLHttpRequest)
+        {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp=new XMLHttpRequest();
+        }
+        else
+        {// code for IE6, IE5
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange=function()
+        {
+            if(key.length ==0)
+                {
+                   document.getElementById('offResult').style.display = "none";
+               }
+                else
+                    {document.getElementById('offResult').style.visibility = "visible";
+                document.getElementById('offResult').setAttribute('style','position:absolute;top:68%;left:39%;width:250px;z-index:10;border: 1px inset black; overflow:auto; height:105px; background-color:#F5F5FF;');
+                    }
+                document.getElementById('offResult').innerHTML=xmlhttp.responseText;
+        }
+        xmlhttp.open("GET","includes/getParentOffices.php?searchkey="+key+"&off=1",true);
+        xmlhttp.send();	
+}
 </script>
 
 <div class="columnSld" >
@@ -278,7 +360,7 @@ xmlhttp.send();
             <form style="padding-right: 10px;" method="POST" enctype="multipart/form-data" action="" id="sales_form" name="sales_form">	
                 <table class="formstyle"  style=" width: 120%; "> 
                     <tr><th style="text-align: center" colspan="2"><h1>সেলস স্টোর একাউন্ট তৈরির ফর্ম</h1></th></tr>
-                    <tr><td colspan="2"></td></tr>
+                    <tr><td colspan="2" style="text-align: center;color: green;font-size: 16px;"><?php if($msg != "") echo $msg;?></td></tr>
                     <tr>
                         <td>সেলস স্টোরের নাম</td>
                         <td>:    <input  class ="textfield" type="text" id="sales_name" name="sales_name" /></td>
@@ -360,23 +442,15 @@ xmlhttp.send();
                         <td>:    <input  class ="textfield" type="text" id="sales_acc" name="sales_acc" /></td>
                     </tr>
                     <tr>
-                        <td>পাওয়ারস্টোর অফিস সিলেক্ট করুন</td>
-                        <td>:    
-                            <select class="box2" name="off_type" id="off_type">
-                                <option value="all">-সিলেক্ট করুন-</option> 
-                                <option value="ripd">অন্যান্য অফিস</option>
-                                <option value="ripd">পাওয়ারস্টোর ০১</option>
-                                <option value="Division">পাওয়ারস্টোর ০২</option> 
-                            </select></td>
+                        <td> প্যারেন্ট পাওয়ারস্টোর অফিস</td>
+                        <td>: <input type="radio"  id="pwrstore" name="pwrstore" value ="yes" onclick="enableIT();"/> থাকবে <input class="textfield" type="text" id="parentPwr" name="parentPwr" onkeyup="getParentPwr(this.value);" disabled=""/><em> (অ্যাকাউন্ট নাম্বার)</em>
+                            <input type="hidden" name="parentPwr_id" id="parentPwr_id"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input  type="radio" id="pwrstore" name="pwrstore" value ="no" onclick="disableIT();"/> থাকবে না
+                                <div id="pwrResult"></div></td>
                     </tr>
                     <tr>
-                        <td>অফিস সিলেক্ট করুন</td>
-                        <td>:    
-                            <select class="box2" name="off_type" id="off_type">
-                                <option value="all">-সিলেক্ট করুন-</option> 
-                                <option value="ripd">অফিস ০১</option>
-                                <option value="Division">অফিস ০২</option> 
-                            </select></td>
+                        <td>প্যারেন্ট অফিস</td>
+                        <td>: <input class="textfield" type="text" id="parent" name="parent" onkeyup="getParentOffice(this.value);"/><em> (অ্যাকাউন্ট নাম্বার)</em>
+                                 <div id="offResult"></div><input type="hidden" name="parentOff_id" id="parentOff_id"/></td>
                     </tr>
                     <tr>
                         <td colspan="2" ><hr /></td>
@@ -507,7 +581,3 @@ xmlhttp.send();
 </div>
 
 <?php include_once 'includes/footer.php'; ?>
-
-
-
-

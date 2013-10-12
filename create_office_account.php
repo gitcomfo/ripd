@@ -12,20 +12,42 @@ if(isset($_POST['submit0']))
     $off_no = $_POST['office_no'];
     $mail = $_POST['office_mail'];
     $off_acc = $_POST['office_acc'];
+     $selected_type = $_POST['whatoffice'];
+      $parent_id = $_POST['parent_id'];
+      $ripdsql = mysql_query("SELECT * FROM office WHERE office_type = 'ripd_head'");
+      $headrow = mysql_fetch_assoc($ripdsql);
+      $ripdheadid = $headrow['idOffice'];
+      
+      $offsql = mysql_query("SELECT * FROM office WHERE parent_id = $parent_id");
+      $offrow = mysql_fetch_assoc($offsql);
+      $topparent_id = $offrow['top_parent'];
+      if(($selected_type == 'ripd') && $ripdheadid == "")
+      {
+          $topparent_id = 0;
+      }
+      elseif (($selected_type == 'ripd') && $ripdheadid != "") {
+      $topparent_id = $ripdheadid;
+      }
+      elseif(($selected_type == 'pwr') && $topparent_id == 0)
+      {
+          $topparent_id = $parent_id;
+      }
+      elseif (($selected_type == 'pwr') && $topparent_id != 0) { $topparent_id = $topparent_id;}
     $thana = $_POST['thana_id'];
     
-   $sql= "INSERT INTO ". $dbname .".`office` (`office_type` ,`office_name` ,`office_number` ,`account_number` ,`branch_name` ,`office_email` ,`Thana_idThana`,`office_details_address` ) VALUES ( '$off_type', '$name','$off_no' , '$off_acc', '$br_name','$mail' , '$thana', '$off_add')";
+   $sql= "INSERT INTO ". $dbname .".`office` (`office_type` ,`office_selection`, `parent_id`, `top_parent`, `office_name` ,`office_number` ,`account_number` ,`branch_name` ,`office_email` ,`Thana_idThana`,`office_details_address` ) 
+            VALUES ( '$off_type','$selected_type', '$parent_id','$topparent_id',  '$name','$off_no' , '$off_acc', '$br_name','$mail' , '$thana', '$off_add')";
     $reslt=mysql_query($sql);
     $off = mysql_insert_id();
     
-     $ssql = "INSERT INTO ". $dbname .".`ons_relation` ( `catagory` ,`insert_date` ,`add_ons_id`) VALUES (  'Office', NOW(), '$off');";
+     $ssql = "INSERT INTO ". $dbname .".`ons_relation` ( `catagory` ,`insert_date` ,`add_ons_id`) VALUES (  'office', NOW(), '$off');";
     $sreslt = mysql_query($ssql);
     $ons = mysql_insert_id();
     
     $b_space = $_POST['office_space'];
     $b_type = $_POST['building_type'];
     $b_floor = $_POST['floor_number'];
-    $isql = "INSERT INTO ". $dbname .".`ons_information` ( `space` ,`building_type` ,`floor` ,`powerStore_accountNumber` ,`ons_relation_idons_relation`) VALUES ( '$b_space', '$b_type', '$b_floor', 'dkjfhgksj', '$ons');";
+    $isql = "INSERT INTO ". $dbname .".`ons_information` ( `space` ,`building_type` ,`floor` ,`ons_relation_idons_relation`) VALUES ( '$b_space', '$b_type', '$b_floor', '$ons');";
     $ireslt = mysql_query($isql);
       
      $rent1 = $_POST['office_rent1'];
@@ -103,14 +125,12 @@ if(isset($_POST['submit0']))
          $scan_name = $off_acc."_".$_FILES["scanDoc"]["name"];
           $scan_path = "scaned/".$scan_name;
         if (($_FILES["scanDoc"]["size"] < 999999999999) && in_array($extension, $allowedExts)) 
-                {
-                        move_uploaded_file($_FILES["scanDoc"]["tmp_name"], "scaned/" . $scan_name);
-                }
+                { move_uploaded_file($_FILES["scanDoc"]["tmp_name"], "scaned/" . $scan_name); }
         else 
                 {
                 echo "Invalid file format.";
                 }
-      
+     
      $own_name = $_POST['owner_Name'];          
      $own_add = $_POST['owner_address'];
      $own_mbl = $_POST['mobile_number'];
@@ -119,6 +139,12 @@ if(isset($_POST['submit0']))
     
      $ownsql = "INSERT INTO ". $dbname .".`ons_deed` (`owner_name` ,`owner_address` ,`cell_number` ,`owner_email` ,`owner_photo` ,`owner_signature`  ,`expire_date` ,`scan_documents` ,`ons_relation_idons_relation`,`owner_fingerprint`) VALUES  ( '$own_name', '$own_add' , '$own_mbl' , '$own_mail'  , '$image_path' , '$sing_path'  , '$own_valid' , '$scan_path' , '$ons' , '$finger_path');";
      $ownreslt = mysql_query($ownsql) or exit('query failed: '.mysql_error());
+     if($ownreslt == 1)
+     {
+         $msg = "অফিস তৈরি হয়েছে";
+     }
+     else
+     {$msg = "দুঃখিত, অফিস তৈরি হয়নি";}
    }
 
 ?>
@@ -162,9 +188,10 @@ var unicode=e.charCode? e.charCode : e.keyCode
     }
 }
 
-function setParent(office)
+function setParent(office,offid)
 {
         document.getElementById('parent').value = office;
+        document.getElementById('parent_id').value = offid;
         document.getElementById('parentResult').style.display = "none";
 }
 
@@ -281,7 +308,8 @@ xmlhttp.send();
 function getParentOfiice(str_key) // for searching parent offices
 {
     var xmlhttp;
-    var type = document.getElementById('whatoffice').value;
+    var type = document.querySelector('input[name = "whatoffice"]:checked').value;
+   
         if (window.XMLHttpRequest)
         {// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttp=new XMLHttpRequest();
@@ -316,7 +344,7 @@ function getParentOfiice(str_key) // for searching parent offices
                 <table class="formstyle"  style=" width: 110%;font-family: SolaimanLipi !important; ">          
                     <tr><th style="text-align: center" colspan="2"><h1>অফিস একাউন্ট তৈরির ফর্ম</h1></th></tr>
 
-                    <tr><td colspan="2"></td></tr>
+                    <tr><td colspan="2" style="text-align: center;color: green;font-size: 16px;"><?php if($msg != "") echo $msg;?></td></tr>
                      <tr>
                         <td>অফিসের নাম</td>
                         <td>:    <input  class ="textfield" type="text" id="office_name" name="office_name" /></td>
@@ -401,7 +429,7 @@ function getParentOfiice(str_key) // for searching parent offices
                         <td>:    <input  class ="textfield" type="text" id="office_acc" name="office_acc" /><em> (ইংরেজিতে লিখুন)</em></td>
                     </tr>
                     <tr>
-                        <td colspan="2">অফিস সিলেক্ট করুন <input  class ="textfield" type="radio" checked = "checked" id="whatoffice" name="whatoffice" value ="ripd"/>রিপড অফিস 
+                        <td colspan="2">অফিস সিলেক্ট করুন <input  class ="textfield" type="radio"  id="whatoffice" name="whatoffice" value ="ripd"/>রিপড অফিস 
                             <input  class ="textfield" type="radio" id="whatoffice" name="whatoffice" value ="pwr"/> পাওয়ারস্টোর অফিস</td>
                     </tr>
                     <tr>
@@ -421,7 +449,7 @@ function getParentOfiice(str_key) // for searching parent offices
                     <tr>
                         <td>প্যারেন্ট অফিস</td>
                         <td>:    <input  class ="textfield" type="text" id="parent" name="parent" onkeyup="getParentOfiice(this.value);" /><em> (অ্যাকাউন্ট নাম্বার)</em>
-                                    <div id="parentResult"></div></br>
+                            <div id="parentResult"></div><input type="hidden" name="parent_id" id="parent_id"/></br>
                         </td>
                     </tr>
                     <tr>
@@ -554,6 +582,3 @@ function getParentOfiice(str_key) // for searching parent offices
     </div>
 </div>
 <?php include_once 'includes/footer.php'; ?>
-
-
-

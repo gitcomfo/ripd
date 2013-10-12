@@ -62,8 +62,8 @@ if($holiday==0 && $specialonday == 0 )
 }
 
 if($holiday == 0 )
-{ 
-                                    $db_slNo = 0;
+{                                 
+    $db_slNo = 0;
                                     $rs = mysql_query("SELECT * FROM cfs_user WHERE  	cfs_account_status = 'active' AND idUser = ANY(SELECT cfs_user_idUser FROM employee  WHERE emp_ons_id = '$db_onsid');");
 
                                     while ($rowemployee = mysql_fetch_assoc($rs)) 
@@ -158,6 +158,7 @@ if($holiday == 0 )
                                         echo "</tr>";
                                         }
                                          $db_slNo++;
+                                         $leave = 0;
                                          echo "<input name= 'count' type='hidden' value='$db_slNo' />";
                                     }
 }

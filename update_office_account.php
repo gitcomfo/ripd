@@ -3,16 +3,16 @@ error_reporting(0);
 include_once 'includes/ConnectDB.inc';
 include_once 'includes/function.php';
 include_once 'includes/header.php'; 
+$g_type = $_GET['pwr'];
 ?>
-<style type="text/css">
-    @import "css/style.css";
-</style>
+<title>আপডেট অফিস অ্যাকাউন্ট</title>
+<style type="text/css">@import "css/style.css";</style>
 <script type="text/javascript" src="javascripts/area.js"></script>
-        <script type="text/javascript" src="javascripts/external/mootools.js"></script>
-        <script type="text/javascript" src="javascripts/dg-filter.js"></script>
+<script type="text/javascript" src="javascripts/external/mootools.js"></script>
+<script type="text/javascript" src="javascripts/dg-filter.js"></script>
 
 <script type="text/javascript">
-    function infoFromThana()
+    function infoFromThana(type)
     {
         var xmlhttp;
         if (window.XMLHttpRequest) xmlhttp=new XMLHttpRequest();
@@ -26,7 +26,7 @@ include_once 'includes/header.php';
         division_id = document.getElementById('division_id').value;
         district_id = document.getElementById('district_id').value;
         thana_id = document.getElementById('thana_id').value;
-        xmlhttp.open("GET","includes/updateOfficeFromThana.php?dsd="+district_id+"&dvd="+division_id+"&ttid="+thana_id,true);
+        xmlhttp.open("GET","includes/updateOfficeFromThana.php?dsd="+district_id+"&dvd="+division_id+"&ttid="+thana_id+"&type="+type,true);
         xmlhttp.send();
     }
 </script>
@@ -40,13 +40,10 @@ include_once 'includes/header.php';
             <fieldset id="fieldset_style" style=" width: 90% !important; margin-left: 30px !important;" >
                 <?php
                     include_once 'includes/areaSearch.php';
-                    getArea("infoFromThana()");
+                    getArea("infoFromThana('$g_type')");
                     ?>
-
-    <input type="hidden" id="method" value="infoFromThana()">
-
+<input type="hidden" id="method" value="infoFromThana()">
     সার্চ/খুঁজুন:  <input type="text" id="search_box_filter">
-
     <span id="office">
         <br /><br />
         <div>
@@ -62,10 +59,15 @@ include_once 'includes/header.php';
                 </thead>
                 <tbody>
                     <?php
-                    
-                    $sql_officeTable = "SELECT * from ".$dbname.".office ORDER BY office_name ASC";
+                    if($g_type == 1)
+                    {
+                    $sql_officeTable = "SELECT * from ".$dbname.".office WHERE office_type = 'pwr_head' ORDER BY office_name ASC";
                     $db_slNo = 0;
                     $rs = mysql_query($sql_officeTable);
+                    }
+                    else {$sql_officeTable = "SELECT * from ".$dbname.".office WHERE office_type <> 'pwr_head' ORDER BY office_name ASC";
+                    $db_slNo = 0;
+                    $rs = mysql_query($sql_officeTable);}
 
                     while ($row_officeNcontact = mysql_fetch_assoc($rs)) 
                     {
@@ -81,11 +83,10 @@ include_once 'includes/header.php';
                         echo "<td>$db_offAN</td>";
                         echo "<td>$db_offAddress</td>";
                         $v = base64_encode($db_offID);
-                        echo "<td><a href='update_account.php?id=$v'>আপডেট</a></td>";
+                        echo "<td><a href='update_account.php?id=$v'>আপডেট.</a></td>";
                         echo "</tr>";
                     }
                     ?>
-
                 </tbody>
             </table>                        
         </div>
