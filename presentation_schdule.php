@@ -5,6 +5,7 @@ include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 include_once 'includes/function.php';
+
 if (($_POST['new_submit'])) {
     $P_prstn_name = $_POST['presentation_name'];
     $P_prstn_date = $_POST['presentation_date'];
@@ -52,7 +53,7 @@ elseif (isset($_POST['submit1'])) {
     }
 }
 ?>
-
+<title>প্রেজেন্টেশন শিডিউল</title>
 <script type="text/javascript" src="javascripts/external/mootools.js"></script>
 <script type="text/javascript" src="javascripts/dg-filter.js"></script>
 <link rel="stylesheet" type="text/css" media="all" href="javascripts/jsDatePick_ltr.min.css" />
@@ -70,9 +71,7 @@ elseif (isset($_POST['submit1'])) {
     }
 
 </script>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<style type="text/css">@import "css/bush.css";</style>
 
 <!--*********************Presentation List****************** -->
 <?php

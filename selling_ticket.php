@@ -6,9 +6,7 @@ include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 $sqlerror="";
 ?>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<style type="text/css">@import "css/bush.css";</style>
 <link href="css/print.css" rel="stylesheet" type="text/css" media="print"/>
 <script  type="text/javascript">
     function getname(type)
@@ -435,7 +433,7 @@ if ($_GET['opt']=='submit_ticket') {
                         $countSeats = countSeat($value);
                         $countXseats = countXtra($value);
                         if($countXseats ==0 && $countSeats==0){?>
-             <table  class="formstyle" style="color: #3333CC; font-weight:600;">          
+             <table  class="formstyle" style="color: #3333CC; font-weight:600; font-family: SolaimanLipi !important;">          
                         <tr><th colspan="4" style="text-align: center;">টিকেট সেলিং</th></tr>
                         <tr><td colspan="2" style="padding-left: 0;"></br>
                                 <span style="color: red;font-size: 15px; text-decoration: blink;padding-left: 200px;"><?php echo "দুঃখিত, এই প্রোগ্রামের সকল টিকেট বিক্রি হয়ে গিয়েছে "; ?></span>
@@ -450,7 +448,7 @@ if ($_GET['opt']=='submit_ticket') {
             <div style="padding-left: 110px;"><a href="selling_ticket.php"><b>ফিরে যান</b></a></div> 
             <div> 
                 <form method="POST" onsubmit="" action="selling_ticket.php?opt=accept_price">	
-                    <table  class="formstyle" style="color: #3333CC; font-weight:600;">          
+                    <table  class="formstyle" style="color: #3333CC; font-weight:600;font-family: SolaimanLipi !important;">          
                         <tr><th colspan="4" style="text-align: center;">টিকেট সেলিং</th></tr>                                
                         <tr>
                             <td style="width: 40%;text-align: center" colspan="2">টিকেট প্রাইসঃ <span style="color: black;"><?php echo $ticket_prize;?> TK/Ticket</span><input type='hidden' name='ticket' value=<?php echo $ticket_prize;?> /></br></br></td>
@@ -554,7 +552,7 @@ if ($_GET['opt']=='submit_ticket') {
 <div class="column6">
         <div class="main_text_box">
             <?php  if ($bookedmsg != "") {?>
-             <table  class="formstyle" style="color: #3333CC; font-weight:600;">          
+             <table  class="formstyle" style="color: #3333CC; font-weight:600;font-family: SolaimanLipi !important;">          
                         <tr><th colspan="4" style="text-align: center;">টিকেট সেলিং</th></tr>
                         <tr><td colspan="2" style="padding-left: 0;"></br>
                                 <div style="color: red;font-size: 15px; text-decoration: none;padding: 10px 50px 10px 55px;">
@@ -620,7 +618,7 @@ elseif ($_GET['opt']=='submit_account') {
             <div style="padding-left: 110px;"><a href="selling_ticket.php"><b>ফিরে যান</b></a></div> 
             <div> 
                 <form method="POST" onsubmit="" action="">	
-                    <table  class="formstyle" style="color: #3333CC; font-weight:600;">          
+                    <table  class="formstyle" style="color: #3333CC; font-weight:600;font-family: SolaimanLipi !important;">          
                         <tr><th colspan="4" style="text-align: center;">টিকেট সেলিং</th></tr>
                         <tr>  
                             <td colspan="2" style="padding-left: 0;">
@@ -659,7 +657,7 @@ elseif ($_GET['opt']=='submit_account') {
             <div style="padding-left: 110px;"><a href="index.php?apps=CA"><b>ফিরে যান</b></a></div> 
             <div>
                 <form method="POST" onsubmit="" action="selling_ticket.php?opt=submit_ticket">	
-                    <table  class="formstyle">          
+                    <table  class="formstyle" style="font-family: SolaimanLipi !important;">          
                         <tr><th colspan="4" style="text-align: center;">টিকেট সেলিং</th></tr>
                         <tr>  
                         </tr>

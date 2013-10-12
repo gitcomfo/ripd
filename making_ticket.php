@@ -28,9 +28,7 @@ if(isset($_POST['submit']))
     $pusresult=mysql_query($pupsql) or exit('query failed: '.mysql_error());
 }
 ?>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<style type="text/css">@import "css/bush.css";</style>
 <script  type="text/javascript">
     function getname(type)
     {
@@ -87,7 +85,7 @@ if($_GET['step']=='02')
             <div style="padding-left: 110px;"><a href="making_ticket.php"><b>ফিরে যান</b></a></div> 
             <div>
                 <form method="POST" onsubmit="" >	
-                    <table  class="formstyle" style="color: #3333CC; font-weight:600;">          
+                    <table  class="formstyle" style="color: #3333CC; font-weight:600;font-family: SolaimanLipi !important;">          
                         <tr><th colspan="4" style="text-align: center;">টিকেট মেইকিং </th></tr>
                         <tr><td style="text-align: center"><span style="color: green;font-size: 15px;"><?php if($msg != '') {echo $msg;}?></span></td></tr>
                         <tr>
@@ -165,7 +163,7 @@ if($_GET['step']=='02')
         <div style="padding-left: 110px;"><a href="index.php?apps=PROGRA"><b>ফিরে যান</b></a></div> 
         <div>
             <form method="POST" onsubmit="" action="making_ticket.php?step=02">	
-                <table  class="formstyle">          
+                <table  class="formstyle" style="font-family: SolaimanLipi !important;">          
                     <tr><th colspan="4" style="text-align: center;">টিকেট মেইকিং</th></tr>
                     <tr>
                         <td colspan="2"><?php if($msg!=""){echo $msg; } ?></td>
