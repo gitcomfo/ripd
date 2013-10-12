@@ -89,7 +89,7 @@ if ($_GET['action'] == 'new') {
                 </tr>
                 <tr>
                     <td>চার্জ পরিমান</td>
-                    <td>: <input class="box" type="text" id="charge_amount" name="charge_amount" value="" onkeypress="return checkIt(event)"/> Taka</td>
+                    <td>: <input class="box" type="text" id="charge_amount" name="charge_amount" value="" onkeypress="return checkIt(event)"/> টাকা</td>
                 </tr>    
                 <tr>                    
                     <td colspan="2" style="padding-left: 250px; " ><input class="btn" style =" font-size: 12px; " type="submit" name="submit" value="সেভ করুন" />
