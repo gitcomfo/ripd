@@ -113,7 +113,7 @@ if ($_GET['action'] == 'new') {
             $selectCharge = mysql_query("Select * from charge");
             $num_of_charge_criteria = mysql_num_rows($selectCharge);
             if($num_of_charge_criteria < 1){
-                echo "<tr><td colspan='2' style='text-align:center;'>কোনো চার্জের ধরণ তুইরি করা হয় নাই,<a href='charge_making.php?action=new'> নতুন চার্জ তইরি করুন </a></td></tr>";
+                echo "<tr><td colspan='2' style='text-align:center;'>কোনো চার্জের ধরণ তৈরি করা হয় নাই,<a href='charge_making.php?action=new'> নতুন চার্জ তৈরি করুন </a></td></tr>";
             }
             while ($selectChargeRow = mysql_fetch_array($selectCharge)) {
                 $db_charge_id_selected = $selectChargeRow['idcharge'];
