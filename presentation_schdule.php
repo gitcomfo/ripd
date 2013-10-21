@@ -5,7 +5,14 @@ include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 include_once 'includes/function.php';
+include './includes/connectionPDO.php';
+$json_object = null;
+$arr_presenter = array();
+$type = 'presentation';
 
+$sql_cfsuser = $conn->prepare("SELECT idEmployee FROM cfs_user, employee WHERE cfs_user_idUser = idUser AND account_number = ? ;");
+$sql_program_ins = $conn->prepare("INSERT INTO  $dbname .program (program_no, program_name, program_date, program_time, program_type, Employee_idEmployee, Office_idOffice) 
+              VALUES (?, ?, ?, ?, ?, ?, ?)");
 if (($_POST['new_submit'])) {
     $P_prstn_name = $_POST['presentation_name'];
     $P_prstn_date = $_POST['presentation_date'];
@@ -19,14 +26,28 @@ if (($_POST['new_submit'])) {
     }
     $db_prstn_number_final = $P_prstn_date . "-" . $incremented_value;
     $P_prstn_time = $_POST['presentation_time'];
-    $P_presenter_name = $_POST['user_name'];
+    $P_presenter_name = $_POST['presenters'];
+     $presenter_list = substr($P_presenter_name, 0, -2);
+    $arr_presenter = explode(",", $presenter_list);
+    $no_ofpresenters = count($arr_presenter);
+    
+    $conn->beginTransaction();
+                $sql_insert_email = $conn->prepare("INSERT into email_sender (subject, email_body, sender_id) VALUES (?, ?, ?)");
+                $sql_insert_email->execute(array($p_email_subject, $p_email_body, $p_email_sender));
+                $db_last_insert_id = $conn->lastInsertId();
+                $sql_insert_email_rcvr = $conn->prepare("INSERT into email_receiver (fk_id_emailsender, receiver_id) VALUES (?, ?)");
+                for($a=0; $a<sizeof($account_array); $a++)
+                        {
+                        $receiver_account = $account_array[$a];
+                        $sql_insert_email_rcvr->execute(array($db_last_insert_id, $receiver_account));                        
+                        }
+                $conn->commit();
     $sql_get_office_id = mysql_query("SELECT * FROM $dbname.employee, $dbname.office
                                             WHERE employee.Office_idOffice=office.idOffice");
     $db_row_get_office_id = mysql_fetch_array($sql_get_office_id);
     $db_office_id = $db_row_get_office_id['idOffice'];
     $sql = "INSERT INTO  $dbname .program (program_no, program_name, program_date, program_time, program_type, Employee_idEmployee, Office_idOffice) 
               VALUES ('$db_prstn_number_final', '$P_prstn_name', '$P_prstn_date', '$P_prstn_time','presentation', '$P_presenter_name', '$db_office_id')";// office id use korse
-
     if (mysql_query($sql)) {
         $msg = "তথ্য সংরক্ষিত হয়েছে";
     } else {
@@ -58,20 +79,87 @@ elseif (isset($_POST['submit1'])) {
 <script type="text/javascript" src="javascripts/dg-filter.js"></script>
 <link rel="stylesheet" type="text/css" media="all" href="javascripts/jsDatePick_ltr.min.css" />
 <script type="text/javascript" src="javascripts/jsDatePick.min.1.3.js"></script>
+<script type="text/javascript" src="javascripts/jquery.js"></script>
+<script type="text/javascript" src="javascripts/jquery.autocomplete.js"></script>
+<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css"/>
+<style type="text/css">@import "css/bush.css";</style>
+<?php
+  $name_row = array();
+                $sql_query = $conn->prepare("SELECT * FROM cfs_user WHERE user_type= 'presenter' OR user_type='programmer' OR user_type='trainer' ;");
+                $sql_query->execute();
+                $row = $sql_query->fetchAll();
+                foreach ($row as $k)
+                        {
+                        $name_temp = $k["account_name"];
+                        $account_temp = $k["account_number"];
+                        $str_presenter_list = "{name: '$name_temp', to: '$account_temp'}";
+                        $name_row[] = $str_presenter_list;
+                        }
+                $json_object .=  implode(",", $name_row);
+                $json_object = "[$json_object]";
+?>
 <!--######################Style Script for calender *********************-->
 <script type="text/javascript">
 
-    window.onclick = function()
+window.onclick = function()
     {
         new JsDatePick({
             useMode: 2,
             target: "presentation_date",
             dateFormat: "%Y-%m-%d"
         });
-    }
+    };
+    
+var emails = <?php echo $json_object;?>;
+            $().ready(function() {
 
+                $("#presenters").autocomplete(emails, {
+                    minChars: 0,
+                    width: 310,
+                    matchContains: "word",
+                    multiple: true,
+                    mustMatch: true,
+                    autoFill: true,
+                    formatItem: function(row, i, max) {
+                        return i + "/" + max + ": \"" + row.name + "\" [" + row.to + "]";
+                    },
+                    formatMatch: function(row, i, max) {
+                        return row.name + " " + row.to;
+                    },
+                    formatResult: function(row) {
+                        return row.to;
+                    }
+                });
+            });
 </script>
-<style type="text/css">@import "css/bush.css";</style>
+<script>
+    function getParentOffice(key)
+{
+var xmlhttp;
+    if (window.XMLHttpRequest)
+        {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp=new XMLHttpRequest();
+        }
+        else
+        {// code for IE6, IE5
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange=function()
+        {
+            if(key.length ==0)
+                {
+                   document.getElementById('offResult').style.display = "none";
+               }
+                else
+                    {document.getElementById('offResult').style.visibility = "visible";
+                document.getElementById('offResult').setAttribute('style','position:absolute;top:68%;left:39%;width:250px;z-index:10;border: 1px inset black; overflow:auto; height:105px; background-color:#F5F5FF;');
+                    }
+                document.getElementById('offResult').innerHTML=xmlhttp.responseText;
+        }
+        xmlhttp.open("GET","includes/getParentOffices.php?searchkey="+key+"&off=1",true);
+        xmlhttp.send();	
+}
+</script>
 
 <!--*********************Presentation List****************** -->
 <?php
@@ -164,7 +252,7 @@ if ($_GET['action'] == 'first') {
     </div>
 
     <div>
-        <form method="POST" aciton="presentation_schdule.php?action=first">
+        <form method="POST" autocomplete="off" aciton="presentation_schdule.php?action=first">
             <table class="formstyle" style =" width:78%">
 
                 <tr>
@@ -173,30 +261,19 @@ if ($_GET['action'] == 'first') {
 
                 <tr>
                     <td >প্রেজেন্টশন নাম</td>               
-                    <td>: <input  class="box" type="text" name="presentation_name" value=""/></td>   
+                    <td>: <input  class="box" type="text" name="presentation_name" value="" /></td>   
                 </tr>
                 <tr>
-                    <td >প্রেজেন্টার নাম</td>               
-                    <td>: <select class="box2"  placeholder="Name" name="user_name" style="width: 150px;">
-                            <?php
-                            $sql = "SELECT * FROM $dbname.cfs_user,$dbname.employee 
-                                      WHERE  employee.cfs_user_idUser=cfs_user.idUser 
-                                      AND employee.employee_type='presenter' ORDER BY user_name ASC";
-                            $db_reuslt = mysql_query($sql);
-                            while ($row_prsnt = mysql_fetch_array($db_reuslt)) {
-                                $db_user_id = $row_prsnt['idUser'];
-                                $db_user_name = $row_prsnt['user_name'];
-                                $sql_employee_id = "SELECT * FROM $dbname.employee 
-                                                      WHERE employee.cfs_user_idUser='$db_user_id'";
-                                $db_result_emplolyee_id = mysql_query($sql_employee_id);
-                                $row_employee_id = mysql_fetch_array($db_result_emplolyee_id);
-                                $db_employee_id = $row_employee_id['idEmployee'];
-                                echo "<option style='width: 96%' value='$db_employee_id'>$db_user_name</option>";
-                            }
-                            ?>
-                        </select>
+                    <td >প্রেজেন্টারের নাম</td>               
+                    <td>: <input class="box" id="presenters" name="presenters" />
                     </td>
-                </tr>                
+                </tr>          
+                <tr>
+                    <td >অফিসের নাম</td>               
+                    <td>: <input class="box" id="off_name" name="offname" onkeyup="getParentOffice(this.value);" /><em> (অ্যাকাউন্ট নাম্বার)</em>
+                        <div id="offResult"></div><input type="hidden" name="parentOff_id" id="parentOff_id"/>
+                    </td>
+                </tr>          
                 <tr>
                     <td >তারিখ </td>
                     <td>: <input class="box"type="text" id="presentation_date" placeholder="Date"  style="" name="presentation_date" value=""/></td>   
@@ -204,10 +281,10 @@ if ($_GET['action'] == 'first') {
                 </tr>
                 <tr>
                     <td > সময় </td>
-                    <td>: <input  class="box" type="text" name="presentation_time" value=""/></td>  
+                    <td>: <input  class="box" type="time" name="presentation_time" value=""/></td>  
                 </tr>
                 <?php
-                if ($msg != "") {
+               if ($msg != "") {
                     echo "<tr>
                     <td colspan=\"2\" style=\"text-allign: center\"> <font color='green'>$msg</td></font> 
                 </tr>";
@@ -422,8 +499,7 @@ if ($_GET['action'] == 'first') {
             <?php } ?>
         </table>
     </form>
-
-
+    
     <script type="text/javascript">
     var filter = new DG.Filter({
         filterField: $('search_filter'),

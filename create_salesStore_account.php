@@ -321,7 +321,7 @@ var xmlhttp;
                     }
                 document.getElementById('pwrResult').innerHTML=xmlhttp.responseText;
         }
-        xmlhttp.open("GET","includes/getParentOffices.php?searchkey="+key+"&pwr=1",true);
+        xmlhttp.open("GET","includes/getParentOffices.php?key="+key+"&pwr=1",true);
         xmlhttp.send();	
 }
 
@@ -348,7 +348,7 @@ var xmlhttp;
                     }
                 document.getElementById('offResult').innerHTML=xmlhttp.responseText;
         }
-        xmlhttp.open("GET","includes/getParentOffices.php?searchkey="+key+"&off=1",true);
+        xmlhttp.open("GET","includes/getParentOffices.php?key="+key+"&off=1",true);
         xmlhttp.send();	
 }
 </script>
