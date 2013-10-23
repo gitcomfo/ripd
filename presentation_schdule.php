@@ -1,54 +1,47 @@
 <?php
 error_reporting(0);
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
-include_once 'includes/function.php';
-include './includes/connectionPDO.php';
+include 'includes/connectionPDO.php';
 $json_object = null;
 $arr_presenter = array();
 $type = 'presentation';
 
-$sql_cfsuser = $conn->prepare("SELECT idEmployee FROM cfs_user, employee WHERE cfs_user_idUser = idUser AND account_number = ? ;");
-$sql_program_ins = $conn->prepare("INSERT INTO  $dbname .program (program_no, program_name, program_date, program_time, program_type, Employee_idEmployee, Office_idOffice) 
-              VALUES (?, ?, ?, ?, ?, ?, ?)");
-if (($_POST['new_submit'])) {
+$sql_cfs_emp_sel = $conn->prepare("SELECT idEmployee FROM cfs_user, employee WHERE cfs_user_idUser = idUser AND account_number= ?");
+$sql_program_ins = $conn->prepare("INSERT INTO  $dbname .program (program_no, program_name, program_date, program_time, program_type, Office_idOffice) 
+              VALUES (?, ?, ?, ?, ?, ?)");
+ $sql_presenterlist_ins = $conn->prepare("INSERT INTO presenter_list (fk_idprogram, fk_Employee_idEmployee) VALUES (?, ?)");
+
+ if (($_POST['new_submit'])) {
     $P_prstn_name = $_POST['presentation_name'];
     $P_prstn_date = $_POST['presentation_date'];
-    $sql_presentation_number = mysql_query("SELECT * FROM $dbname .program WHERE program_date='$P_prstn_date'");
-    $db_row_numbers = mysql_num_rows($sql_presentation_number);
-    //***********Counting the number of rows and concating the date with a single number*********************
-    if (!empty($db_row_numbers)) {
-        $incremented_value = $db_row_numbers + 1;
-    } else {
-        $incremented_value = 1;
-    }
-    $db_prstn_number_final = $P_prstn_date . "-" . $incremented_value;
+     $str_random_no=(string)mt_rand (0 ,9999 );
+     $str_program_random= str_pad($str_random_no,4, "0", STR_PAD_LEFT);
+    $prstn_number_final = $type."-".$str_program_random;
     $P_prstn_time = $_POST['presentation_time'];
     $P_presenter_name = $_POST['presenters'];
-     $presenter_list = substr($P_presenter_name, 0, -2);
-    $arr_presenter = explode(",", $presenter_list);
-    $no_ofpresenters = count($arr_presenter);
-    
+     $str_presenter_list = substr($P_presenter_name, 0, -2);
+    $arr_presenter = explode(", ", $str_presenter_list);
+     $no_ofpresenters = count($arr_presenter);
+    $P_officeID = $_POST['parent_id'];
+
     $conn->beginTransaction();
-                $sql_insert_email = $conn->prepare("INSERT into email_sender (subject, email_body, sender_id) VALUES (?, ?, ?)");
-                $sql_insert_email->execute(array($p_email_subject, $p_email_body, $p_email_sender));
-                $db_last_insert_id = $conn->lastInsertId();
-                $sql_insert_email_rcvr = $conn->prepare("INSERT into email_receiver (fk_id_emailsender, receiver_id) VALUES (?, ?)");
-                for($a=0; $a<sizeof($account_array); $a++)
-                        {
-                        $receiver_account = $account_array[$a];
-                        $sql_insert_email_rcvr->execute(array($db_last_insert_id, $receiver_account));                        
-                        }
+               $sql_program_ins->execute(array($prstn_number_final,$P_prstn_name,$P_prstn_date, $P_prstn_time, $type, $P_officeID ));
+               $db_last_insert_id = $conn->lastInsertId();
+             for($i=0;$i<$no_ofpresenters;$i++)
+             {
+                 $account = $arr_presenter[$i];
+                 $sql_cfs_emp_sel->execute(array($account));
+                 $get =  $sql_cfs_emp_sel->fetchAll();
+                 foreach ($get as $value) {
+                     $empid = $value['idEmployee'];
+                 }
+                 $y = $sql_presenterlist_ins->execute(array($db_last_insert_id,$empid));
+             }
                 $conn->commit();
-    $sql_get_office_id = mysql_query("SELECT * FROM $dbname.employee, $dbname.office
-                                            WHERE employee.Office_idOffice=office.idOffice");
-    $db_row_get_office_id = mysql_fetch_array($sql_get_office_id);
-    $db_office_id = $db_row_get_office_id['idOffice'];
-    $sql = "INSERT INTO  $dbname .program (program_no, program_name, program_date, program_time, program_type, Employee_idEmployee, Office_idOffice) 
-              VALUES ('$db_prstn_number_final', '$P_prstn_name', '$P_prstn_date', '$P_prstn_time','presentation', '$P_presenter_name', '$db_office_id')";// office id use korse
-    if (mysql_query($sql)) {
+                
+    if ($y==1) {
         $msg = "তথ্য সংরক্ষিত হয়েছে";
     } else {
         $msg = "ভুল হয়েছে";
@@ -131,12 +124,19 @@ var emails = <?php echo $json_object;?>;
                     }
                 });
             });
+
+function setOffice(office,offid)
+{
+        document.getElementById('off_name').value = office;
+        document.getElementById('parent_id').value = offid;
+        document.getElementById('parentResult').style.display = "none";
+}
 </script>
 <script>
-    function getParentOffice(key)
+function getOffice(str_key) // for searching parent offices
 {
-var xmlhttp;
-    if (window.XMLHttpRequest)
+    var xmlhttp;
+       if (window.XMLHttpRequest)
         {// code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttp=new XMLHttpRequest();
         }
@@ -146,17 +146,17 @@ var xmlhttp;
         }
         xmlhttp.onreadystatechange=function()
         {
-            if(key.length ==0)
+            if(str_key.length ==0)
                 {
-                   document.getElementById('offResult').style.display = "none";
+                   document.getElementById('parentResult').style.display = "none";
                }
                 else
-                    {document.getElementById('offResult').style.visibility = "visible";
-                document.getElementById('offResult').setAttribute('style','position:absolute;top:68%;left:39%;width:250px;z-index:10;border: 1px inset black; overflow:auto; height:105px; background-color:#F5F5FF;');
+                    {document.getElementById('parentResult').style.visibility = "visible";
+                document.getElementById('parentResult').setAttribute('style','position:absolute;top:41%;left:37.5%;width:250px;z-index:10;border: 1px inset black; overflow:auto; height:105px; background-color:#F5F5FF;');
                     }
-                document.getElementById('offResult').innerHTML=xmlhttp.responseText;
+                document.getElementById('parentResult').innerHTML=xmlhttp.responseText;
         }
-        xmlhttp.open("GET","includes/getParentOffices.php?searchkey="+key+"&off=1",true);
+        xmlhttp.open("GET","includes/getParentOffices.php?search="+str_key+"&office=1",true);
         xmlhttp.send();	
 }
 </script>
@@ -269,9 +269,9 @@ if ($_GET['action'] == 'first') {
                     </td>
                 </tr>          
                 <tr>
-                    <td >অফিসের নাম</td>               
-                    <td>: <input class="box" id="off_name" name="offname" onkeyup="getParentOffice(this.value);" /><em> (অ্যাকাউন্ট নাম্বার)</em>
-                        <div id="offResult"></div><input type="hidden" name="parentOff_id" id="parentOff_id"/>
+                    <td>অফিস</td>               
+                    <td>: <input class="box" id="off_name" name="offname" onkeyup="getOffice(this.value);" /><em> (অ্যাকাউন্ট নাম্বার)</em>
+                       <div id="parentResult"></div><input type="hidden" name="parent_id" id="parent_id"/>
                     </td>
                 </tr>          
                 <tr>
@@ -286,7 +286,7 @@ if ($_GET['action'] == 'first') {
                 <?php
                if ($msg != "") {
                     echo "<tr>
-                    <td colspan=\"2\" style=\"text-allign: center\"> <font color='green'>$msg</td></font> 
+                    <td colspan='2' style='text-allign: center;font-size:16px;'> <font color='green'>$msg</font> </td>
                 </tr>";
                 }
                 ?>
