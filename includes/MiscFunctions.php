@@ -396,4 +396,14 @@ function number($inputs)
     $output =$digits[$inputs];
     return $output;
 }
+function getProgramType($type)
+{
+   $arr_type = array('presentation'=>'প্রেজেন্টশন','program'=>'প্রোগ্রাম','training'=>'ট্রেইনিং','travel'=>'ট্র্যাভেল');
+   return $arr_type[$type];
+}
+function getProgramer($type)
+{
+   $arr_who = array('presentation'=>'প্রেজেন্টার','program'=>'প্রোগ্রামার','training'=>'ট্রেইনার','travel'=>'ট্র্যাভেলার');
+   return $arr_who[$type];
+}
 ?>

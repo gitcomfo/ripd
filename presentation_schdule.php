@@ -6,7 +6,9 @@ include 'includes/header.php';
 include 'includes/connectionPDO.php';
 $json_object = null;
 $arr_presenter = array();
-$type = 'presentation';
+$type=$_GET['type'];
+$typeinbangla = getProgramType($type);
+$whoinbangla =  getProgramer($type);
 
 $sql_cfs_emp_sel = $conn->prepare("SELECT idEmployee FROM cfs_user, employee WHERE cfs_user_idUser = idUser AND account_number= ?");
 $sql_program_ins = $conn->prepare("INSERT INTO  $dbname .program (program_no, program_name, program_date, program_time, program_type, Office_idOffice) 
@@ -67,7 +69,7 @@ elseif (isset($_POST['submit1'])) {
     }
 }
 ?>
-<title>প্রেজেন্টেশন শিডিউল</title>
+<title><?php echo $typeinbangla;?> শিডিউল</title>
 <script type="text/javascript" src="javascripts/external/mootools.js"></script>
 <script type="text/javascript" src="javascripts/dg-filter.js"></script>
 <link rel="stylesheet" type="text/css" media="all" href="javascripts/jsDatePick_ltr.min.css" />
@@ -167,22 +169,22 @@ if ($_GET['action'] == 'first') {
     ?>
     <div style="padding-top: 10px;">    
         <div style="padding-left: 110px; width: 49%; float: left"><a href="index.php?apps=PROGRA"><b>ফিরে যান</b></a></div>
-        <div><a href="presentation_schdule.php?action=first">প্রেজেন্টেশন লিস্ট</a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=new">মেইক প্রেজেন্টেশন</a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=list">প্রেজেন্টার  লিস্ট</a></div>
+        <div><a href="presentation_schdule.php?action=first&type=<?php echo $type;?>"><?php echo $typeinbangla;?> লিস্ট</a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=new&type=<?php echo $type;?>">মেইক <?php echo $typeinbangla;?></a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=list&type=<?php echo $type;?>"><?php echo $whoinbangla?>-এর  লিস্ট</a></div>
     </div>
     <div>
         <form method="POST" onsubmit="">	
             <table  class="formstyle" style =" width:78%"id="make_presentation_fillter">      
                 <thead>
                     <tr>
-                        <th colspan="8" >প্রেজেন্টেশন সিডিউল</th>                        
+                        <th colspan="8" ><?php echo $typeinbangla;?> সিডিউল</th>                        
                     </tr>          
                     <tr>
                         <td colspan="8" style="text-align: right">খুঁজুন:  <input type="text" class="box"id="search_filter" name="search" /></td>
                     </tr>
                     <tr id = "table_row_odd">
-                        <td >প্রেজেন্টশন নাম্বার</td>
-                        <td >প্রেজেন্টশন নাম</td>
-                        <td >প্রেজেন্টার নাম</td>
+                        <td ><?php echo $typeinbangla;?> নাম্বার</td>
+                        <td ><?php echo $typeinbangla;?> নাম</td>
+                        <td ><?php echo $whoinbangla?>-এর নাম</td>
                         <td >রিপড ই মেইল</td>
                         <td >তারিখ</td>
                         <td>বার</td>
@@ -248,7 +250,7 @@ if ($_GET['action'] == 'first') {
     ?>
     <div style="padding-top: 10px;">    
         <div style="padding-left: 110px; width: 49%; float: left"><a href="index.php?apps=PROGRA"><b>ফিরে যান</b></a></div>
-        <div> <a href="presentation_schdule.php?action=first">প্রেজেন্টেশন লিস্ট</a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=new">মেইক প্রেজেন্টেশন</a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=list">প্রেজেন্টার  লিস্ট</a></div>
+        <div> <a href="presentation_schdule.php?action=first&type=<?php echo $type;?>"><?php echo $typeinbangla;?>লিস্ট</a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=new&type=<?php echo $type;?>">মেইক <?php echo $typeinbangla;?></a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=list&type=<?php echo $type;?>"><?php echo $whoinbangla?>-এর  লিস্ট</a></div>
     </div>
 
     <div>
@@ -256,15 +258,15 @@ if ($_GET['action'] == 'first') {
             <table class="formstyle" style =" width:78%">
 
                 <tr>
-                    <th colspan="2">  মেইক প্রেজেন্টেশন</th>
+                    <th colspan="2">  মেইক <?php echo $typeinbangla;?></th>
                 </tr>
 
                 <tr>
-                    <td >প্রেজেন্টশন নাম</td>               
+                    <td ><?php echo $typeinbangla;?> নাম</td>               
                     <td>: <input  class="box" type="text" name="presentation_name" value="" /></td>   
                 </tr>
                 <tr>
-                    <td >প্রেজেন্টারের নাম</td>               
+                    <td ><?php echo $whoinbangla?>-এর নাম</td>               
                     <td>: <input class="box" id="presenters" name="presenters" />
                     </td>
                 </tr>          
@@ -304,7 +306,7 @@ if ($_GET['action'] == 'first') {
     ?>
     <div style="padding-top: 10px;">    
         <div style="padding-left: 110px; width: 49%; float: left"><a href="index.php?apps=PROGRA"><b> ফিরে যান</b></a></div>
-        <div> <a href="presentation_schdule.php?action=first">প্রেজেন্টেশন লিস্ট</a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=new">মেইক প্রেজেন্টেশন</a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=list">প্রেজেন্টার  লিস্ট</a></div>
+        <div> <a href="presentation_schdule.php?action=first&type=<?php echo $type;?>"><?php echo $typeinbangla;?> লিস্ট</a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=new&type=<?php echo $type;?>">মেইক <?php echo $typeinbangla;?></a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=list&type=<?php echo $type;?>"><?php echo $whoinbangla?>-এর  লিস্ট</a></div>
     </div>
     <div>
         <!--PHP coding for SHOWING THE DATA IN EDIT SCHEDULE -->     
@@ -327,15 +329,15 @@ if ($_GET['action'] == 'first') {
                     <th colspan="2">  এডিট সিডিউল </th>
                 </tr>
                 <tr>
-                    <td style="width:40%" >প্রেজেন্টশন নাম্বার</td>
+                    <td style="width:40%" ><?php echo $typeinbangla;?> নাম্বার</td>
                     <td>: <input  class="box" type="text" name="presentation_number" readonly  value="<?php echo $db_rl_presentation_number; ?>"/></td>   
                 </tr>
                 <tr>
-                    <td >প্রেজেন্টশন নাম</td>               
+                    <td ><?php echo $typeinbangla;?> নাম</td>               
                     <td>: <input  class="box" type="text" name="presentation_name" value="<?php echo $db_rl_presentation_name; ?>"/></td>   
                 </tr>
                 <tr>
-                    <td >প্রেজেন্টার নাম</td>   <!--Writing query for drop-down list -->            
+                    <td ><?php echo $whoinbangla?>-এর নাম</td>   <!--Writing query for drop-down list -->            
                     <td>: <select class="box2" name="user_name" style="width: 150px;">
                             <?php
                             $sql = "SELECT * FROM $dbname.cfs_user,$dbname.employee 
@@ -390,20 +392,20 @@ if ($_GET['action'] == 'first') {
     ?>
     <div style="padding-top: 10px;">    
         <div style="padding-left: 110px; width: 49%; float: left"><a href="index.php?apps=PROGRA"><b> ফিরে যান</b></a></div>
-        <div><a href="presentation_schdule.php?action=first">প্রেজেন্টেশন লিস্ট</a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=new">মেইক প্রেজেন্টেশন</a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=list">প্রেজেন্টার  লিস্ট</a> </div> 
+        <div><a href="presentation_schdule.php?action=first&type=<?php echo $type;?>"><?php echo $typeinbangla;?> লিস্ট</a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=new&type=<?php echo $type;?>">মেইক <?php echo $typeinbangla;?></a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=list&type=<?php echo $type;?>"><?php echo $whoinbangla?>-এর  লিস্ট</a> </div> 
     </div> 
 
     <form method="POST" onsubmit="">	
         <table  class="formstyle" style =" width:78%"id="presentation_fillter">          
             <thead>
                 <tr>
-                    <th colspan="8" >প্রেজেন্টার  লিস্ট </th>                        
+                    <th colspan="8" ><?php echo $whoinbangla?>-এর  লিস্ট </th>                        
                 </tr>             
                 <tr >
                     <td colspan="8" style="text-align: right"> খুঁজুন:  <input type="text" class="box"id="search_box_filter" name="search" /></td>
                 </tr>
                 <tr id = "table_row_odd">
-                    <td>প্রেজেন্টার নাম </td>
+                    <td><?php echo $whoinbangla?>-এর নাম </td>
                     <td >একাউন্ট নাম্বার</td>
                     <td >গ্রেড</td>
                     <td >সেল নাম্বার</td>
@@ -462,7 +464,7 @@ if ($_GET['action'] == 'first') {
     ?>
     <div style="padding-top: 10px;">    
         <div style="padding-left: 110px; width: 49%; float: left"><a href="index.php?apps=PROGRA"><b>ফিরে যান</b></a></div>
-        <div><a href="presentation_schdule.php?action=first">প্রেজেন্টেশন লিস্ট</a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=new">মেইক প্রেজেন্টেশন</a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=list">প্রেজেন্টার  লিস্ট</a></div>
+        <div><a href="presentation_schdule.php?action=first&type=<?php echo $type;?>"><?php echo $typeinbangla;?> লিস্ট</a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=new&type=<?php echo $type;?>">মেইক <?php echo $typeinbangla;?></a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=list&type=<?php echo $type;?>"><?php echo $whoinbangla?>-এর  লিস্ট</a></div>
     </div>
     <form method="POST" onsubmit="">	
         <table  class="formstyle" style =" width:78%"id="presentation_fillter">          
@@ -470,7 +472,7 @@ if ($_GET['action'] == 'first') {
                 <th colspan="100" >সিডিউল  </th>                        
             </tr>             
             <tr id = "table_row_odd">
-                <td>প্রেজেন্টার নাম </td>
+                <td><?php echo $whoinbangla?>-এর নাম </td>
                 <td >তারিখ</td>
                 <td >সময়</td>
                 <td >ভেন্যু</td>                
