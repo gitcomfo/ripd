@@ -1,15 +1,17 @@
 <?php
 error_reporting(0);
 include 'ConnectDB.inc';
+include_once 'includes/MiscFunctions.php';
 
-$type=$_GET['t'];
-switch($type)
+if(isset($_GET['t']))
 {
-    case 1:
-            $psql="SELECT * FROM " . $dbname . ".program WHERE program_type='presentation' AND program_location IS NULL;";
+$type=$_GET['t'];
+$typeinbangla = getProgramType($type);
+
+            $psql="SELECT * FROM " . $dbname . ".program WHERE program_type='$type' AND program_location IS NULL;";
             $prslt=mysql_query($psql) or exit('query failed: '.mysql_error());
-            echo '<select class="selectOption" name="nam" onchange="getall(this.value)" style=" width: 167px !important;">';
-            echo "<option value=''>----প্রেজেন্টেশন সিলেক্ট করুন-----</option>";
+            echo "<select class='selectOption' name='nam' onchange='getall(this.value)' style='width: 167px !important;'>";
+            echo "<option value=''>----$typeinbangla সিলেক্ট করুন-----</option>";
             while($prow=mysql_fetch_assoc($prslt))
             {
                 $pid=$prow['idprogram'];
@@ -17,50 +19,7 @@ switch($type)
                 echo "<option value='$pid'>$name</option>";
             }
             echo '</select>';
-            echo "<input type='hidden' name='type' value=1 />";
-        break;
-    case 2:
-            $psql="SELECT * FROM " . $dbname . ".program WHERE program_type='program' AND program_location IS NULL;";
-            $prslt=mysql_query($psql) or exit('query failed: '.mysql_error());
-            echo '<select class="selectOption" onchange="getall(this.value)" style=" width: 167px !important;">';
-            echo "<option value=''>----প্রোগ্রাম সিলেক্ট করুন-----</option>";
-            while($prow=mysql_fetch_assoc($prslt))
-            {
-                $pid=$prow['idprogram'];
-                $name=$prow['program_name'];
-                echo "<option value='$pid'>$name</option>";
-            }
-            echo '</select>';
-            echo "<input type='hidden' name='type' value=2 />";
-        break;
-    case 3:
-            $psql="SELECT * FROM " . $dbname . ".program WHERE program_type='training' AND program_location IS NULL ;";
-            $prslt=mysql_query($psql) or exit('query failed: '.mysql_error());
-            echo '<select class="selectOption" name="nam" onchange="getall(this.value)" style=" width: 167px !important;">';
-            echo "<option value=''>----ট্রেইনিং সিলেক্ট করুন-----</option>";
-            while($prow=mysql_fetch_assoc($prslt))
-            {
-                $pid=$prow['idprogram'];
-                $name=$prow['program_name'];
-                echo "<option value='$pid'>$name</option>";
-            }
-            echo '</select>';
-            echo "<input type='hidden' name='type' value=3 />";
-        break;
-    case 4:
-            $psql="SELECT * FROM " . $dbname . ".program WHERE program_type='travel' AND program_location IS NULL ;";
-            $prslt=mysql_query($psql) or exit('query failed: '.mysql_error());
-            echo '<select class="selectOption" onchange="getall(this.value)" style=" width: 167px !important;">';
-            echo "<option value=''>----ট্রাভেল সিলেক্ট করুন-----</option>";
-            while($prow=mysql_fetch_assoc($prslt))
-            {
-                $pid=$prow['idprogram'];
-                $name=$prow['program_name'];
-                echo "<option value='$pid'>$name</option>";
-            }
-            echo '</select>';
-            echo "<input type='hidden' name='type' value=4 />";
-        break;
+            echo "<input type='hidden' name='type' value='$type' />";
 }
 
 $value=$_GET['v'];
@@ -75,22 +34,25 @@ while($all=  mysql_fetch_assoc($allrslt))
     $p_date=$all['program_date'];
     $p_time=$all['program_time'];
     $e_id=$all['Employee_idEmployee'];
+    $p_type = $all['program_type'];
 }
-    $sql = "SELECT * FROM cfs_user WHERE idUser = ANY( SELECT cfs_user_idUser FROM employee WHERE idEmployee = $e_id);";
+$typeinbangla = getProgramType($p_type);
+$whoinbangla =  getProgramer($p_type);
+$sql = "SELECT * FROM cfs_user WHERE idUser = ANY( SELECT cfs_user_idUser FROM employee WHERE idEmployee = $e_id);";
     $finalsql=mysql_query($sql) or exit('query failed: '.mysql_error());
     $finalget=mysql_fetch_assoc($finalsql);
     $e_name=$finalget['account_name'];
     $e_mail=$finalget['email'];
     echo ' <table> ';
-    echo " <tr><td style='width: 280px; padding-left: 0px !important;'>প্রেজেন্টেশন / প্রোগ্রাম / ট্রেইনিং / ট্রাভেল এর নাম্বার</td>
+    echo " <tr><td style='width: 280px; padding-left: 0px !important;'>$typeinbangla-এর নাম্বার</td>
                         <td>:    $p_no</td >                
                     </tr>
                     <tr>
-                        <td style='width: 280px; padding-left: 0px !important;'>প্রেজেন্টার / প্রোগ্রামার / ট্রেইনার / ট্রাভেলারের নাম</td>
+                        <td style='width: 280px; padding-left: 0px !important;'>$whoinbangla-এর নাম</td>
                         <td>:    $e_name </td>            
                     </tr>
                     <tr>
-                        <td style='width: 280px; padding-left: 0px !important;'>প্রেজেন্টার / প্রোগ্রামার / ট্রেইনার / ট্রাভেলারের ইমেইল</td>
+                        <td style='width: 280px; padding-left: 0px !important;'>$whoinbangla-এর ইমেইল</td>
                         <td>:    $e_mail</td>            
                     </tr>
                     <tr>

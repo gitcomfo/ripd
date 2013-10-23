@@ -22,7 +22,7 @@ if(isset($_POST['submit']))
     $time=$_POST['programTime'];
     $employee_name=$_POST['emp_name'];
     $employee_mail = $_POST['emp_mail'];
-    $type = $_POST['type'];
+    $P_type = $_POST['type'];
     
     $pupsql = "UPDATE `program` SET `program_location` = '$place',`total_seat` = '$seat',`extra_seat` = '$xtra_seat', `ticket_prize` = '$t_prize', `making_charge`=$m_prize WHERE `program`.`idprogram` = '$programID' ;";
     $pusresult=mysql_query($pupsql) or exit('query failed: '.mysql_error());
@@ -79,7 +79,8 @@ if(isset($_POST['submit']))
 </script>
 <?php
 if($_GET['step']=='02')
-    {
+    { $typeinbangla = getProgramType($P_type);
+$whoinbangla =  getProgramer($P_type);
 ?>
 <div class="column6">
         <div class="main_text_box">
@@ -122,8 +123,8 @@ if($_GET['step']=='02')
                                         </div>
                                        <div style="width: 570px; float: left;padding-left: 4px;text-align: center;"><span style="font-family: SolaimanLipi;color: #3333CC;font-size: 20px;"><span style="color: black;"><?php echo $programname;?></span></span></div>
                                         <div id="front_info" style="width: 570px; float: left;padding-left: 4px;">
-                                            <span><?php if ($type==1) echo "প্রেজেন্টারের নামঃ "; elseif ($type==2) echo "প্রোগ্রামারের নামঃ "; elseif($type==3) echo "ট্রেইনারের নামঃ "; else { echo "ট্রাভেলারের নামঃ ";}?> <span style="color: black;"><?php echo $employee_name;?></span></span></br>
-                                            <span><?php if ($type==1) echo "প্রেজেন্টারের ই-মেইলঃ "; elseif ($type==2) echo "প্রোগ্রামারের ই-মেইলঃ "; elseif($type==3) echo "ট্রেইনারের ই-মেইলঃ "; else { echo "ট্রাভেলারের ই-মেইলঃ ";}?><span style="color: black;"><?php echo $employee_mail;?></span></span></br>
+                                            <span><?php echo $whoinbangla;?>-এর নামঃ<span style="color: black;"><?php echo $employee_name;?></span></span></br>
+                                            <span><?php echo $whoinbangla;?>-এর ই-মেইলঃ<span style="color: black;"><?php echo $employee_mail;?></span></span></br>
                                             <span>স্থানঃ <span style="color: black;"><?php echo $place;?></span></span></br>
                                             <span>তারিখঃ <span style="color: black;"><?php echo $date;?></span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>সময়ঃ <span style="color: black;"><?php echo $time;?></span></span>
                                         </div>
@@ -174,10 +175,10 @@ if($_GET['step']=='02')
                         <td>: 
                             <select class="selectOption" name="type" id="type" onchange="getname(this.value)" style="width: 167px !important;">
                                 <option value=" ">----টাইপ সিলেক্ট করুন-----</option>
-                                <option value="1">প্রেজেন্টেশন</option>
-                                <option value="2">প্রোগ্রাম</option>
-                                <option value="3">ট্রেইনিং</option>
-                                <option value="4">ট্রাভেল</option>
+                                <option value="presentation">প্রেজেন্টেশন</option>
+                                <option value="program">প্রোগ্রাম</option>
+                                <option value="training">ট্রেইনিং</option>
+                                <option value="travel">ট্রাভেল</option>
                             </select>  
                         </td>      
                     </tr>         
