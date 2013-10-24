@@ -4,7 +4,11 @@ include_once 'includes/MiscFunctions.php';
 include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
-$sqlerror="";
+$loginUSERname = $_SESSION['UserID'] ;
+$queryemp = mysql_query("SELECT idUser FROM cfs_user WHERE user_name = '$loginUSERname';");
+$emprow = mysql_fetch_assoc($queryemp);
+$db_onsid = $emprow['idUser'];
+$sqlerror="";$str_emp_name="";$str_emp_email="";
 ?>
 <title>টিকেট সেলিং</title>
 <style type="text/css">@import "css/bush.css";</style>
@@ -104,13 +108,34 @@ function checkCounter(refChkBox)
 }
 return count;
     }
+    
+    function numbersonly(e)
+   {
+        var unicode=e.charCode? e.charCode : e.keyCode
+            if (unicode!=8)
+            { //if the key isn't the backspace key (which we should allow)
+                if (unicode<48||unicode>57) //if not a number
+                return false //disable key press
+            }
+}
+   function checkIt(evt) // float value-er jonno***********************
+    {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode ==8 || (charCode >47 && charCode <58) || charCode==46) {
+        status = "";
+        return true;
+    }
+    status = "This field accepts numbers only.";
+    return false;
+}
 </script>
 <?php
 if(isset($_POST['submit'])) 
 {
-    $value=$_POST['ProgName'];
-    $type = $_POST['type'];
-    $allsql="SELECT * FROM " . $dbname . ".program WHERE idprogram= $value ;";
+    $P_value=$_POST['ProgName'];
+    $P_type = $_POST['type'];
+    $allsql="SELECT * FROM " . $dbname . ".program WHERE idprogram= $P_value ;";
     $allrslt=mysql_query($allsql) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন';
     while($all=  mysql_fetch_assoc($allrslt))
         {
@@ -119,20 +144,24 @@ if(isset($_POST['submit']))
             $p_date=$all['program_date'];
             $p_time=$all['program_time'];
             $p_place=$all['program_location'];
-            $emp_id=$all['Employee_idEmployee'];
             $ticket_prize=$all['ticket_prize'];
             $making_prize=$all['making_charge'];
+            $db_description = $all['subject'];
         }
-    $sql = "SELECT * FROM ". $dbname ." .cfs_user WHERE idUser = ANY( SELECT cfs_user_idUser FROM employee WHERE idEmployee = $emp_id);";
+    $sql = "SELECT * FROM cfs_user,employee WHERE idUser =  cfs_user_idUser AND idEmployee = ANY( SELECT fk_Employee_idEmployee FROM presenter_list WHERE fk_idprogram = $P_value);";
     $finalsql=mysql_query($sql) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন';
-    $finalget=mysql_fetch_assoc($finalsql);
-    $emp_name=$finalget['account_name'];
-    $emp_mail=$finalget['email'];
+    while($finalget = mysql_fetch_assoc($finalsql))
+    {
+        $e_name=$finalget['account_name'];
+        $e_mail=$finalget['email'];
+        $str_emp_name = $e_name.", ".$str_emp_name;
+        $str_emp_email = $e_mail.", ".$str_emp_email;
+    }
 }
 
 if(isset($_POST['submit_ticket'])) 
 {
-   $value=$_POST['progID'];
+   $valueID=$_POST['progID'];
    $ownerName=$_POST['owner_name'];
    $ownerMbl=$_POST['owner_mbl'];
    $takaPerTicket=$_POST['ticket'];
@@ -141,8 +170,8 @@ if(isset($_POST['submit_ticket']))
    $str_SelectedSeat = implode(",", $arr_checkbox1);
    $arr_checkbox2 = $_POST['checkbox_Xtra'];
    $str_SelectedXSeat = implode(",", $arr_checkbox2);
-   $freeSeat = countSeat($value);
-   $freeXtra = countXtra($value);
+   $freeSeat = countSeat($valueID);
+   $freeXtra = countXtra($valueID);
    $no_of_seats=count($arr_checkbox1);
    $no_of_xtra=count($arr_checkbox2);
    $total_no_of_seat=$no_of_seats+$no_of_xtra;
@@ -153,8 +182,8 @@ if(isset($_POST['submit_ticket']))
    if(($no_of_seats<=10 && $no_of_seats>0) || ($no_of_xtra<=$freeXtra && $no_of_xtra >0))
    {
        $str_seatstring="";
-        $sql="SELECT seat_no FROM " . $dbname . ".ticket WHERE Program_idprogram = $value;";
-        $rslt=mysql_query($sql) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন';
+        $sql="SELECT seat_no FROM " . $dbname . ".ticket WHERE Program_idprogram = $valueID;";
+        $rslt=mysql_query($sql) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন৫';
         while($db_seats=  mysql_fetch_assoc($rslt))
             {
                if($db_seats['seat_no']!="")
@@ -165,8 +194,8 @@ if(isset($_POST['submit_ticket']))
             $arr_Seats = explode(',', $str_seatstring);
             $arr_matchSeat= array_intersect($arr_checkbox1, $arr_Seats);
             
-            $sqlx="SELECT xtra_seat FROM " . $dbname . ".ticket WHERE Program_idprogram = $value;";
-            $rsltx=mysql_query($sqlx) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন';
+            $sqlx="SELECT xtra_seat FROM " . $dbname . ".ticket WHERE Program_idprogram = $valueID;";
+            $rsltx=mysql_query($sqlx) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন৬';
             $str_Xseatstring="";
             while($db_xseat=  mysql_fetch_assoc($rsltx))
                 {
@@ -179,8 +208,9 @@ if(isset($_POST['submit_ticket']))
                $arr_matchXtra= array_intersect($arr_checkbox2, $arr_Xtra);
                if (count($arr_matchSeat) == 0  && count($arr_matchXtra) == 0 )
                {
-                   $tsql="INSERT INTO `ripd_db_comfosys`.`ticket` (`ticket_owner_name` ,`ticket_owner_mobile` ,`no_ofTicket_purchase` ,`seat_no` ,`xtra_seat` ,`total_ticket_prize` ,`total_makingCharge` ,`total_amount`, `Program_idprogram`) VALUES ('$ownerName', '$ownerMbl', $total_no_of_seat , '$str_SelectedSeat' , '$str_SelectedXSeat', $totalTicketPrize, $totalMakingCharge, $totalamount, $value );";
-                    $treslt=mysql_query($tsql) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন';
+                   $tsql="INSERT INTO `ripd_db_comfosys`.`ticket` (`ticket_owner_name` ,`ticket_owner_mobile` ,`no_ofTicket_purchase` ,`seat_no` ,`xtra_seat` ,`total_ticket_prize` ,`total_makingCharge` ,`total_amount`,`ticket_seller_id`, `Program_idprogram`) 
+                            VALUES ('$ownerName', '$ownerMbl', $total_no_of_seat , '$str_SelectedSeat' , '$str_SelectedXSeat', $totalTicketPrize, $totalMakingCharge, $totalamount, $db_onsid, $valueID );";
+                    $treslt=mysql_query($tsql) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন৭';
                     $TicketID = mysql_insert_id();
                }
                else { $bookedmsg = "error"; }
@@ -191,7 +221,7 @@ function freeSeat($progID)
 {
     $str_seatstring="";
         $sql="SELECT seat_no FROM " . $dbname . ".ticket WHERE Program_idprogram = $progID;";
-        $rslt=mysql_query($sql) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন';
+        $rslt=mysql_query($sql) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন৮';
         while($db_seats=  mysql_fetch_assoc($rslt))
             {
                if($db_seats['seat_no']!="")
@@ -202,7 +232,7 @@ function freeSeat($progID)
             $arr_Seats = explode(',', $str_seatstring);
         
         $sql2="SELECT total_seat FROM " . $dbname . ".program WHERE idprogram = $progID;";
-        $rslt2=mysql_query($sql2) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন';
+        $rslt2=mysql_query($sql2) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন৯';
         $totalseat=  mysql_fetch_assoc($rslt2);
         $db_maxSeat=$totalseat['total_seat'];
         $arr_seatNo= range(1,$db_maxSeat);
@@ -230,7 +260,7 @@ function countSeat($progID)
 function freeXtraSeat($progID)
 {
     $sqlx="SELECT xtra_seat FROM " . $dbname . ".ticket WHERE Program_idprogram = $progID;";
-            $rsltx=mysql_query($sqlx) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন';
+            $rsltx=mysql_query($sqlx) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন১০';
             $str_Xseatstring="";
             while($db_xseat=  mysql_fetch_assoc($rsltx))
                 {
@@ -242,7 +272,7 @@ function freeXtraSeat($progID)
                 $arr_Xtra = explode(',', $str_Xseatstring);
         
         $sql2="SELECT extra_seat FROM " . $dbname . ".program WHERE idprogram = $progID;";
-         $rslt2=mysql_query($sql2) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন';
+         $rslt2=mysql_query($sql2) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন১১';
         $totalseat=  mysql_fetch_assoc($rslt2);
         $db_maxXseat=$totalseat['extra_seat'];
         $arr_XseatNo= range(1,$db_maxXseat);
@@ -268,12 +298,12 @@ function countXtra($progID)
 function showTicket($Tid)
 {
     $sql = "SELECT * FROM ". $dbname . ".`ticket` WHERE idticket= $Tid ; ";
-    $result = mysql_query($sql) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন';
+    $result = mysql_query($sql) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন১';
     $row = mysql_fetch_assoc($result);
     $db_pID = $row ['Program_idprogram'];
     
     $sql2 = "SELECT * FROM ". $dbname . ".`program` WHERE idprogram = $db_pID ; ";
-    $result2 = mysql_query($sql2) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন';
+    $result2 = mysql_query($sql2) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন২';
     $row2 = mysql_fetch_assoc($result2);
     
     $progName = $row2['program_name'];
@@ -281,13 +311,17 @@ function showTicket($Tid)
     $date = $row2['program_date'];
     $time = $row2['program_time'];
     $type = $row2['program_type'];
-    $emp_id=$row2['Employee_idEmployee'];
+    $whoinbangla =  getProgramer($type);
     
-    $fsql = "SELECT * FROM cfs_user WHERE idUser = ANY( SELECT cfs_user_idUser FROM employee WHERE idEmployee = $emp_id);";
-    $finalsql=mysql_query($fsql) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন';
-    $finalget=mysql_fetch_assoc($finalsql);
-    $emp_name=$finalget['account_name'];
-    $emp_mail=$finalget['email'];
+   $emp_sql = "SELECT * FROM cfs_user,employee WHERE idUser =  cfs_user_idUser AND idEmployee = ANY( SELECT fk_Employee_idEmployee FROM presenter_list WHERE fk_idprogram = $db_pID);";
+    $final_sql=mysql_query($emp_sql) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন৩';
+    while($final_get = mysql_fetch_assoc($final_sql))
+    {
+        $e_name=$final_get['account_name'];
+        $e_mail=$final_get['email'];
+        $str_emp_name = $e_name.", ".$str_emp_name;
+        $str_emp_email = $e_mail.", ".$str_emp_email;
+    }
     
     $name = $row['ticket_owner_name'];
     $mobil = $row['ticket_owner_mobile'];
@@ -321,8 +355,8 @@ function showTicket($Tid)
                                         </div>
                                        <div style='width: 570px; float: left;padding-left: 4px;text-align: center;'><span style='font-family: SolaimanLipi;color: #3333CC;font-size: 20px;'><span style='color: black;'>$progName</span></span></div>
                                         <div id='front_info' style='width: 570px; float: left;padding-left: 4px;'>
-                                            <span>";if ($type =='presentation') {echo "প্রেজেন্টারের নামঃ " ;} elseif ($type =='program') {echo "প্রোগ্রামারের নামঃ ";} elseif($type =='training') {echo "ট্রেইনারের নামঃ ";} else{ echo "ট্রাভেলারের নামঃ";} echo"<span style='color: black;'> $emp_name</span></span></br>
-                                            <span>";if ($type =='presentation') {echo "প্রেজেন্টারের ই-মেইলঃ " ;} elseif ($type =='program') {echo "প্রোগ্রামারের ই-মেইলঃ ";} elseif($type =='training') {echo "ট্রেইনারের ই-মেইলঃ ";} else{ echo "ট্রাভেলারের ই-মেইলঃ ";} echo"<span style='color: black;'> $emp_mail</span></span></br>
+                                            <span>$whoinbangla-এর নামঃ <span style='color: black;'> $str_emp_name</span></span></br>
+                                            <span>$whoinbangla-এর ই-মেইলঃ <span style='color: black;'> $str_emp_email</span></span></br>
                                             <span>স্থানঃ <span style='color: black;'>$location</span></span></br>
                                             <span>তারিখঃ <span style='color: black;'>$date</span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>সময়ঃ <span style='color: black;'>$time</span></span>
                                         </div>
@@ -330,7 +364,7 @@ function showTicket($Tid)
                                         <div id='owner_info' style='width: 570px; float: left;padding-left: 4px;'>
                                             <span>স্বত্তাধিকারীর নামঃ <span style='color: black;'>$name</span></span></br>
                                             <span>স্বত্তাধিকারীর মোবাইল নাম্বারঃ <span style='color: black;'>$mobil</span></span></br>
-                                            <span style='text-align: right;'>আসন নাম্বারঃ <span style='color: black;'>$seatsArray[$i]</span></span></br>
+                                            <span style='text-align: right;'>আসন নাম্বারঃ <span style='color: black;'>$arr_seats[$i]</span></span></br>
                                             </div>
                                     </div>
                                 </div>
@@ -367,8 +401,8 @@ function showTicket($Tid)
                                         </div>
                                        <div style='width: 570px; float: left;padding-left: 4px;text-align: center;'><span style='font-family: SolaimanLipi;color: #3333CC;font-size: 20px;'><span style='color: black;'>$progName</span></span></div>
                                         <div id='front_info' style='width: 570px; float: left;padding-left: 4px;'>
-                                            <span>";if ($type =='presentation') {echo "প্রেজেন্টারের নামঃ " ;} elseif ($type =='program') {echo "প্রোগ্রামারের নামঃ ";} elseif($type =='training') {echo "ট্রেইনারের নামঃ ";} else{ echo "ট্রাভেলারের নামঃ";} echo"<span style='color: black;'> $e_name</span></span></br>
-                                            <span>";if ($type =='presentation') {echo "প্রেজেন্টারের ই-মেইলঃ " ;} elseif ($type =='program') {echo "প্রোগ্রামারের ই-মেইলঃ ";} elseif($type =='training') {echo "ট্রেইনারের ই-মেইলঃ ";} else{ echo "ট্রাভেলারের ই-মেইলঃ ";} echo"<span style='color: black;'> $e_mail</span></span></br>
+                                            <span>$whoinbangla-এর নামঃ <span style='color: black;'> $str_emp_name</span></span></br>
+                                            <span>$whoinbangla-এর ই-মেইলঃ <span style='color: black;'> $str_emp_email</span></span></br>
                                             <span>স্থানঃ <span style='color: black;'>$location</span></span></br>
                                             <span>তারিখঃ <span style='color: black;'>$date</span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>সময়ঃ <span style='color: black;'>$time</span></span>
                                         </div>
@@ -376,7 +410,7 @@ function showTicket($Tid)
                                         <div id='owner_info' style='width: 570px; float: left;padding-left: 4px;'>
                                             <span>স্বত্তাধিকারীর নামঃ <span style='color: black;'>$name</span></span></br>
                                             <span>স্বত্তাধিকারীর মোবাইল নাম্বারঃ <span style='color: black;'>$mobil</span></span></br>
-                                            <span style='text-align: right;'>আসন নাম্বারঃ <span style='color: black;'>ex-$xtraArray[$j]</span></span></br>
+                                            <span style='text-align: right;'>আসন নাম্বারঃ <span style='color: black;'>ex-$arr_xtraseats[$j]</span></span></br>
                                             </div>
                                     </div>
                                 </div>
@@ -403,7 +437,8 @@ function QueryFailedMsg($msg)
 ?>
 
 <?php
-if ($_GET['opt']=='submit_ticket') {
+if ($_GET['opt']=='submit_ticket') { 
+  $whoinbangla =  getProgramer($P_type);
     ?>
     <div class="column6">
         <div class="main_text_box">
@@ -419,20 +454,23 @@ if ($_GET['opt']=='submit_ticket') {
                                         $p_date=$all['program_date'];
                                         $p_time=$all['program_time'];
                                         $p_place=$all['program_location'];
-                                        $emp_id=$all['Employee_idEmployee'];
                                         $ticket_prize=$all['ticket_prize'];
                                         $making_prize=$all['making_charge'];
-                                        $db_type = $all['program_type'];
+                                        $db_description = $all['subject'];
                                     }
-                                    if($db_type== 'presentation'){$type=1;} elseif($db_type== 'program'){$type=2;} elseif($db_type== 'training'){$type=3;} else{$type=4;}
-                                $sql = "SELECT * FROM ". $dbname ." .cfs_user WHERE idUser = ANY( SELECT cfs_user_idUser FROM employee WHERE idEmployee = $emp_id);";
-                                $finalsql=mysql_query($sql) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন';
-                                $finalget=mysql_fetch_assoc($finalsql);
-                                $emp_name=$finalget['account_name'];
-                                $emp_mail=$finalget['email'];
+                                    
+                                $emp_sql = "SELECT * FROM cfs_user,employee WHERE idUser =  cfs_user_idUser AND idEmployee = ANY( SELECT fk_Employee_idEmployee FROM presenter_list WHERE fk_idprogram = $value);";
+                                $final_sql=mysql_query($emp_sql) or $sqlerror=' অজ্ঞাত ত্রুটি, সিস্টেম অ্যাডমিনের সাথে যোগাযোগ করুন৩';
+                                while($final_get = mysql_fetch_assoc($final_sql))
+                                {
+                                    $e_name=$final_get['account_name'];
+                                    $e_mail=$final_get['email'];
+                                    $str_emp_name = $e_name.", ".$str_emp_name;
+                                    $str_emp_email = $e_mail.", ".$str_emp_email;
+                                }
                             }     
-                        $countSeats = countSeat($value);
-                        $countXseats = countXtra($value);
+                        $countSeats = countSeat($P_value);
+                        $countXseats = countXtra($P_value);
                         if($countXseats ==0 && $countSeats==0){?>
              <table  class="formstyle" style="color: #3333CC; font-weight:600; font-family: SolaimanLipi !important;">          
                         <tr><th colspan="4" style="text-align: center;">টিকেট সেলিং</th></tr>
@@ -478,8 +516,8 @@ if ($_GET['opt']=='submit_ticket') {
                                         </div>
                                        <div style="width: 570px; float: left;padding-left: 4px;text-align: center;"><span style="font-family: SolaimanLipi;color: #3333CC;font-size: 20px;"><span style="color: black;"><?php echo $p_name;?></span></span></div>
                                         <div id="front_info" style="width: 570px; float: left;padding-left: 4px;">
-                                            <span><?php if ($type==1) echo "প্রেজেন্টারের নামঃ "; elseif ($type==2) echo "প্রোগ্রামারের নামঃ "; elseif($type==3 ) echo "ট্রেইনারের নামঃ "; else { echo "ট্রাভেলারের নামঃ ";}?> <span style="color: black;"><?php echo $emp_name;?></span></span></br>
-                                            <span><?php if ($type==1) echo "প্রেজেন্টারের ই-মেইলঃ "; elseif ($type==2) echo "প্রোগ্রামারের ই-মেইলঃ "; elseif($type==3) echo "ট্রেইনারের ই-মেইলঃ "; else { echo "ট্রাভেলারের ই-মেইলঃ ";}?><span style="color: black;"><?php echo $emp_mail;?></span></span></br>
+                                            <span><?php echo $whoinbangla;?>-এর নামঃ <span style="color: black;"><?php echo $str_emp_name;?></span></span></br>
+                                            <span><?php echo $whoinbangla; ?> ই-মেইলঃ <span style="color: black;"><?php echo $str_emp_email;?></span></span></br>
                                             <span>স্থানঃ <span style="color: black;"><?php echo $p_place;?></span></span></br>
                                             <span>তারিখঃ <span style="color: black;"><?php echo $p_date;?></span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>সময়ঃ <span style="color: black;"><?php echo $p_time;?></span></span>
                                         </div>
@@ -500,6 +538,9 @@ if ($_GET['opt']=='submit_ticket') {
                                         <div id="back_head" style="text-align: center;padding-top: 10px;">
                                         <span style="font-family: SolaimanLipi;color: #3333CC;font-size: 20px;"> কার্যবিবরণী</span>
                                         </div>
+                                        <div id="back_content" style="padding: 10px;">
+                                            <span style="font-family: SolaimanLipi;color: #000000;font-size: 16px;"><?php echo $db_description;?></span>
+                                        </div>
                                         </div>
                                 </div>
                             </td>
@@ -510,27 +551,27 @@ if ($_GET['opt']=='submit_ticket') {
                         </tr>
                         <tr>
                             <td style="width: 40%;color: darkblue;"> ক্রেতার মোবাইল নাম্বার </td>
-                            <td>:   <input class="box" type="text" id="owner_mbl" name="owner_mbl" /><em> (ইংরেজিতে লিখুন)</em></td>                           
+                            <td>:   <input class="box" type="text" id="owner_mbl" name="owner_mbl" onkeypress=' return numbersonly(event)' /><em> (ইংরেজিতে লিখুন)</em></td>                           
                         </tr>
                         <tr>
-                            <td style="width: 40%;color: darkblue;">খালি আসন সংখ্যা<input type='hidden' name='progID' value=<?php echo $value;?> /></td>
-                            <td>:  <span style="color: black;"><?php echo countSeat($value);?></span></td>                           
+                            <td style="width: 40%;color: darkblue;">খালি আসন সংখ্যা<input type='hidden' name='progID' value=<?php echo $P_value;?> /></td>
+                            <td>:  <span style="color: black;"><?php echo countSeat($P_value);?></span></td>                           
                         </tr>
                           <tr>
                             <td style="width: 40%;color: darkblue;"> আসন নাম্বার</td>
-                            <td>: <div id="showSeat" style="overflow: scroll; height:auto; width: 300px;border:gray inset 1px;padding: 3px;background-color:#CDE3FA"><?php showSeats($value);?></div>
+                            <td>: <div id="showSeat" style="overflow: scroll; height:auto; width: 300px;border:gray inset 1px;padding: 3px;background-color:#CDE3FA"><?php showSeats($P_value);?></div>
                             </td>                           
                         </tr>
-                        <?php $avaiable= countSeat($value); 
+                        <?php $avaiable= countSeat($P_value); 
                         if($avaiable < 10)
                         {?>
                         <tr>
                             <td style="width: 40%;color: darkblue;">অতিরিক্ত খালি আসন সংখ্যা</td>
-                            <td>: <span style="color: black;"><?php echo countXtra($value);?></span></td>                           
+                            <td>: <span style="color: black;"><?php echo countXtra($P_value);?></span></td>                           
                         </tr>
                         <tr>
                             <td style="width: 40%;color: darkblue;">অতিরিক্ত খালি আসন নাম্বার</td>
-                            <td>: <div id="showSeat" style="overflow: scroll; height:auto; width: 300px;border:gray inset 1px;padding: 3px;background-color:#CDE3FA"><?php showXtraSeats($value);?></div></td>                           
+                            <td>: <div id="showSeat" style="overflow: scroll; height:auto; width: 300px;border:gray inset 1px;padding: 3px;background-color:#CDE3FA"><?php showXtraSeats($P_value);?></div></td>                           
                         </tr>
                         <?php }?>
                         <tr>                    
@@ -580,7 +621,7 @@ if ($_GET['opt']=='submit_ticket') {
                                 </span>
                             </td></tr>
                         <tr>
-                            <td style="padding-left: 300px; "></br></br><a href="selling_ticket.php?opt=submit_ticket&programID=<?php echo $value?>" ><b>পুনরায় টিকেট সিলেক্ট করুন</b></a></br></td>
+                            <td style="padding-left: 300px; "></br></br><a href="selling_ticket.php?opt=submit_ticket&programID=<?php echo $valueID?>" ><b>পুনরায় টিকেট সিলেক্ট করুন</b></a></br></td>
                         </tr>
              </table>
             <?php } 
@@ -667,10 +708,10 @@ elseif ($_GET['opt']=='submit_account') {
                             <td>: 
                                 <select class="selectOption" name="type" id="type" onchange="getname(this.value)" style="width: 170px !important;">
                                     <option value=" ">----টাইপ সিলেক্ট করুন-----</option>
-                                    <option value="1">প্রেজেন্টেশন</option>
-                                    <option value="2">প্রোগ্রাম</option>
-                                    <option value="3">ট্রেইনিং</option>
-                                    <option value="4">ট্রাভেল</option>
+                                    <option value="presentation">প্রেজেন্টেশন</option>
+                                    <option value="program">প্রোগ্রাম</option>
+                                    <option value="training">ট্রেইনিং</option>
+                                    <option value="travel">ট্রাভেল</option>
                                 </select>  
                             </td>      
                         </tr>         

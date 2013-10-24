@@ -22,14 +22,37 @@ if(isset($_POST['submit']))
     $time=$_POST['programTime'];
     $employee_name=$_POST['emp_name'];
     $employee_mail = $_POST['emp_mail'];
+    $P_description = $_POST['description'];
     $P_type = $_POST['type'];
     
-    $pupsql = "UPDATE `program` SET `program_location` = '$place',`total_seat` = '$seat',`extra_seat` = '$xtra_seat', `ticket_prize` = '$t_prize', `making_charge`=$m_prize WHERE `program`.`idprogram` = '$programID' ;";
+    $pupsql = "UPDATE `program` SET `program_location` = '$place',`total_seat` = '$seat',`extra_seat` = '$xtra_seat', `ticket_prize` = '$t_prize', `making_charge`=$m_prize, `subject`= '$P_description' WHERE `program`.`idprogram` = '$programID' ;";
     $pusresult=mysql_query($pupsql) or exit('query failed: '.mysql_error());
 }
 ?>
 <title>টিকেট মেকিং</title>
 <style type="text/css">@import "css/bush.css";</style>
+<script>
+    function numbersonly(e)
+   {
+        var unicode=e.charCode? e.charCode : e.keyCode
+            if (unicode!=8)
+            { //if the key isn't the backspace key (which we should allow)
+                if (unicode<48||unicode>57) //if not a number
+                return false //disable key press
+            }
+}
+   function checkIt(evt) // float value-er jonno***********************
+    {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode ==8 || (charCode >47 && charCode <58) || charCode==46) {
+        status = "";
+        return true;
+    }
+    status = "This field accepts numbers only.";
+    return false;
+}
+</script>
 <script  type="text/javascript">
     function getname(type)
     {
@@ -123,8 +146,8 @@ $whoinbangla =  getProgramer($P_type);
                                         </div>
                                        <div style="width: 570px; float: left;padding-left: 4px;text-align: center;"><span style="font-family: SolaimanLipi;color: #3333CC;font-size: 20px;"><span style="color: black;"><?php echo $programname;?></span></span></div>
                                         <div id="front_info" style="width: 570px; float: left;padding-left: 4px;">
-                                            <span><?php echo $whoinbangla;?>-এর নামঃ<span style="color: black;"><?php echo $employee_name;?></span></span></br>
-                                            <span><?php echo $whoinbangla;?>-এর ই-মেইলঃ<span style="color: black;"><?php echo $employee_mail;?></span></span></br>
+                                            <span><?php echo $whoinbangla;?>-এর নামঃ <span style="color: black;"><?php echo $employee_name;?></span></span></br>
+                                            <span><?php echo $whoinbangla;?>-এর ই-মেইলঃ <span style="color: black;"><?php echo $employee_mail;?></span></span></br>
                                             <span>স্থানঃ <span style="color: black;"><?php echo $place;?></span></span></br>
                                             <span>তারিখঃ <span style="color: black;"><?php echo $date;?></span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>সময়ঃ <span style="color: black;"><?php echo $time;?></span></span>
                                         </div>
@@ -144,6 +167,9 @@ $whoinbangla =  getProgramer($P_type);
                                     <div id="back_ri8" style="width: 574px; height: 384px; float: left;border-right: blue dotted 1px;">
                                         <div id="back_head" style="text-align: center;padding-top: 10px;">
                                         <span style="font-family: SolaimanLipi;color: #3333CC;font-size: 20px;"> কার্যবিবরণী</span>
+                                        </div>
+                                        <div id="back_content" style="padding: 10px;">
+                                            <span style="font-family: SolaimanLipi;color: #000000;font-size: 16px;"><?php echo $P_description;?></span>
                                         </div>
                                         </div>
                                 </div>
@@ -194,21 +220,25 @@ $whoinbangla =  getProgramer($P_type);
                         <td>স্থান</td>
                         <td>:    <input  class="box" type="text" id="place" name="place" /></td>            
                     </tr>
+                     <tr>
+                        <td>কার্যবিবরণী / বিষয়বস্তু</td>
+                        <td> <textarea  class="box" type="text" id="description" name="description" ></textarea></td>            
+                    </tr>
                     <tr>
                         <td>টিকেট প্রাইজ</td>
-                        <td>:    <input  class="box" type="text" id="ticket_prize" name="ticket_prize" />TK/ Ticket<em> (ইংরেজিতে লিখুন)</em></td>            
+                        <td>:    <input  class="box" type="text" id="ticket_prize" name="ticket_prize" onkeypress="return checkIt(event)" /> TK/ Ticket<em> (ইংরেজিতে লিখুন)</em></td>            
                     </tr>
                     <tr>
                         <td>টিকেট মেইকিং চার্জ</td>
-                        <td>:    <input  class="box" type="text" id="making_prize" name="making_prize" />TK/ Ticket<em> (ইংরেজিতে লিখুন)</em></td>            
+                        <td>:    <input  class="box" type="text" id="making_prize" name="making_prize" onkeypress="return checkIt(event)" /> TK/ Ticket<em> (ইংরেজিতে লিখুন)</em></td>            
                     </tr>
                     <tr>
                         <td>আসন সংখ্যা </td>
-                        <td>:    <input  class="box" type="text" id="number_of_seat" name="number_of_seat" /><em> (ইংরেজিতে লিখুন)</em></td>           
+                        <td>:    <input  class="box" type="text" id="number_of_seat" name="number_of_seat"  onkeypress=' return numbersonly(event)'  /><em> (ইংরেজিতে লিখুন)</em></td>           
                     </tr>
                     <tr>
                         <td>অতিরিক্ত আসন সংখ্যা </td>
-                        <td>:    <input  class="box" type="text" id="extra_seat" name="extra_seat" /><em> (ইংরেজিতে লিখুন)</em></td>
+                        <td>:    <input  class="box" type="text" id="extra_seat" name="extra_seat" onkeypress=' return numbersonly(event)'  /><em> (ইংরেজিতে লিখুন)</em></td>
                     </tr>                       
                     <tr>                    
                         <td colspan="2" style="padding-left: 300px; padding-top: 10px; " ><input class="btn" style =" font-size: 12px; " type="submit" name="submit" value="সেভ করুন" /></td>

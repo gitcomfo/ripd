@@ -23,6 +23,8 @@ $typeinbangla = getProgramType($type);
 }
 
 $value=$_GET['v'];
+$str_emp_name = "";
+$str_emp_email = "";
 if($value !="")
 {
 $allsql="SELECT * FROM " . $dbname . ".program WHERE idprogram=$value;";
@@ -33,27 +35,30 @@ while($all=  mysql_fetch_assoc($allrslt))
     $p_no=$all['program_no'];
     $p_date=$all['program_date'];
     $p_time=$all['program_time'];
-    $e_id=$all['Employee_idEmployee'];
     $p_type = $all['program_type'];
 }
 $typeinbangla = getProgramType($p_type);
 $whoinbangla =  getProgramer($p_type);
-$sql = "SELECT * FROM cfs_user WHERE idUser = ANY( SELECT cfs_user_idUser FROM employee WHERE idEmployee = $e_id);";
+$sql = "SELECT * FROM cfs_user,employee WHERE idUser =  cfs_user_idUser AND idEmployee = ANY( SELECT fk_Employee_idEmployee FROM presenter_list WHERE fk_idprogram = $value);";
     $finalsql=mysql_query($sql) or exit('query failed: '.mysql_error());
-    $finalget=mysql_fetch_assoc($finalsql);
-    $e_name=$finalget['account_name'];
-    $e_mail=$finalget['email'];
+    while($finalget = mysql_fetch_assoc($finalsql))
+    {
+        $e_name=$finalget['account_name'];
+        $e_mail=$finalget['email'];
+        $str_emp_name = $e_name.", ".$str_emp_name;
+        $str_emp_email = $e_mail.", ".$str_emp_email;
+    }
     echo ' <table> ';
     echo " <tr><td style='width: 280px; padding-left: 0px !important;'>$typeinbangla-এর নাম্বার</td>
                         <td>:    $p_no</td >                
                     </tr>
                     <tr>
                         <td style='width: 280px; padding-left: 0px !important;'>$whoinbangla-এর নাম</td>
-                        <td>:    $e_name </td>            
+                        <td>:    $str_emp_name </td>            
                     </tr>
                     <tr>
                         <td style='width: 280px; padding-left: 0px !important;'>$whoinbangla-এর ইমেইল</td>
-                        <td>:    $e_mail</td>            
+                        <td>:    $str_emp_email</td>            
                     </tr>
                     <tr>
                         <td style='width: 280px; padding-left: 0px !important;'>তারিখ</td>
@@ -65,11 +70,11 @@ $sql = "SELECT * FROM cfs_user WHERE idUser = ANY( SELECT cfs_user_idUser FROM e
                     </tr>
                     <tr><td>
                     <input type='hidden' name='programID'' value=$value />
-                    <input type='hidden' name='programName'  value=$p_name />
-                    <input type='hidden' name='programDate'  value=$p_date />
-                    <input type='hidden' name='programTime' value=$p_time />
-                    <input type='hidden' name='emp_name' value=$e_name />
-                    <input type='hidden' name='emp_mail' value=$e_mail />
+                    <input type='hidden' name='programName'  value='$p_name' />
+                    <input type='hidden' name='programDate'  value='$p_date' />
+                    <input type='hidden' name='programTime' value='$p_time' />
+                    <input type='hidden' name='emp_name' value='$str_emp_name' />
+                    <input type='hidden' name='emp_mail' value='$str_emp_email' />
                     </td></tr>";
     echo '</table>';
 }
