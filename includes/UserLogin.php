@@ -57,6 +57,7 @@ function userLogin($Name, $Password, $db, $dbname) {
             /* reset the attempts counter on successful login */
             //echo "Field Value : ".$myrow['user_name']."<br/>";
             $_SESSION['UserID'] = $myrow['user_name'];
+            $_SESSION['userIDUser'] = $myrow['idUser'];
             $_SESSION['systemUser'] = "ripdSystem";
             $_SESSION['overallAccess'] = explode(",", $myrow['overall_access']);
             //echo " Session Value : ".$_SESSION['UserID'];
