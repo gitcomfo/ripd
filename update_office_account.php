@@ -12,8 +12,10 @@ $g_type = $_GET['pwr'];
 <script type="text/javascript" src="javascripts/dg-filter.js"></script>
 
 <script type="text/javascript">
-    function infoFromThana(type)
+    function infoFromThana()
     {
+        var type = <?php echo $g_type;?>;
+        alert(type);
         var xmlhttp;
         if (window.XMLHttpRequest) xmlhttp=new XMLHttpRequest();
         else xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
@@ -40,7 +42,7 @@ $g_type = $_GET['pwr'];
             <fieldset id="fieldset_style" style=" width: 90% !important; margin-left: 30px !important;" >
                 <?php
                     include_once 'includes/areaSearch.php';
-                    getArea("infoFromThana('$g_type')");
+                    getArea("infoFromThana()");
                     ?>
 <input type="hidden" id="method" value="infoFromThana()">
     সার্চ/খুঁজুন:  <input type="text" id="search_box_filter">
