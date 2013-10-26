@@ -245,7 +245,7 @@ if ($_GET['action'] == 'edit') {
 } else {
     ?>
     <div style="padding-top: 10px;">    
-        <div style="padding-left: 110px; width: 65%; float: left"><a href="index.php?apps=CA"><b>ফিরে যান</b></a></div>
+        <div style="padding-left: 110px; width: 65%; float: left"><a href="index.php?apps=AREA"><b>ফিরে যান</b></a></div>
         <div ><a href="village.php?action=new"> নতুন গ্রাম</a>&nbsp;&nbsp;<a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">গ্রামের লিস্ট</a></div>
     </div>
     <div>

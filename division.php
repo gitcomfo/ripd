@@ -129,7 +129,7 @@ if ($_GET['action'] == 'edit') {
 } else {
     ?>
     <div style="padding-top: 10px;">    
-        <div style="padding-left: 110px; width: 63%; float: left"><a href="index.php?apps=CA"><b>ফিরে যান</b></a></div>
+        <div style="padding-left: 110px; width: 63%; float: left"><a href="index.php?apps=AREA"><b>ফিরে যান</b></a></div>
         <div><a href="division.php?action=new"> নতুন বিভাগ </a>&nbsp;&nbsp;<a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">বিভাগের লিস্ট</a></div>
     </div>
     <div>

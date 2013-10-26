@@ -10,7 +10,7 @@ include 'includes/header.php';
 
 <div class="column6">
     <div class="main_text_box">
-        <div style="padding-left: 110px;"><a href="index.php?apps=CA"><b>ফিরে যান</b></a></div>
+        <div style="padding-left: 110px;"><a href="index.php?apps=CRM"><b>ফিরে যান</b></a></div>
         <div>
             <form method="POST" onsubmit="">	
                 <table  class="formstyle">          

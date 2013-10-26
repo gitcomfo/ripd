@@ -15,7 +15,6 @@ $g_type = $_GET['pwr'];
     function infoFromThana()
     {
         var type = <?php echo $g_type;?>;
-        alert(type);
         var xmlhttp;
         if (window.XMLHttpRequest) xmlhttp=new XMLHttpRequest();
         else xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
@@ -85,7 +84,7 @@ $g_type = $_GET['pwr'];
                         echo "<td>$db_offAN</td>";
                         echo "<td>$db_offAddress</td>";
                         $v = base64_encode($db_offID);
-                        echo "<td><a href='update_account.php?id=$v'>আপডেট.</a></td>";
+                        echo "<td><a href='update_account.php?id=$v&type=$g_type'>আপডেট.</a></td>";
                         echo "</tr>";
                     }
                     ?>

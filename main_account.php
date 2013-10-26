@@ -59,10 +59,14 @@ if($_POST['submit'])
             dateFormat: "%Y-%m-%d"
         });
     }
+    function goBack()
+    {
+        window.history.go(-1);
+    }
 </script>
 <div class="column6">
     <div class="main_text_box">
-        <div style="padding-left: 110px;"><a href="index.php?apps=OSP"><b>ফিরে যান</b></a></div> 
+        <div style="padding-left: 110px;"><a onclick="goBack();" style="cursor: pointer;"><b><u>ফিরে যান</u></b></a></div> 
         <div>            
             <form method="POST" onsubmit="">
                 <?php
