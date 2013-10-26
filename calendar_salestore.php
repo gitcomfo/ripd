@@ -80,7 +80,7 @@ if($_GET['action'] == 'viewCalendar'){
             $row_number = 1;
             //$dayNumber = 0;
             $weekly_holiday_desc = "";
-            $sql_WHday = "SELECT * from " . $dbname . ".weekly_holiday where office_type='salesStore' And offday_officeStore='$current_salestore_id'";
+            $sql_WHday = "SELECT * from " . $dbname . ".weekly_holiday where office_type='s_store' And office_store_id='$current_salestore_id'";
             $rs_WHday = mysql_query($sql_WHday);
             while ($row_WHday = mysql_fetch_array($rs_WHday)) {
                 $weekly_hd_value = $row_WHday['holiday_value'];
@@ -115,7 +115,7 @@ if($_GET['action'] == 'viewCalendar'){
                     $specialOnDay = '';
                     if (($i % $WHdayValue) == 0 OR ($i % $WHdayValue2) == 0) {
                         //*******Special Onday
-                        $sql_SODay = "SELECT * from ".$dbname.".special_onday where spN_date = '$CurDate' And office_type='salesStore' And offday_officeStore='$current_salestore_id'";
+                        $sql_SODay = "SELECT * from ".$dbname.".special_onday where spN_date = '$CurDate' And office_type='s_store' And office_store_id='$current_salestore_id'";
                         $rs_SODay = mysql_query($sql_SODay);
                         //echo "Rows from spOnday: ".mysql_num_rows($rs_SODay)."<br \>";
                         while ($row_SODay = mysql_fetch_array($rs_SODay)) {
@@ -140,7 +140,7 @@ if($_GET['action'] == 'viewCalendar'){
                             $RGHDayDesc = $row_RGHDay['rng_hd_description'];
                         }
                         if ($RGHDayDesc!="") {
-                            $sql_spOnDay = "SELECT * from ".$dbname.".special_onday where spN_date = '$CurDate' And office_type='salesStore' And offday_officeStore='$current_salestore_id'";
+                            $sql_spOnDay = "SELECT * from ".$dbname.".special_onday where spN_date = '$CurDate' And office_type='s_store' And office_store_id='$current_salestore_id'";
                             $rs_spOnDay = mysql_query($sql_spOnDay);
 
                             while ($row_spOnDay = mysql_fetch_array($rs_spOnDay)) {
@@ -153,7 +153,7 @@ if($_GET['action'] == 'viewCalendar'){
                                 echo "<td bgcolor= '$colorValueHDay' width = 11% height =40px><a class='tooltip date' title='$RGHDayDesc' href='#'><div height='40px' width = '100%'>" . $monthDate . "</div></a></td>";
                             }
                         } else {
-                            $sql_spOffDay = "SELECT * from ".$dbname.".special_offday where sp_off_day_date = '$CurDate' And office_type='salesStore' And offday_officeStore='$current_salestore_id'";
+                            $sql_spOffDay = "SELECT * from ".$dbname.".special_offday where sp_off_day_date = '$CurDate' And office_type='s_store' And office_store_id='$current_salestore_id'";
                             $rs_spOffDay = mysql_query($sql_spOffDay);
                             while ($row_spOffDay = mysql_fetch_array($rs_spOffDay)) {
                                 $specialOffDay = $row_spOffDay['sp_off_day_description'];

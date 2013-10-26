@@ -26,7 +26,7 @@ if (isset($_POST['submit']) && ($_GET['action'] == 'new')) {
         $flag = 'false';
     }
 }
-if (isset($_POST['submit']) && ($_GET['action'] == 'edit')) {
+if (isset($_POST['submit']) && ($_GET['action'] == 'edit')){
     $district_id = $_GET['did'];
     $district_name = $_POST ['district_name'];
     $sql12 = "update district set district_name='$district_name' where idDistrict='$district_id'";
@@ -122,7 +122,7 @@ if ($_GET['action'] == 'edit') {
                             $selected_district_name = $rows['district_name'];
 
                             $division_sql = mysql_query("SELECT * FROM division ORDER BY division_name ASC");
-                            while ($division_rows = mysql_fetch_array($division_sql)) {
+                            while ($division_rows = mysql_fetch_array($division_sql)){
                                 $db_division_id = $division_rows['idDivision'];
                                 $db_division_name = $division_rows['division_name'];
                                 if ($db_division_name == $selected_division_name) {

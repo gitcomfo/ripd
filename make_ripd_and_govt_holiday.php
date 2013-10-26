@@ -7,8 +7,8 @@ include 'includes/header.php';
 ?>
 <?php
 
-//$user_id = $_SESSION['UserID'];
-$user_id = "1";
+$user_id = $_SESSION['userIDUser'];
+//$user_id = "1";
 $flag = 'false';
 //*****************************************************************
 //select office or saleStore_id from cfs_user and office or store relationship using user_id .... Needed

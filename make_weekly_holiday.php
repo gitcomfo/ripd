@@ -5,21 +5,49 @@ include_once 'includes/ConnectDB.inc';
 session_start();
 ?>
 <?php
+$loginUSERname = $_SESSION['UserID'];
+$user_id = $_SESSION['userIDUser'];
+//echo ("$loginUSERname. user_id = .$user_id.<br/>");
+
+$queryemp = mysql_query("SELECT * FROM employee WHERE cfs_user_idUser = ANY(SELECT idUser FROM cfs_user WHERE user_name = '$loginUSERname');");
+$emprow = mysql_fetch_assoc($queryemp);
+$db_onsid = $emprow['emp_ons_id'];
+$queryonsr = mysql_query("SELECT * FROM ons_relation WHERE idons_relation ='$db_onsid' ;");
+$onsrow = mysql_fetch_assoc($queryonsr);
+$office_type = $onsrow['catagory'];
+$office_or_sales_store_id = $onsrow['add_ons_id'];
+switch ($office_type) {
+    case 'office' :
+        $offquery = mysql_query("SELECT * FROM office WHERE idOffice= '$office_or_sales_store_id';");
+        $offrow = mysql_fetch_assoc($offquery);
+        $db_offname = $offrow['office_name'];
+        $heading_name = "অফিসঃ (".$db_offname.")";        
+        break;
+
+    case 's_store' :
+        $salesquery = mysql_query("SELECT * FROM sales_store WHERE idSales_store=$office_or_sales_store_id");
+        $salesrow = mysql_fetch_assoc($salesquery);
+        $db_offname = $salesrow['salesStore_name'];
+        $heading_name = "সেলস স্টোরঃ (".$db_offname.")";
+        break;
+}
+
 //$user_id = $_SESSION['UserID'];
-$user_id = "1";
+//$user_id = "1";
 // find out office type and office_id or sales_store_id and sales_store_name using user_id
-$office_type = 'office';
-$office_or_sales_store_id = 1;
-$sales_store_name = 'সেলস স্টোর ০১';
+//$office_type = 'office';
+//$office_or_sales_store_id = 1;
+//$sales_store_name = 'সেলস স্টোর ০১';
 $flag_first_holiday = 'false';
 $flag_second_holiday = 'false';
+/*
 if($office_type=='office'){
     $heading_name = "অফিস";
 }
 if($office_type=='salesStore'){
     $heading_name = "সেলস স্টোর (".$sales_store_name.")";
 }
-
+*/
 if (isset($_POST['submit'])) {
     $fisrt_holiday_value = $_POST['first_weekly_holiday'];
     $second_holiday_value = $_POST['second_weekly_holiday'];
@@ -28,13 +56,13 @@ if (isset($_POST['submit'])) {
     //$office_id = 1;
     //echo "First Weekly Holiday: " . $fisrt_holiday_value . "\n" . " Second Weekly Holiday: " . $second_holiday_value . " UserID: " . $user_id . " Description: " . $holiday_description;
     //Check 1st Weekly Holiday entry in weekly holiday Table
-    $check_first_whd_sql = mysql_query("SELECT * from " . $dbname . ".weekly_holiday where office_type = '$office_type' And holiday_serial = '1' And offday_officeStore='$office_or_sales_store_id'");
+    $check_first_whd_sql = mysql_query("SELECT * from " . $dbname . ".weekly_holiday where office_type = '$office_type' And holiday_serial = '1' And office_store_id='$office_or_sales_store_id'");
     $check_first_whd_row_number = mysql_num_rows($check_first_whd_sql);
     //Check 1st Weekly Holiday entry in weekly holiday Table
-    $check_second_whd_sql = mysql_query("SELECT * from " . $dbname . ".weekly_holiday where office_type = '$office_type' And holiday_serial = '2' And offday_officeStore='$office_or_sales_store_id'");
+    $check_second_whd_sql = mysql_query("SELECT * from " . $dbname . ".weekly_holiday where office_type = '$office_type' And holiday_serial = '2' And office_store_id='$office_or_sales_store_id'");
     $check_second_whd_row_number = mysql_num_rows($check_second_whd_sql);
     if ($check_first_whd_row_number < 1) {
-        $sql_insert_weekly_holiday_first = "INSERT into " . $dbname . ".weekly_holiday (holiday_value, holiday_serial, office_type, wh_description, wh_insert_date, cfs_user_idUser, offday_officeStore) 
+        $sql_insert_weekly_holiday_first = "INSERT into " . $dbname . ".weekly_holiday (holiday_value, holiday_serial, office_type, wh_description, wh_insert_date, cfs_user_idUser, office_store_id) 
                                                     VALUES ('$fisrt_holiday_value', '1', '$office_type', '$holiday_description', NOW(), '$user_id', '$office_or_sales_store_id')";
         if (mysql_query($sql_insert_weekly_holiday_first)) {
             $flag_first_holiday = 'true';
@@ -43,7 +71,7 @@ if (isset($_POST['submit'])) {
             //break;
         }
     } elseif ($check_first_whd_row_number > 0) {
-        $sql_update_weekly_holiday_first = "UPDATE " . $dbname . ".weekly_holiday SET holiday_value='$fisrt_holiday_value', wh_description='$holiday_description', wh_insert_date=NOW(),cfs_user_idUser='$user_id' where office_type = '$office_type' And holiday_serial = '1' And offday_officeStore='$office_or_sales_store_id'";
+        $sql_update_weekly_holiday_first = "UPDATE " . $dbname . ".weekly_holiday SET holiday_value='$fisrt_holiday_value', wh_description='$holiday_description', wh_insert_date=NOW(),cfs_user_idUser='$user_id' where office_type = '$office_type' And holiday_serial = '1' And office_store_id='$office_or_sales_store_id'";
         if (mysql_query($sql_update_weekly_holiday_first)) {
             $flag_first_holiday = 'true';
         } else {
@@ -54,7 +82,7 @@ if (isset($_POST['submit'])) {
         
     }
     if ($check_second_whd_row_number < 1) {
-        $sql_insert_weekly_holiday_second = "INSERT into " . $dbname . ".weekly_holiday (holiday_value, holiday_serial, office_type, wh_description, wh_insert_date, cfs_user_idUser, offday_officeStore) 
+        $sql_insert_weekly_holiday_second = "INSERT into " . $dbname . ".weekly_holiday (holiday_value, holiday_serial, office_type, wh_description, wh_insert_date, cfs_user_idUser, office_store_id) 
                                                     VALUES ('$second_holiday_value', '2', '$office_type', '$holiday_description', NOW(), '$user_id', '$office_or_sales_store_id')";
         if (mysql_query($sql_insert_weekly_holiday_second)) {
             $flag_second_holiday = 'true';
@@ -63,7 +91,7 @@ if (isset($_POST['submit'])) {
             //break;
         }
     } elseif ($check_second_whd_row_number > 0) {
-        $sql_update_weekly_holiday_second = "UPDATE " . $dbname . ".weekly_holiday SET holiday_value='$second_holiday_value', wh_description='$holiday_description', wh_insert_date=NOW(),cfs_user_idUser='$user_id' where office_type = '$office_type' And holiday_serial = '2' And offday_officeStore='$office_or_sales_store_id'";
+        $sql_update_weekly_holiday_second = "UPDATE " . $dbname . ".weekly_holiday SET holiday_value='$second_holiday_value', wh_description='$holiday_description', wh_insert_date=NOW(),cfs_user_idUser='$user_id' where office_type = '$office_type' And holiday_serial = '2' And office_store_id='$office_or_sales_store_id'";
         if (mysql_query($sql_update_weekly_holiday_second)) {
             $flag_second_holiday = 'true';
         } else {
@@ -90,7 +118,7 @@ $second_weekly_holiday = '';
 $weekly_hd_desc = "";
 //$weekly_hd_row = 1;
 
-$sql_weekly_hd = mysql_query("SELECT * from " . $dbname . ".weekly_holiday where office_type = '$office_type' And offday_officeStore='$office_or_sales_store_id'");
+$sql_weekly_hd = mysql_query("SELECT * from " . $dbname . ".weekly_holiday where office_type = '$office_type' And office_store_id='$office_or_sales_store_id'");
 while ($row_weekly_hd = mysql_fetch_array($sql_weekly_hd)) {
     $weekly_hd_serial = $row_weekly_hd['holiday_serial'];
     if ($weekly_hd_serial == '1') {
