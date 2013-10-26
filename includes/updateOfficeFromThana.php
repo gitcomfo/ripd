@@ -1,5 +1,6 @@
 <?php
             include 'getSelectedThana.php';
+            $gettype = $_GET['type'];
 ?>
 
     <span id="office">
@@ -18,8 +19,15 @@
                 <tbody>                    
                     <?php
                     $joinArray = implode(',', $arr_thanaID);
-                    $sql_officeTable = "SELECT * from ".$dbname.".office WHERE Thana_idThana IN ($joinArray) ORDER BY office_name ASC";
+                    if($gettype==1)
+                    {
+                    $sql_officeTable = "SELECT * from ".$dbname.".office WHERE office_type = 'pwr_head' AND Thana_idThana IN ($joinArray) ORDER BY office_name ASC";
                     $rs = mysql_query($sql_officeTable);
+                    }
+                    else{
+                    $sql_officeTable = "SELECT * from ".$dbname.".office WHERE office_type <> 'pwr_head' AND Thana_idThana IN ($joinArray) ORDER BY office_name ASC";
+                    $rs = mysql_query($sql_officeTable);
+                    }
 
                     //echo mysql_num_rows($rs);
                     while ($row_officeNcontact = mysql_fetch_array($rs)) {
