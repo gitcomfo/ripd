@@ -63,6 +63,26 @@ if($_POST['submit'])
     {
         window.history.go(-1);
     }
+        function numbersonly(e)
+   {
+        var unicode=e.charCode? e.charCode : e.keyCode
+            if (unicode!=8)
+            { //if the key isn't the backspace key (which we should allow)
+                if (unicode<48||unicode>57) //if not a number
+                return false //disable key press
+            }
+}
+   function checkIt(evt) // float value-er jonno***********************
+    {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode ==8 || (charCode >47 && charCode <58) || charCode==46) {
+        status = "";
+        return true;
+    }
+    status = "This field accepts numbers only.";
+    return false;
+}
 </script>
 <div class="column6">
     <div class="main_text_box">
@@ -84,15 +104,15 @@ if($_POST['submit'])
                     </tr>
                     <tr>
                         <td >একাউন্ট নাম্বার</td>
-                        <td>:   <input class='box' type='text' id='acc_num' name='acc_num' /></td>			
+                        <td>:   <input class='box' type='text' id='acc_num' name='acc_num' /> <em>ইংরেজিতে লিখুন</em></td>			
                     </tr>
                     <tr>
                         <td >ই মেইল</td>
-                       <td>:   <input class='box' type='text' id='email' name='email' /></td>			
+                       <td>:   <input class='box' type='text' id='email' name='email' /> <em>ইংরেজিতে লিখুন</em></td>			
                     </tr>
                     <tr>
                         <td >মোবাইল</td>
-                        <td>:   <input class='box' type='text' id='mobile' name='mobile' /></td>		
+                        <td>:   <input class='box' type='text' id='mobile' name='mobile' onkeypress=' return numbersonly(event)' /></td>		
                     </tr>";
                     if($input == "customer")
                             {
@@ -108,15 +128,15 @@ if($_POST['submit'])
                     </tr>   
                     <tr>
                         <td>ইউজারের নাম</td>
-                      <td>:   <input class='box' type='text' id='username' name='username' /></td>
+                      <td>:   <input class='box' type='text' id='username' name='username' /> <em>ইংরেজিতে লিখুন</em></td>
                     </tr>   
                     <tr>
                         <td>পাসওয়ার্ড</td>
-                       <td>:   <input class='box' type='password' id='password' name='password' /></td>
+                       <td>:   <input class='box' type='password' id='password' name='password' /> <em>ইংরেজিতে লিখুন</em></td>
                     </tr>
                     <tr>
                         <td>কনফার্ম পাসওয়ার্ড</td>
-                       <td>:   <input class='box' type='password' id='password' name='password' /></td>
+                       <td>:   <input class='box' type='password' id='password' name='password' /> <em>ইংরেজিতে লিখুন</em></td>
                     </tr>
                     <tr>
                         <td colspan='2' ><hr /></td>

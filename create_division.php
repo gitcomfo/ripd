@@ -1,8 +1,6 @@
 <?php include_once 'includes/header.php';
 ?>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<style type="text/css">@import "css/bush.css";</style>
 
 <div class="columnSld" style=" padding-left: 50px;">
     <div class="main_text_box">
@@ -11,7 +9,6 @@
             <form method="POST" onsubmit="">	
                 <table class="formstyle"  style=" width: 98%; ">          
                     <tr><th style="text-align: center" colspan="2"><h1>বিভাগ তৈরির ফর্ম</h1></th></tr>
-
                     <tr><td colspan="2"></td></tr>
                     <tr>
                         <td>বিভাগ নাম</td>
@@ -27,6 +24,3 @@
     </div>
 </div>
 <?php include_once 'includes/footer.php'; ?>
-
-
-
