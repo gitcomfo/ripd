@@ -2,6 +2,10 @@
 error_reporting(0);
 include 'includes/ConnectDB.inc';
 include_once 'includes/header.php';
+include './includes/connectionPDO.php';
+
+$sql_mod_ins= $conn->prepare("INSERT INTO security_modules (module_name,module_desc) VALUES (?, ?);");
+$sql_mod_sel = $conn->prepare("SELECT * FROM security_modules");
 ?>
 <?php
 $flag = 'false';
@@ -14,24 +18,12 @@ function showMessage($flag, $msg) {
         }
     }
 }
-
-if (isset($_POST['submit']) && ($_GET['action'] == 'new')) {
-    $division = $_POST ['new_division'];
-    $sql = "insert into division (division_name)values('$division')";
-    if (mysql_query($sql)) {
-        $msg = "আপনি সফলভাবে " . $division . " নামে নতুন বিভাগটি তৈরি করেছেন";
-        $flag = 'true';
-    } else {
-        $msg = "দুঃখিত, আবার চেষ্টা করুন";
-        $flag = 'false';
-    }
-}
-if (isset($_POST['submit']) && ($_GET['action'] == 'edit')) {
-    $division_id = $_GET['id'];
-    $division_name = $_POST ['division_name'];
-    $sql = "update division set division_name='$division_name' where idDivision='$division_id'";
-    if (mysql_query($sql)) {
-        $msg = "আপনি সফলভাবে " . $division_name . " বিভাগ নামে তথ্য পরিবর্তন করেছেন";
+if (isset($_POST['submit'])) {
+    $p_modname = $_POST ['new_module'];
+    $p_moddes = $_POST ['module_des'];
+    $mod_ins = $sql_mod_ins->execute(array($p_modname,$p_moddes));
+    if ($mod_ins==1) {
+        $msg = "আপনি সফলভাবে " . $p_modname . " নামে নতুন মডিউলটি তৈরি করেছেন";
         $flag = 'true';
     } else {
         $msg = "দুঃখিত, আবার চেষ্টা করুন";
@@ -40,34 +32,20 @@ if (isset($_POST['submit']) && ($_GET['action'] == 'edit')) {
 }
 ?>
 
-<title>পেজ মডিউল</title>
-<script type="text/javascript">
-    function  isBlankDivision_new()
-    {
-        var y=document.forms["division"]["division_name_new"].value;
-        if (y == null || y == "")
-        {
-            alert("বিভাগের নাম পূরন করুন");
-            return false;
-        }
-    }
-    function isBlankDivision_edit()
-    {
-        var x=document.forms["division"]["division_name_edit"].value;
-        if (x== null || x== "")
-        {
-            alert("বিভাগের নাম পূরন করুন");
-            return false;
-        }
-       
-    }
-</script>
+<title>মডিউল</title>
 <style type="text/css">@import "css/bush.css";</style>
+<link rel="stylesheet" href="css/tinybox.css" type="text/css" media="screen" charset="utf-8"/>
+<script src="javascripts/tinybox.js" type="text/javascript"></script>
+  <script type="text/javascript">
+ function editModule(id)
+	{ TINY.box.show({iframe:'security_module_edit.php?modid='+id,width:500,height:240,opacity:30,topsplit:3,animate:true,close:true,maskid:'bluemask',maskopacity:50,boxid:'success'}); }
+ </script>
+
     <?php
 if ($_GET['action'] == 'list') {
     ?>
     <div style="padding-top: 10px;font-size: 14px;">    
-        <div style="padding-left: 110px; width: 58%; float: left"><a href=""><b>ফিরে যান</b></a></div>
+        <div style="padding-left: 110px; width: 58%; float: left"><a href="index.php?apps=COMM"><b>ফিরে যান</b></a></div>
         <div><a href="security_module.php"> নতুন মডিউল </a>&nbsp;&nbsp;<a href="security_module.php?action=list">মডিউলের লিস্ট</a></div>
     </div>
 <div style="font-size: 14px;font-family: SolaimanLipi !important;">
@@ -86,17 +64,22 @@ if ($_GET['action'] == 'list') {
                                 <td style="background-color: #89C2FA; width: 10%;">করনীয়</td>
                             </tr>
                             <?php
-                            $result = mysql_query("select * from division");
-                            while ($row = mysql_fetch_array($result)) {
-                                $division_id = $row['idDivision'];
-                                $division_name = $row['division_name'];
-                                echo "  <tr>
-                                <td>$division_name</td>
-                                <td>$division_name</td>
-                                <td>$division_name</td>
-                                <td style='text-align: center ' > <a href='division.php?action=edit&id=$division_id'> এডিট </a></td>  
-                            </tr>";
-                            }
+                                $sl = 1;
+                                $sql_mod_sel->execute();
+                                $modrow = $sql_mod_sel->fetchAll();
+                                foreach ($modrow as $row) {
+                                    $bnSl = english2bangla($sl);
+                                    $db_modID = $row['idsecuritymod'];
+                                    $db_modname = $row['module_name'];
+                                    $db_moddes = $row['module_desc'];
+                                    echo "  <tr>
+                                    <td>$bnSl</td>
+                                    <td>$db_modname</td>
+                                    <td>$db_moddes</td>
+                                    <td style='text-align: center ' ><a onclick='editModule($db_modID)' style='cursor:pointer;color:blue;'><u>এডিট</u></a></td>  
+                                    </tr>";
+                                      $sl++;
+                                        }
                             ?>
                         </table>
                     </td>
@@ -108,9 +91,9 @@ if ($_GET['action'] == 'list') {
 } else {
     ?>
 <div style="font-size: 14px;">
-    <form  action="" onsubmit="return isBlankDivision_new()" method="post" style="font-family: SolaimanLipi !important;">
+    <form  action="" method="post" style="font-family: SolaimanLipi !important;">
             <div style="padding-top: 10px;">    
-                <div style="padding-left: 110px; width: 58%; float: left"><a href=""><b>ফিরে যান</b></a></div>
+                <div style="padding-left: 110px; width: 58%; float: left"><a href="index.php?apps=COMM"><b>ফিরে যান</b></a></div>
                 <div style=" float: left" ><a href="security_module.php"> নতুন মডিউল </a>&nbsp;&nbsp;<a href="security_module.php?action=list">মডিউলের লিস্ট</a></div>
             </div>
             <table class="formstyle" style =" width:78%;font-family: SolaimanLipi !important;">        

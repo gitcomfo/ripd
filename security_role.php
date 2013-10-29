@@ -73,7 +73,7 @@ if (isset($_POST['submit']) && ($_GET['action'] == 'edit')) {
 if ($_GET['action'] == 'list') {
     ?>
     <div style="padding-top: 10px;font-size: 14px;">    
-        <div style="padding-left: 110px; width: 62%; float: left"><a href=""><b>ফিরে যান</b></a></div>
+        <div style="padding-left: 110px; width: 62%; float: left"><a href="index.php?apps=COMM"><b>ফিরে যান</b></a></div>
         <div><a href="security_role.php"> নতুন রোল </a>&nbsp;&nbsp;<a href="security_role.php?action=list">রোল লিস্ট</a></div>
     </div>
 <div style="font-size: 14px;font-family: SolaimanLipi !important;">
@@ -112,7 +112,7 @@ if ($_GET['action'] == 'list') {
 <div style="font-size: 14px;">
     <form  action="" onsubmit="return isBlankDivision_new()" method="post" style="font-family: SolaimanLipi !important;">
             <div style="padding-top: 10px;">    
-                <div style="padding-left: 110px; width: 62%; float: left"><a href=""><b>ফিরে যান</b></a></div>
+                <div style="padding-left: 110px; width: 62%; float: left"><a href="index.php?apps=COMM"><b>ফিরে যান</b></a></div>
                 <div style=" float: left" ><a href="security_role.php"> নতুন রোল </a>&nbsp;&nbsp;<a href="security_role.php?action=list">রোল লিস্ট</a></div>
             </div>
             <table class="formstyle" style =" width:78%;font-family: SolaimanLipi !important;">        
