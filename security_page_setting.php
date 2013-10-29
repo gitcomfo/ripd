@@ -2,6 +2,26 @@
 error_reporting(0);
 include 'includes/ConnectDB.inc';
 include_once 'includes/header.php';
+include './includes/connectionPDO.php';
+function getPages()
+{ 
+    echo  "<option value=0> -সিলেক্ট করুন- </option>";
+     foreach (glob("*.php") as $filename) {
+    echo  "<option value=".$filename.">".$filename."</option>";
+    }
+}
+function getSubmodules()
+{
+    echo  "<option value=0> -সিলেক্ট করুন- </option>";
+    $modRslt= mysql_query("SELECT * FROM securiy_submodules ORDER BY submod_name;");
+    while($modrow = mysql_fetch_assoc($modRslt))
+    {
+	echo  "<option value=".$modrow['idsecuritysubmod'].">".$modrow['submod_name']."</option>";
+    }
+}
+$sql_page_ins= $conn->prepare("INSERT INTO security_pages (page_name, page_view_name, page_desc, page_create_date, security_submodule_idsecuritysubmod) VALUES (?, ?, ?, NOW() ,?);");
+$sql_page_sel = $conn->prepare("SELECT * FROM security_pages");
+$sql_sel = $conn->prepare("SELECT * FROM security_modules,securiy_submodules WHERE idsecuritymod = security_module_idsecuritymod AND idsecuritysubmod = ?");
 ?>
 <?php
 $flag = 'false';
@@ -15,23 +35,14 @@ function showMessage($flag, $msg) {
     }
 }
 
-if (isset($_POST['submit']) && ($_GET['action'] == 'new')) {
-    $division = $_POST ['new_division'];
-    $sql = "insert into division (division_name)values('$division')";
-    if (mysql_query($sql)) {
-        $msg = "আপনি সফলভাবে " . $division . " নামে নতুন বিভাগটি তৈরি করেছেন";
-        $flag = 'true';
-    } else {
-        $msg = "দুঃখিত, আবার চেষ্টা করুন";
-        $flag = 'false';
-    }
-}
-if (isset($_POST['submit']) && ($_GET['action'] == 'edit')) {
-    $division_id = $_GET['id'];
-    $division_name = $_POST ['division_name'];
-    $sql = "update division set division_name='$division_name' where idDivision='$division_id'";
-    if (mysql_query($sql)) {
-        $msg = "আপনি সফলভাবে " . $division_name . " বিভাগ নামে তথ্য পরিবর্তন করেছেন";
+if (isset($_POST['submit'])) {
+    $p_parentsubmod = $_POST ['sub_module'];
+    $p_pagename = $_POST ['page'];
+    $p_pageviewname = $_POST ['page_view'];
+    $p_pagedes = $_POST ['pagedescription'];
+    $submod_ins = $sql_page_ins->execute(array($p_pagename,$p_pageviewname, $p_pagedes,$p_parentsubmod));
+    if ($submod_ins==1) {
+        $msg = "ঠিক আছে";
         $flag = 'true';
     } else {
         $msg = "দুঃখিত, আবার চেষ্টা করুন";
@@ -41,28 +52,13 @@ if (isset($_POST['submit']) && ($_GET['action'] == 'edit')) {
 ?>
 
 <title>পেজ সেটিং</title>
-<script type="text/javascript">
-    function  isBlankDivision_new()
-    {
-        var y=document.forms["division"]["division_name_new"].value;
-        if (y == null || y == "")
-        {
-            alert("বিভাগের নাম পূরন করুন");
-            return false;
-        }
-    }
-    function isBlankDivision_edit()
-    {
-        var x=document.forms["division"]["division_name_edit"].value;
-        if (x== null || x== "")
-        {
-            alert("বিভাগের নাম পূরন করুন");
-            return false;
-        }
-       
-    }
-</script>
 <style type="text/css">@import "css/bush.css";</style>
+<link rel="stylesheet" href="css/tinybox.css" type="text/css" media="screen" charset="utf-8"/>
+<script src="javascripts/tinybox.js" type="text/javascript"></script>
+  <script type="text/javascript">
+ function editPage(id)
+	{ TINY.box.show({iframe:'security_page_edit.php?pageid='+id,width:500,height:310,opacity:30,topsplit:3,animate:true,close:true,maskid:'bluemask',maskopacity:50,boxid:'success'}); }
+ </script>
     <?php
 if ($_GET['action'] == 'list') {
     ?>
@@ -80,23 +76,32 @@ if ($_GET['action'] == 'list') {
                     <td>
                         <table style="width: 100%;padding-right: 12px;">                         
                             <tr id = "table_row_odd">
-                                <td style="background-color: #89C2FA; width: 10%;" >পেজের নাম</td>
-                                <td style="background-color: #89C2FA; width: 20%;">পেজের ভিউ নাম</td>
-                                <td style="background-color: #89C2FA; width: 40%;">সাব-মডিউলের</td>
+                                <td style="background-color: #89C2FA; width: 30%;" >পেজের নাম</td>
+                                <td style="background-color: #89C2FA; width: 20%;">পেজভিউ নাম</td>
+                                <td style="background-color: #89C2FA; width: 20%;">সাব-মডিউলের নাম</td>
                                 <td style="background-color: #89C2FA; width: 20%;">মডিউলের নাম</td>
                                 <td style="background-color: #89C2FA; width: 10%;">করনীয়</td>
                             </tr>
                             <?php
-                            $result = mysql_query("select * from division");
-                            while ($row = mysql_fetch_array($result)) {
-                                $division_id = $row['idDivision'];
-                                $division_name = $row['division_name'];
+                                  $sql_page_sel->execute();
+                                $pagerow = $sql_page_sel->fetchAll();
+                                foreach ($pagerow as $row) {
+                                $pageID = $row['idsecuritypage'];
+                                $db_pagename = $row['page_name'];
+                                $db_pageviewname = $row['page_view_name'];
+                                $db_submodid = $row['security_submodule_idsecuritysubmod'];
+                                $sql_sel->execute(array($db_submodid));
+                                $modrow = $sql_sel->fetchAll();
+                                foreach ($modrow as $value) {
+                                    $db_modulename = $value['module_name'];
+                                    $db_submodulename = $value['submod_name'];
+                                }
                                 echo "  <tr>
-                                <td>$division_name</td>
-                                <td>$division_name</td>
-                                <td>$division_name</td>
-                                <td>$division_name</td>
-                                <td style='text-align: center ' > <a href='division.php?action=edit&id=$division_id'> এডিট </a></td>  
+                                <td>$db_pagename</td>
+                                <td>$db_pageviewname</td>
+                                <td>$db_submodulename</td>
+                                <td>$db_modulename</td>
+                                <td style='text-align: center ' ><a onclick='editPage($pageID)' style='cursor:pointer;color:blue;'><u>এডিট</u></a></td>  
                             </tr>";
                             }
                             ?>
@@ -110,7 +115,7 @@ if ($_GET['action'] == 'list') {
 } else {
     ?>
 <div style="font-size: 14px;">
-    <form  action="" onsubmit="return isBlankDivision_new()" method="post" style="font-family: SolaimanLipi !important;">
+    <form  action="" method="post" style="font-family: SolaimanLipi !important;">
             <div style="padding-top: 10px;">    
                 <div style="padding-left: 110px; width: 62%; float: left"><a href="index.php?apps=COMM"><b>ফিরে যান</b></a></div>
                 <div style=" float: left" ><a href="security_page_setting.php"> নতুন পেজ </a>&nbsp;&nbsp;<a href="security_page_setting.php?action=list">পেজ লিস্ট</a></div>
@@ -124,22 +129,22 @@ if ($_GET['action'] == 'list') {
                 ?>
                  <tr>
                     <td style="text-align: center; width: 50%;">পেজের নাম</td>
-                    <td>: <select  class="box"  name="new_module"  id="new_module" >
-                            <option></option>
+                    <td>: <select  class="box"  name="page" style="width: 250px; height: 25px;">
+                            <?php getPages();?>
                         </select></td>   
                 </tr>
                 <tr>
                     <td style="text-align: center; width: 50%;">পেজের ভিউ নাম</td>
-                    <td>: <input  class="box" type="text" name="new_module"  id="new_module" value=""/></td>   
+                    <td>: <input  class="box" type="text" name="page_view"></td>   
                 </tr>
                 <tr>
                     <td style="text-align: center; width: 50%;">পেজের বর্ণনা</td>
-                    <td> <textarea  class="box" type="text" name="module_des"  id="module_des" value=""></textarea></td>   
+                    <td> <textarea  class="box" type="text" name="pagedescription"></textarea></td>   
                 </tr>
                 <tr>
                     <td style="text-align: center; width: 50%;">সাব-মডিউলের নাম</td>
-                    <td>:  <select  class="box"  name="new_module"  id="new_module" >
-                            <option></option>
+                    <td>:  <select  class="box"  name="sub_module"  style="height: 25px;" >
+                            <?php echo getSubmodules();?>
                         </select></td>   
                 </tr>     
                 <tr>

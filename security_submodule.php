@@ -94,7 +94,7 @@ if ($_GET['action'] == 'list') {
                                 <td>$db_submoddes</td>
                                 <td>$db_modulename</td>
                                 <td style='text-align: center ' ><a onclick='editSubModule($submodID)' style='cursor:pointer;color:blue;'><u>এডিট</u></a></td>  
-                            </tr>";
+                            </tr>"; $sl++;
                             }
                             ?>
                         </table>
