@@ -39,6 +39,9 @@ if (isset($_POST['submit'])) {
   <script type="text/javascript">
  function editRole(id)
 	{ TINY.box.show({iframe:'security_role_edit.php?roleid='+id,width:500,height:280,opacity:30,topsplit:3,animate:true,close:true,maskid:'bluemask',maskopacity:50,boxid:'success'}); }
+function setRole(id)
+	{ TINY.box.show({iframe:'security_role_setting.php?roleid='+id,width:700,height:600,opacity:30,topsplit:3,animate:true,close:true,maskid:'bluemask',maskopacity:50,boxid:'success'}); }
+        
  </script>
 <style type="text/css">@import "css/bush.css";</style>
     <?php
@@ -69,7 +72,8 @@ if ($_GET['action'] == 'list') {
                                 $db_roleid = $row['idsecurityrole'];
                                 echo "  <tr>
                                 <td>$db_rolename</td>
-                               <td style='text-align: center ' ><a onclick='editRole($db_roleid)' style='cursor:pointer;color:blue;'><u>এডিট</u></a></td>  
+                               <td style='text-align: center ' ><a onclick='editRole($db_roleid)' style='cursor:pointer;color:blue;'><u>এডিট করুন</u></a>
+                                   &nbsp;&nbsp;&nbsp;<a onclick='setRole($db_roleid)' style='cursor:pointer;color:yellow;'><u>সেটিং করুন</u></a></td>
                             </tr>";
                             }
                             ?>
