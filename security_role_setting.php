@@ -10,7 +10,7 @@ $db_rolname = $rolrow['role_name'];
 $msg ="";
 function getUsedSubMod($id)
 {
-    $submodRslt= mysql_query("SELECT * FROM security_groups, securiy_submodules WHERE security_role_idsecurityrole = $id AND security_submodule_idsecuritysubmod = idsecuritysubmod");
+    $submodRslt= mysql_query("SELECT * FROM security_groups, securiy_submodules WHERE security_roles_idsecurityrole = $id AND security_submodules_idsecuritysubmod = idsecuritysubmod");
     while($submodrow = mysql_fetch_assoc($submodRslt))
     {
 	echo  "<option value=".$submodrow['idsecuritysubmod'].">".$submodrow['submod_name']."</option>";
@@ -19,7 +19,7 @@ function getUsedSubMod($id)
 function getUnusedSubMod($id)
 {
     $submodRslt= mysql_query("SELECT * FROM securiy_submodules WHERE idsecuritysubmod NOT IN 
-                                                (SELECT security_submodule_idsecuritysubmod FROM security_groups WHERE security_role_idsecurityrole = $id);");
+                                                (SELECT security_submodules_idsecuritysubmod FROM security_groups WHERE security_roles_idsecurityrole = $id);");
     while($submodrow = mysql_fetch_assoc($submodRslt))
     {
 	echo  "<option value=".$submodrow['idsecuritysubmod'].">".$submodrow['submod_name']."</option>";
@@ -27,11 +27,15 @@ function getUnusedSubMod($id)
 }
 if(isset($_POST['update']))
 {
-    $p_name = $_POST['optionlist'];
-    print_r($p_name);
-    $p_des = $_POST['up_roledes'];
+    $p_str_submodlist = $_POST['optionlist'];
+    $arr_submodlist = explode(',', $p_str_submodlist);
     $p_id = $_POST['roleID'];
-    //$upquery = mysql_query("UPDATE `security_roles` SET `role_name` = '$p_name', `role_desc` = '$p_des' WHERE `idsecurityrole` =$p_id");
+    
+    $delquery = mysql_query("DELETE * FROM security_groups WHERE security_role_idsecurityrole = $p_id");
+    for($i=0;$i<count($arr_submodlist);$i++) {
+        $value= $arr_submodlist[$i];
+        $upquery = mysql_query("INSERT INTO security_groups (security_roles_idsecurityrole,security_submodules_idsecuritysubmod) VALUES ($p_id,$value);");
+    }    
     if ($upquery ==1)
 	{$msg = "আপডেট হয়েছে"; }
         else { $msg ="আপডেট হয়নি"; }
@@ -39,7 +43,7 @@ if(isset($_POST['update']))
 
 ?>
 <script>
-    function out()
+function out()
     {
         setTimeout(function(){parent.location.href=parent.location.href;},1000);
     }
@@ -50,9 +54,9 @@ if(isset($_POST['update']))
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <style type="text/css"> @import "css/bush.css";</style>
 <script type="text/javaScript">
-        function moveToRightOrLeft(side)
+     function moveToRightOrLeft(side)
         {
-            var listLeft=document.getElementById('selectLeft');
+            var listLeft= document.getElementById('selectLeft');
             var listRight=document.getElementById('selectRight');
 
             if(side==1) // left to right
@@ -97,17 +101,18 @@ if(isset($_POST['update']))
             listBoxTo.add(newOption, null);
             return true;
         }
-// for option value list making
-/*
-$(document).ready(function(){
-$("#update").click ( function() {
-        var arr_options = new Array;
-        $("#selectLeft").each ( function() {
-            arr_options.push ( $(this).val() );
-        });
-        $(#optionlist).val(arr_options);
-    });
-});*/
+</script>
+<script type="text/javascript">
+function show()
+{
+var arr = new Array();
+var select1 = document.getElementById('selectLeft');
+
+for(var i=0; i < select1.options.length; i++){
+    arr.push(select1.options[i].value);
+}
+document.getElementById('optionlist').value = arr.toString();
+}
 </script>
 </head>
 <body>
@@ -118,7 +123,7 @@ $("#update").click ( function() {
                     <tr>
                     <td style="text-align: center; width: 50%;">রোল নাম</td>
                     <td>: <?php echo $db_rolname;?><input type="hidden" name="roleID" value="<?php echo $g_roleid;?>" />
-                        <input type="hidden" name="optionlist[]" id="optionlist" /></td>   
+                        <input type="hidden" name="optionlist" id="optionlist" /></td>   
                     </tr>
                      <tr>
                          <td colspan="2">
@@ -154,7 +159,7 @@ $("#update").click ( function() {
                          </td>  
                     </tr>
                     <tr>                    
-                        <td colspan="2" style="padding-left: 150px; " ></br><input class="btn" style =" font-size: 12px; " type="submit" name="update" value="আপডেট করুন" />
+                        <td colspan="2" style="padding-left: 150px; " ></br><input class="btn" style =" font-size: 12px; " type="submit" id="update" onclick="show()" name="update" value="আপডেট করুন" />
                         <input class="btn" style =" font-size: 12px" type="reset" name="reset" value="রিসেট করুন" /></td>                           
                     </tr>
                     <?php }    
