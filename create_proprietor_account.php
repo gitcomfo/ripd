@@ -4,10 +4,18 @@ include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include_once 'includes/header.php';
 include_once 'includes/MiscFunctions.php';
+function showPowerHeads()
+{
+    echo  "<option value=0> -সিলেক্ট করুন- </option>";
+    $sql_office= mysql_query("SELECT * FROM office WHERE office_type='pwr_head' ORDER BY office_name;");
+    while($headrow = mysql_fetch_assoc($sql_office))
+    {
+        echo  "<option value=".$headrow['account_number'].">".$headrow['office_name']."</option>";
+    }
+}
 ?>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<title>প্রোপ্রাইটার ফর্ম পূরণ</title>
+<style type="text/css">@import "css/bush.css";</style>
 <script type="text/javascript" src="javascripts/division_district_thana.js"></script>
 <script type="text/javascript" src="javascripts/jquery-1.4.3.min.js"></script>
 <script type="text/javascript">    
@@ -33,7 +41,13 @@ include_once 'includes/MiscFunctions.php';
             $("#container_others33:last").after(appendTxt);           
         }  
         count4 = count4 + 1;        
-    })        
+    })    
+</script>
+<script type="text/javascript">
+    function showAccountNo(account)
+    {
+        document.getElementById('powerStore_accountNumber').value= account;
+    }
 </script>
 <?php
 if (isset($_POST['submit1'])) {
@@ -269,16 +283,12 @@ if (isset($_POST['submit1'])) {
                     ?>
                     <tr>
                         <td>পাওয়ার স্টোরের নাম</td>
-                        <td >:  <select  class="box2"  name="powerStore_name" style =" font-size: 11px">
-                                <option > একটি নির্বাচন করুন</option>
-                                <option value=1></option>
-                                <option value=2></option>
-                                <option value=3></option>
-                                <option value=4></option> 
+                        <td >:  <select  class="box2"  name="powerStore_name" style =" font-size: 11px" onchange="showAccountNo(this.value)">
+                                <?php showPowerHeads();?>
                             </select>	
                         </td>
                         <td >একাউন্ট নং </td>
-                        <td>:  <input class="box" type="text" id="powerStore_accountNumber" name="powerStore_accountNumber" /></td>	
+                        <td>:  <input class="box" type="text" readonly="" id="powerStore_accountNumber" name="powerStore_accountNumber" /></td>	
                     </tr>
                     <tr>
                         <td colspan="4" ><hr /></td>
