@@ -18,24 +18,16 @@ function showMessage($flag, $msg) {
         }
     }
 }
- if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['amountTransForm'])) {
-    $p_modname = $_POST ['new_module'];
-    $p_moddes = $_POST ['module_des'];
-    $mod_ins = $sql_mod_ins->execute(array($p_modname,$p_moddes));
-    if ($mod_ins==1) {
-        $msg = "আপনি সফলভাবে " . $p_modname . " নামে নতুন মডিউলটি তৈরি করেছেন";
-        $flag = 'true';
-    } else {
-        $msg = "দুঃখিত, আবার চেষ্টা করুন";
-        $flag = 'false';
-    }
+if(isset($_POST['save']))
+{
+   
 }
 ?>
 
 <title>ব্যাক্তিগত অ্যামাউন্ট ট্রান্সফার</title>
 <style type="text/css">@import "css/bush.css";</style>
   <script type="text/javascript">
- function getPassword()
+ function getPassword() // for showing the password box
  {
         var acc = document.getElementById('accountNo').value; 
         var xmlhttp;
@@ -69,18 +61,19 @@ function checkIt(evt) // float value-er jonno***********************
     status = "This field accepts numbers only.";
     return false;
 }
-function checkAmount(checkvalue)
+function checkAmount(checkvalue) // check amount value in repeat
 {
     var amount = document.getElementById('amount1').value;
     if(amount != checkvalue) 
         {
             document.getElementById('amount2').focus();
+            document.getElementById('errormsg').style.color='red';
             document.getElementById('errormsg').innerHTML = "পরিমান সঠিক হয় নি";
         }
         else{document.getElementById('errormsg').innerHTML="";  document.getElementById('submit').disabled= false;  }
 }
 
-function checkPass(passvalue)
+function checkPass(passvalue) // check password in repeat
 {
     var password = document.getElementById('password1').value;
     if(password != passvalue)
@@ -95,20 +88,8 @@ function checkPass(passvalue)
             document.getElementById('submit').disabled= false;
         }
 }
-function checkAndSubmit()
-{
-//    var msg = document.getElementById('showError').innerText;
-//        if(msg == '0')
-//        {
-            document.getElementById('amountTransForm').submit();
-//        }
-//        else{
-//            document.getElementById('password1').value="";
-//            document.getElementById('password2').value="";
-//            document.getElementById('password1').focus();
-//        }
-}
-function  checkCorrectPass()
+
+function  checkCorrectPass() // match password with account
 {
    var pass = document.getElementById('password1').value;
    var acc = document.getElementById('accountNo').value;
@@ -125,7 +106,13 @@ xmlhttp.onreadystatechange=function()
   {
   if (xmlhttp.readyState==4 && xmlhttp.status==200)
     {
-    document.getElementById("showError").innerHTML=xmlhttp.responseText;
+    document.getElementById('showError').style.color='red';
+            document.getElementById("showError").innerHTML=xmlhttp.responseText;
+    var message = document.getElementById("showError").innerText;
+    if(message != "")
+        {
+            document.getElementById('accountNo').focus();
+        }
     }
   }
 xmlhttp.open("GET","includes/matchPassword.php?acc="+acc+"&pass="+pass,true);
@@ -160,7 +147,7 @@ xmlhttp.send();
                     <td> <textarea  class="box" type="text" name="trans_des"  id="trans_des" value=""></textarea></td>   
                 </tr>
                 <tr>
-                    <td colspan="2" style="text-align: center"></br><input type="button" class="btn" name="submit" id="submit" value="সেভ" onclick="getPassword();">&nbsp;<input type="reset" class="btn" name="reset" value="রিসেট"></td>
+                    <td colspan="2" style="text-align: center"></br><input type="button" class="btn" name="submit" id="submit" value="ঠিক আছে" onclick="getPassword();" disabled="">&nbsp;<input type="reset" class="btn" name="reset" value="রিসেট"></td>
                 </tr>
                     <tr>
                     <td colspan="2" id="passwordbox"></td>
