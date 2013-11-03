@@ -4,6 +4,41 @@ include_once 'includes/MiscFunctions.php';
 include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
+
+function showList($sl)
+{
+     echo '<li><div id="left" style="height:auto;width:350px;opacity:0;position: absolute;left:-999999px;">
+                                            <div style="float:left;border:1px solid black;background-color:cornsilk;width:80%">
+                                                <table>
+                                                <tr><td colspan="2" style="border:1px solid black;"><img src="<?php echo $osign;?>" width="50px" height="50px"/></td></tr>
+                                                <tr><td colspan="2" style="border:1px solid black;">স্টেপ পজিসন</td></tr>
+                                                <tr><td colspan="2" style="border:1px solid black;"><a href="#" style="width:100%; background-color:none;">ইন</a></td></tr>
+                                                <tr><td style="border:1px solid black;">অ্যাকাউন্ট নং </td><td style="border:1px solid black;">dd-3428u4-jdh</td></tr>
+                                                <tr><td style="border:1px solid black;">মোবাইল নং </td><td style="border:1px solid black;">0128394372</td></tr>
+                                                <tr><td colspan="2" style="border:1px solid black;">রেফারকারির নাম </td></tr>
+                                                <tr><td style="border:1px solid black;">আর ১</td><td style="border:1px solid black;">৭</td></tr>
+                                                <tr><td style="border:1px solid black;">আর ২</td><td style="border:1px solid black;">৩৪</td></tr>
+                                                <tr><td style="border:1px solid black;">আর ৩</td><td style="border:1px solid black;">৫৩২</td></tr>
+                                                <tr><td style="border:1px solid black;">আর ৪</td><td style="border:1px solid black;">১৩৪৩</td></tr>
+                                                <tr><td style="border:1px solid black;">আর ৫</td><td style="border:1px solid black;">৩৫৪৩১৩৪</td></tr>
+                                                </table>
+                                            </div>
+                                            <div style="width:15%;height:25px;float:left; text-align:right;background-image: url(images/left.png); background-size: 100% 100%;background-repeat: no-repeat;"></div>
+                    </div>
+                   <a id="target" onmouseover="showspecifics('.$sl.')" ><b>রেফারার -১  নাম</b></a>
+                    <div id="ri8" style="height:auto;width:330px;opacity:0;position: absolute;left:-999999px;">
+                        <div style="width:15%;height:25px;float:left; text-align:right;background-image: url(images/right.png); background-size: 100% 100%;background-repeat: no-repeat;"></div>                                            
+                        <div style="float:left;background-color:red;width:80%">
+                            <div class="treeButton" style="width:80%;">
+                                <ul>
+                                <li><a><b>অ্যাকাউন্টধারীর নাম</b></a>
+                                    <ul></ul>
+                                </li>
+                                </ul>
+                                </div>
+                        </div>                                            
+                    </div></li>';
+}
 ?>
 <title>ড্রপডাউন ট্রি</title>
 <style type="text/css"> @import "css/bush.css";</style>
@@ -74,29 +109,7 @@ window.onclick = function()
                                            <?php
                                     for($i=0;$i<7;$i++)
                                     {
-                                        echo '<li><div id="left" style="height:auto;width:350px;opacity:0;position: absolute;left:-999999px;">
-                                            <div style="float:left;border:1px solid black;background-color:cornsilk;width:80%">
-                                            <table>
-                                            <tr><td colspan="2" style="border:1px solid black;"><img src="<?php echo $osign;?>" width="50px" height="50px"/></td></tr>
-                                            <tr><td colspan="2" style="border:1px solid black;">স্টেপ পজিসন</td></tr>
-                                            <tr><td colspan="2" style="border:1px solid black;"><a href="#" style="width:100%; background-color:none;">ইন</a></td></tr>
-                                            <tr><td style="border:1px solid black;">অ্যাকাউন্ট নং </td><td style="border:1px solid black;">dd-3428u4-jdh</td></tr>
-                                            <tr><td style="border:1px solid black;">মোবাইল নং </td><td style="border:1px solid black;">0128394372</td></tr>
-                                            <tr><td colspan="2" style="border:1px solid black;">রেফারকারির নাম </td></tr>
-                                            <tr><td style="border:1px solid black;">আর ১</td><td style="border:1px solid black;">৭</td></tr>
-                                            <tr><td style="border:1px solid black;">আর ২</td><td style="border:1px solid black;">৩৪</td></tr>
-                                            <tr><td style="border:1px solid black;">আর ৩</td><td style="border:1px solid black;">৫৩২</td></tr>
-                                            <tr><td style="border:1px solid black;">আর ৪</td><td style="border:1px solid black;">১৩৪৩</td></tr>
-                                            <tr><td style="border:1px solid black;">আর ৫</td><td style="border:1px solid black;">৩৫৪৩১৩৪</td></tr>
-                                            </table>
-                                            </div>
-                                            <div style="width:15%;height:25px;float:left; text-align:right;background-image: url(images/left.png); background-size: 100% 100%;background-repeat: no-repeat;"></div>
-                                            </div>
-                                            <a id="target" onmouseover="showspecifics('.$i.')" onMouseOut="hideIT()"><b>রেফারার -১  নাম</b></a>
-                                            <div id="ri8" style="height:auto;width:330px;opacity:0;position: absolute;left:-999999px;">
-                                            <div style="width:15%;height:25px;float:left; text-align:right;background-image: url(images/right.png); background-size: 100% 100%;background-repeat: no-repeat;"></div>                                            
-                                            <div style="float:left;background-color:red;width:80%">djfhskj</br>jhgjgjh</div>                                            
-                                            </div></li>';
+                                       showList($i);
                                     }
                                    ?>
                                     </ul>
