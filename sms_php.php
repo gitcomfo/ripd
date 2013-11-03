@@ -20,7 +20,7 @@ $msgtype = "0";
 $dlr ="1";
 //
 $live_url = "http://$host:$port/bulksms/bulksms?username=$username&password=$password&type=$msgtype&dlr=$dlr&destination=$mobile&source=$sender&message=$message_final";
-////$link = "http://121.241.242.114:8080/bulksms/bulksms?username=mfn-demo&password=demo321&type=0&dlr=1&destination=8801727208714&source=COMFOSYS&message=This+is+test";
+//$link = "http://121.241.242.114:8080/bulksms/bulksms?username=mfn-demo&password=demo321&type=0&dlr=1&destination=8801727208714&source=COMFOSYS&message=This+is+test";
 
 
 $parse_url=file_get_contents($live_url);

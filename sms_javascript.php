@@ -1,7 +1,4 @@
-<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>-->
-
 <?php
-
 $phoneNumber = "8801727208714"; //it will get value from another page
 //$message_get = "new message\ngo for next line to test...\nmedicine names plzz"; //it will get value from another page
 //$message_url = urlencode($message_get);
@@ -18,7 +15,6 @@ $msgtype = "0";
 $dlr ="1";
 
 //$live_url = "http://$host:$port/bulksms/bulksms?username=$username&password=$password&type=$msgtype&dlr=$dlr&destination=$mobile&source=$sender&message=$message_final";
-
 ?>
 
 <script type="text/javascript">
