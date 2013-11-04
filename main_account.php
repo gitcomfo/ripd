@@ -4,7 +4,15 @@ include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 error_reporting(0);
-
+function showPowerHeads()
+{
+    echo  "<option value=0> -সিলেক্ট করুন- </option>";
+    $sql_office= mysql_query("SELECT * FROM office WHERE office_type='pwr_head' ORDER BY office_name;");
+    while($headrow = mysql_fetch_assoc($sql_office))
+    {
+        echo  "<option value=".$headrow['account_number'].">".$headrow['office_name']."</option>";
+    }
+}
 if($_POST['submit'])
         {
         $username = $_POST['username'];
@@ -13,9 +21,9 @@ if($_POST['submit'])
         $account_number = $_POST['acc_num'];
         $account_email = $_POST['email'];
         $account_mobile = $_POST['mobile'];
-        mysql_query("INSERT into $dbname.cfs_user (user_name, password, blocked, overall_access, account_name, account_number, account_open_date, mobile, email, account_status)
-                                                                        VALUES ('$username', '$password', '0', 'blank', '$account_name', '$account_number', NOW(), '$account_mobile', '$account_email', 'active')");
-        $cfs_user_id = mysql_insert_id();
+        mysql_query("INSERT INTO cfs_user (user_name, password, blocked, overall_access, account_name, account_number, account_open_date, mobile, email, cfs_account_status, user_type)
+                                                                        VALUES ('$username', '$password', '0', 'blank', '$account_name', '$account_number', NOW(), '$account_mobile', '$account_email', 'active', 'owner')") or exit(mysql_error()." sorry");
+       echo  $cfs_user_id = mysql_insert_id();
         $account_type = $_POST['account_type'];
         if($account_type == "employee")
                 {
@@ -40,6 +48,18 @@ if($_POST['submit'])
                                                                                                 VALUES ('1', '$employee_id')");
                 $employee_info_id = mysql_insert_id();
                 $pass_message = "create_employee_account.php?=".$employee_info_id;
+                }
+       else if($account_type == "proprietor")
+                {
+                    echo $pwrHeadAccNo = $_POST['powerStore_accountNumber'];
+                    $sel_pwrID = mysql_query("SELECT * FROM office WHERE account_number = '$pwrHeadAccNo' ");
+                    $officerow = mysql_fetch_assoc($sel_pwrID);
+                    echo $db_pwrOfficeID = $officerow['idOffice'];
+                    echo $db_pwrHeadname = $officerow['office_name'];
+                    echo $sql_pro_ins= mysql_query("INSERT INTO proprietor_account (powerStore_name, powerStore_accountNumber, Office_idOffice, cfs_user_idUser)
+                                            VALUES ('$db_pwrHeadname', '$pwrHeadAccNo',$db_pwrOfficeID,  $cfs_user_id)");
+                    $propreitor_account_id = mysql_insert_id();
+                    if($sql_pro_ins == 1){$pass_message = "create_proprietor_account.php?proID=".$propreitor_account_id;}                     
                 }
         }
 
@@ -87,7 +107,7 @@ function checkPass(passvalue) // check password in repeat
     var password = document.getElementById('password').value;
     if(password != passvalue)
         {
-            document.getElementById('password2').focus();
+            document.getElementById('reap_password').focus();
             document.getElementById('passcheck').style.color='red';
             document.getElementById('passcheck').innerHTML = "পাসওয়ার্ড সঠিক হয় নি";
         }
@@ -96,6 +116,10 @@ function checkPass(passvalue) // check password in repeat
             document.getElementById('passcheck').innerHTML="OK";
         }
 }
+    function showAccountNo(account)
+    {
+        document.getElementById('powerStore_accountNumber').value= account;
+    }
 </script>
 <script>
 function check(str) // for currect email address form checking
@@ -130,7 +154,7 @@ xmlhttp.send();
     <div class="main_text_box">
         <div style="padding-left: 110px;"><a onclick="goBack();" style="cursor: pointer;"><b><u>ফিরে যান</u></b></a></div> 
         <div>            
-            <form method="POST" onsubmit="">
+            <form method="POST" action="">
                 <?php
                     $input= $_GET['id'];
                     $arrayAccountType = array('employee' => 'কর্মচারীর', 'customer' => 'কাস্টমারের', 'proprietor' => 'প্রোপ্রাইটারের');
@@ -164,11 +188,7 @@ xmlhttp.send();
                             </tr>";
                             }
                     echo "
-                      <tr>
-                        <td>ছবি</td>
-                      <td>:   <input type='file' id='pic' name='pic' /></td>
-                    </tr>   
-                    <tr>
+                   <tr>
                         <td>ইউজারের নাম</td>
                       <td>:   <input class='box' type='text' id='username' name='username' /> <em>ইংরেজিতে লিখুন</em></td>
                     </tr>   
@@ -178,7 +198,7 @@ xmlhttp.send();
                     </tr>
                     <tr>
                         <td>কনফার্ম পাসওয়ার্ড</td>
-                       <td>:   <input class='box' type='password' id='password2' name='password2' onkeyup='checkPass(this.value);'/> <em>ইংরেজিতে লিখুন</em> <span id='passcheck'></span></td>
+                       <td>:   <input class='box' type='password' id='reap_password' name='reap_password' onkeyup='checkPass(this.value);'/> <em>ইংরেজিতে লিখুন</em> <span id='passcheck'></span></td>
                     </tr>";
                     if($input == "customer" || $input == "employee") {
                    echo "<tr>
@@ -223,6 +243,18 @@ xmlhttp.send();
                         <td>: <input class='box' type='text' id='date' placeholder='Date' name='date' value=''/>
                         </td>            
                     </tr>"; }
+                    if($input == 'proprietor')
+                    {
+                        echo "<tr>
+                        <td>পাওয়ার স্টোরের নাম</td>
+                        <td >:  <select  class='box' name='powerStore_name' style='height:20px;'onchange='showAccountNo(this.value)'>";
+                                showPowerHeads();
+                         echo "</select>	
+                        </td>
+                        <td>পাওয়ার স্টোরের একাউন্ট নং </td>
+                        <td>:  <input class='box' type='text' readonly='' id='powerStore_accountNumber' name='powerStore_accountNumber' /></td>	
+                    </tr>";
+                    }
                     echo "<tr>                    
                         <td colspan='4' style='padding-left: 250px; '>";
                     if($_POST['submit'])
