@@ -1,9 +1,8 @@
 <?php 
 include_once 'includes/header.php';
 ?>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<title>কনভার্ট প্যাকেজ</title>
+<style type="text/css">@import "css/bush.css";</style>
 
 <div class="columnSld" style=" padding-left: 50px;">
     <div class="main_text_box">
