@@ -82,6 +82,49 @@ if($_POST['submit'])
     status = "This field accepts numbers only.";
     return false;
 }
+function checkPass(passvalue) // check password in repeat
+{
+    var password = document.getElementById('password').value;
+    if(password != passvalue)
+        {
+            document.getElementById('password2').focus();
+            document.getElementById('passcheck').style.color='red';
+            document.getElementById('passcheck').innerHTML = "পাসওয়ার্ড সঠিক হয় নি";
+        }
+        else{
+            document.getElementById('passcheck').style.color='green';
+            document.getElementById('passcheck').innerHTML="OK";
+        }
+}
+</script>
+<script>
+function check(str) // for currect email address form checking
+{
+if (str.length==0)
+  {
+  document.getElementById("error_msg").innerHTML=""; 
+  document.getElementById("error_msg").style.border="0px";
+  return;
+  }
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("error_msg").innerHTML=xmlhttp.responseText;
+    document.getElementById("error_msg").style.display = "inline";
+    }
+  }
+xmlhttp.open("GET","includes/check.php?x="+str,true);
+xmlhttp.send();
+}
 </script>
 <div class="column6">
     <div class="main_text_box">
@@ -90,7 +133,7 @@ if($_POST['submit'])
             <form method="POST" onsubmit="">
                 <?php
                     $input= $_GET['id'];
-                    $arrayAccountType = array('employee' => 'কর্মচারীর', 'customer' => 'কাস্টমারের', 'power' => 'পাওয়ার স্টোরের');
+                    $arrayAccountType = array('employee' => 'কর্মচারীর', 'customer' => 'কাস্টমারের', 'proprietor' => 'প্রোপ্রাইটারের');
                     $showAccountType  = $arrayAccountType[$input];
                     
                     echo "<tr><td><input type='hidden' value='$input' name='account_type'/></td></tr>";
@@ -107,17 +150,17 @@ if($_POST['submit'])
                     </tr>
                     <tr>
                         <td >ই মেইল</td>
-                       <td>:   <input class='box' type='text' id='email' name='email' /> <em>ইংরেজিতে লিখুন</em></td>			
+                       <td>:   <input class='box' type='text' id='email' name='email' onblur='check(this.value)' /> <em>ইংরেজিতে লিখুন</em> <span id='error_msg' style='margin-left: 5px'></span></td>			
                     </tr>
                     <tr>
                         <td >মোবাইল</td>
-                        <td>:   <input class='box' type='text' id='mobile' name='mobile' onkeypress=' return numbersonly(event)' /></td>		
+                        <td>:   <input class='box' type='text' id='mobile' name='mobile' onkeypress=' return numbersonly(event)' /> <em>ইংরেজিতে লিখুন</em></td>		
                     </tr>";
                     if($input == "customer")
                             {
                             echo "<tr>
                                 <td >পিন নাম্বার</td>
-                                <td>:   <input class='box' type='text' id='pin_num' name='pin_num' /></td>		
+                                <td>:   <input class='box' type='text' id='pin_num' name='pin_num' /> <em>ইংরেজিতে লিখুন</em></td>		
                             </tr>";
                             }
                     echo "
@@ -135,9 +178,10 @@ if($_POST['submit'])
                     </tr>
                     <tr>
                         <td>কনফার্ম পাসওয়ার্ড</td>
-                       <td>:   <input class='box' type='password' id='password' name='password' /> <em>ইংরেজিতে লিখুন</em></td>
-                    </tr>
-                    <tr>
+                       <td>:   <input class='box' type='password' id='password2' name='password2' onkeyup='checkPass(this.value);'/> <em>ইংরেজিতে লিখুন</em> <span id='passcheck'></span></td>
+                    </tr>";
+                    if($input == "customer" || $input == "employee") {
+                   echo "<tr>
                         <td colspan='2' ><hr /></td>
                     </tr>
                     <tr>
@@ -178,7 +222,7 @@ if($_POST['submit'])
                         <td>যোগদানের তারিখ</td>
                         <td>: <input class='box' type='text' id='date' placeholder='Date' name='date' value=''/>
                         </td>            
-                    </tr>";
+                    </tr>"; }
                     echo "<tr>                    
                         <td colspan='4' style='padding-left: 250px; '>";
                     if($_POST['submit'])
@@ -188,8 +232,7 @@ if($_POST['submit'])
                     else echo "<input class='btn' style ='font-size: 12px;' type='submit' name='submit' value='সেভ করুন' />";
                     echo "</td>                           
                     </tr>             
-                </table>";
-                
+                </table>";        
                 ?>
             </form>
         </div>

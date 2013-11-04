@@ -1,11 +1,9 @@
 <?php
 error_reporting(0);
 include_once 'includes/';
-?>
-<style type="text/css">@import "css/domtab.css";</style>
-<?php
 include_once 'includes/columnLeft.php';
 ?>
+<style type="text/css">@import "css/domtab.css";</style>
 <div class="columnSld">
     <form method="POST" onsubmit="">	
         <table class="formstyle"> 
@@ -23,7 +21,7 @@ include_once 'includes/columnLeft.php';
                 <td><a href="update_salesStore_account.php">আপডেট সেলস স্টোর একাউন্ট</a></td>
             </tr>
             <tr>                                           
-                <td><a href="create_proprietor_account.php">ক্রিয়েট প্রোপ্রাইটার কাউন্ট</a></td>
+                <td><a href="main_account.php?id=proprietor">ক্রিয়েট প্রোপ্রাইটার একাউন্ট</a></td>
                 <td><a href="#">আপডেট প্রোপ্রাইটার একাউন্ট</a></td>
             </tr>
             <tr><th style="text-align: center" colspan="2"><h1>ছুটিসমূহ</h1></th></tr>

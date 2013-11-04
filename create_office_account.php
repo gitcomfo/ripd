@@ -249,7 +249,7 @@ function setParent(office,offid)
         xmlhttp.send();
     }
     
-    function check(str)
+function check(str) // for currect email address form checking
 {
 if (str.length==0)
   {
@@ -277,7 +277,7 @@ xmlhttp.open("GET","includes/check.php?x="+str,true);
 xmlhttp.send();
 }
 
-function check2(str)
+function check2(str) // for currect email address form checking
 {
 if (str.length==0)
   {
