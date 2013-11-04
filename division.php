@@ -1,6 +1,7 @@
 <?php
 error_reporting(0);
 include 'includes/ConnectDB.inc';
+include_once 'includes/header.php';
 ?>
 <?php
 $flag = 'false';
@@ -38,10 +39,8 @@ if (isset($_POST['submit']) && ($_GET['action'] == 'edit')) {
     }
 }
 ?>
-<?php include_once 'includes/header.php';
-?>
-
-
+<title>বিভাগ</title>
+<style type="text/css">@import "css/bush.css";</style>
 <script type="text/javascript">
     function  isBlankDivision_new()
     {
@@ -63,9 +62,6 @@ if (isset($_POST['submit']) && ($_GET['action'] == 'edit')) {
        
     }
 </script>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
 <?php
 if ($_GET['action'] == 'edit') {
     ?>
