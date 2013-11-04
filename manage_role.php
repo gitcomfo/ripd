@@ -1,13 +1,11 @@
 <?php
 error_reporting(0);
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 ?>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<title>ক্ষমতা বিকেন্দ্রীকরণ</title>
+<style type="text/css">@import "css/bush.css";</style>
 
 <?php
 if ($_GET['opt'] == 'add') {
@@ -117,7 +115,7 @@ if ($_GET['opt'] == 'add') {
 
     <div class="column6">
         <div class="main_text_box">
-            <div style="padding-left: 110px;"><a href="index.php?apps=OSP"><b>ফিরে যান</b></a></div>
+            <div style="padding-left: 110px;"><a href="index.php?apps=HRE"><b>ফিরে যান</b></a></div>
             <div>
                 <table  class="formstyle">          
                     <tr><th colspan="4" style="text-align: center;">ক্ষমতা বিকেন্দ্রীকরণ</th></tr>                    
