@@ -1,6 +1,5 @@
 <?php
 error_reporting(0);
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include_once 'includes/header.php';
 include_once 'includes/MiscFunctions.php';
