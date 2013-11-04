@@ -17,7 +17,6 @@ $dbname = 'ripd_db_comfosys';
  * 
  */
  
- 
 $_SESSION['DatabaseName'] = $dbname;
 /*if(!isset($_SESSION['DatabaseName'])){
     $_SESSION['DatabaseName'] = $dbname;
