@@ -1,10 +1,10 @@
 <?php
 error_reporting(0); 
 include_once 'includes/ConnectDB.inc';
-include_once 'includes/function.php';
 include_once 'includes/header.php';
             
 ?>
+<title>আপডেট সেলসস্টোর</title>
 <style type="text/css">
     @import "css/style.css";
   
