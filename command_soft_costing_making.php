@@ -1,9 +1,10 @@
 <?php
-error_reporting(0);
 include_once 'includes/header.php';
 include_once 'includes/insertQueryPDO.php';
+include_once 'includes/selectQueryPDO.php';
+include 'includes/MiscFunctions.php';
 
-if($_POST['submit_command'])
+if($_POST['submit_command_soft_cost'])
         {
         $p_commman_no = $_POST['command_no'];
         $p_commman_desc = $_POST['command_desc'];
@@ -28,15 +29,26 @@ if($_POST['submit_command'])
                 </div>
                 <table class="formstyle" style =" width:78%;">        
                     <tr>
-                        <th colspan="2">কমান্ড তৈরি করুন</th>
+                        <th colspan="2">সফট কস্টিং সংক্রান্ত পিভি বন্টণ</th>
                     </tr>
                     <tr>
                         <td style="text-align: right; width: 40%;">কমান্ড নম্বর</td>
-                        <td>: <input  class="box" type="text" name="command_no"/></td>   
+                        <td>: 
+                            <select class="box" name="command_no">
+                                    <?php
+                                    $sql_select_command->execute();
+                                    $arr_command_list = $sql_select_command->fetchAll();
+                                    //print_r($arr_command_list);
+                                    foreach ($arr_command_list as $key => $value) 
+                                            {
+                                            $var_command_id = $arr_command_list[''];
+                                            }
+                                    ?>    
+                            </select>
+                        </td>   
                     </tr>
                     <tr>
-                        <td style="text-align: right; width: 40%;">কমান্ড বর্ণনা</td>
-                        <td><textarea  class="box" name="command_desc"></textarea></td>   
+                        <td colspan='2' ><hr /></td>
                     </tr>
                     <tr>
                         <td style="text-align: right; width: 40%;">১০০ টাকা </td>
@@ -47,7 +59,7 @@ if($_POST['submit_command'])
                         <td>=<input  class="box" type="text" name="pv_1" /> পি,ভি</td>   
                     </tr>             
                     <tr>
-                        <td colspan="2" style="text-align: center;"></br><input type="submit" class="btn" name="submit_command" id="submit_command" value="ঠিক আছে">&nbsp;<input type="reset" class="btn" name="reset" value="রিসেট"></td>
+                        <td colspan="2" style="text-align: center;"></br><input type="submit" class="btn" name="submit_command_soft_cost" id="submit_command_soft_cost" value="ঠিক আছে">&nbsp;<input type="reset" class="btn" name="reset" value="রিসেট"></td>
                     </tr>
                 </table>
         </form>

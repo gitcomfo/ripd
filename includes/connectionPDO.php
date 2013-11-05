@@ -1,15 +1,8 @@
 <?php
-$dbhost     = "192.168.1.100";
-$dbname     = "ripd_db_comfosys";
-$dbuser     = "cfs_iftee";
-$dbpass     = "iftee54321";
-
-/*$dbhost     = "localhost";
-$dbname     = "ripd_db_comfosys";
-$dbuser     = "root";
-$dbpass     = "";
- * 
- */
+$dbhost = "192.168.1.100";
+$dbname = "ripd_db_comfosys";
+$dbuser = "cfs_iftee";
+$dbpass = "iftee54321";
 
 // database connection
 $conn = new PDO("mysql:host=$dbhost;dbname=$dbname",$dbuser,$dbpass);

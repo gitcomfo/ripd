@@ -165,7 +165,7 @@ function getdate(selecteddate,onsid) // date by date employee leave condition ch
                                         <tr><td colspan="13" style="color: sienna; text-align: center; font-size: 16px;">হাজিরার তারিখঃ 
                                                 <input class="textfield" type="date" id="date" placeholder="Date" name="date" value="" onchange="getdate(this.value,'<?php echo $db_onsid?>')"/></td></tr>
                                         <tr>
-                                            <th style='border-right: 1px solid #000099;border-top: 1px solid #000099;' width="2%">ক্রম</th>
+                                        <th style='border-right: 1px solid #000099;border-top: 1px solid #000099;' width="2%">ক্রম</th>
                                         <th style='border-right: 1px solid #000099;border-top: 1px solid #000099;' width="10%">কর্মচারী অ্যাকাউন্ট নং</th>
                                         <th style='border-right: 1px solid #000099;border-top: 1px solid #000099;' width="14%">নাম</th>
                                         <th style='border-right: 1px solid #000099;border-top: 1px solid #000099;' width="7%">হাজিরার ধরন</th>
