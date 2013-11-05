@@ -1,7 +1,6 @@
 <?php
 error_reporting(0);
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 
@@ -57,6 +56,9 @@ if(isset($_POST['submit']))
     $lvingradeid = $getrow['idleaveingrd'];
      $sql_insert  = mysql_query("INSERT INTO emp_in_leave (starting_date, end_date, total_day, leave_desc, leave_scan_doc, leave_giver_id, emp_id, leave_in_grade_idleaveingrd) 
          VALUES ('$p_startingdate','$endDate','$p_totaldays','$p_lv_des','$scan_path',$db_onsid,$p_empcfsid,$lvingradeid)");
+      if($sql_insert != 0)
+    {  $msg = "ছুটি তৈরি হয়েছে"; }
+   else {$msg = "ছুটি তৈরি হয়নি";}
 }
 ?>
 <title>কর্মচারীর ছুটি</title>
@@ -177,7 +179,10 @@ function getEmployee(keystr) //search employee by account number***************
                                             
                                         }
                             ?>
-                    </tr>    
+                    </tr> 
+                       <tr>
+                        <td colspan="2" style="text-align: center; font-size: 16px;color: green;">  <?php if($msg != "") {echo $msg;}?></td>                                               
+                    </tr>
                     <tr>
                         <td width="59%">
                             <table>

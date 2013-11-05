@@ -10,7 +10,7 @@ include_once 'includes/columnLeft.php';
             <tr><th style="text-align: center" colspan="2"><h1>প্রোফাইল ম্যানেজমেন্ট</h1></th></tr>
             <tr>
                 <td><a href="amount_transfer.php">অ্যামাউন্ট ট্রান্সফার</a></td>
-                <td><a href="#">২৩</a></td>
+                <td><a href="#"></a></td>
             </tr>
         </table>
     </form>

@@ -46,8 +46,7 @@ if (isset($_POST['submit_new'])) {
 //echo "account_number: ".$account_number." Cause: ".$cause." scan_document:".$scan_document." account_number_id: ".$account_number_id." postpone_type: ".$postpone_type;
 //Check in account_close_restart Table
 ?>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 <style type="text/css">
     @import "css/bush.css";
 </style>
@@ -58,14 +57,10 @@ if (isset($_POST['submit_new'])) {
     function update(id)
     { TINY.box.show({iframe:'account_close_restart.php?acc_cfs_user='+id,width:600,height:300,opacity:30,topsplit:3,animate:true,close:true,maskid:'bluemask',maskopacity:50,boxid:'success'}); }
 </script>
-=======
 <title>একাউন্ট বন্ধ-করন</title>
 <style type="text/css">@import "css/bush.css";</style>
->>>>>>> branch 'master' of https://github.com/gitcomfo/ripd.git
-=======
 <title>একাউন্ট বন্ধ-করন</title>
 <style type="text/css">@import "css/bush.css";</style>
->>>>>>> branch 'master' of https://github.com/gitcomfo/ripd.git
 <script>
     function getAccount(keystr) //search employee by account number***************
     {

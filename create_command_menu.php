@@ -21,11 +21,6 @@ include_once 'includes/columnLeft.php';
                 <td><a href="#">সেলস সংক্রান্ত পিভি বন্টণ</a></td>
                 <td><a href="#">আন-রেজিস্ট্রার্ড কাস্টমার এর সংক্রান্ত পিভি বন্টণ</a></td>               
             </tr>
-            <tr><th style="text-align: center" colspan="2"><h1>পি, ভি সংক্রান্ত তথ্য</h1></th></tr>
-            <tr>
-                <td><a href="update_pv.php">আপডেট পি.ভি.</a></td>
-                <td><a href="daily_office_expenditure.php">2</a></td><!--this is temporary file, it should be replaced to anywhere else-->
-            </tr>
             <tr><th style="text-align: center" colspan="2"><h1>সিকিউরিটি </h1></th></tr>
             <tr>
                 <td><a href="security_module.php">মডিউল</a></td>
