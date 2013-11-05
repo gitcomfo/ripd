@@ -61,7 +61,7 @@ if($_GET['action'] == 'viewCalendar'){
             echo '<td colspan="7"><b>অফিস ('.$current_office_name.') ডে এন্ড অফ ডে</b></td></tr><tr>';
             echo '<td width = 10% height =40px><a href="?apps=OD&action=viewCalendar&officeId='.$current_office_id.'&office_name='.$current_office_name.'&date=' . PREV_MONTH . '"><img src="images/back.ico" height="35px" width="35px"></img></a></td>';
             echo '<td colspan="5" style="text-align:center">' . CURRENT_MONTH_A . ' - ' . CURRENT_YEAR . '</td>';
-            echo '<td width = 10% height =40px><a href="?apps=OD&action=viewCalendar&officeId='.$current_office_id.'&office_name='.$current_office_name.'&date=' . NEXT_MONTH . '"><img src="images/back.ico" height="35px" width="35px" style="-moz-transform: rotate(-180deg);"></img></a></td>';
+            echo '<td width = 10% height =40px><a href="?apps=OD&action=viewCalendar&officeId='.$current_office_id.'&office_name='.$current_office_name.'&date=' . NEXT_MONTH . '"><img src="images/back_right.bmp" height="35px" width="35px" style="-moz-transform: rotate(-180deg);"></img></a></td>';
             echo '</tr><tr bgcolor = #06ACE5>';
             echo '<td width = 10% height =40px>রবি</td>';
             echo '<td width = 10% height =40px>সোম</td>';
@@ -197,14 +197,13 @@ if($_GET['action'] == 'viewCalendar'){
 </div>
 <?php 
 }else{    
-include_once 'includes/function.php';
 ?>
 <fieldset id="fieldset_style">
 
     <div id="table_header_style">
         <table border="0" style="width: 100%; height: 72%;font-size: 17px" align="center">
             <tr align="center">
-                <td><b><?php echo ('অফিস তালিকা')?></b></td>
+                <td><b><?php echo 'অফিস তালিকা';?></b></td>
             </tr>
         </table>
     </div>

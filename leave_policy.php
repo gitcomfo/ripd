@@ -1,7 +1,6 @@
 <?php
 error_reporting(0);
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 include 'includes/connectionPDO.php';
@@ -62,11 +61,11 @@ function deduction(checkvalue)
 {
       if(checkvalue == 'yes')
         {
-             document.getElementById('deductvalue').style.visibility= 'visible';
+             document.getElementById('showReductionbox').style.visibility= 'visible';
         }
         else
             {
-             document.getElementById('deductvalue').style.visibility= 'hidden';  
+             document.getElementById('showReductionbox').style.visibility= 'hidden';  
            }
 }
 </script>
@@ -103,7 +102,7 @@ function deduction(checkvalue)
                                     <input type='radio' name='deduct' id="deduct" value='no'  onclick = 'deduction(this.value)' /> হবে না</td>
                         </tr>
                         <tr><td><b>কর্তন পরিমান : </b></td>
-                            <td><input class="box" type="text" id="deductvalue" name="deductvalue" onkeypress="return checkIt(event)" style="visibility: hidden;"/> %</td>
+                            <td><span  id="showReductionbox" style="visibility: hidden;" ><input class="box" type="text" name="deductvalue" onkeypress="return checkIt(event)" /> %</span></td>
                         </tr> 
                         <tr>                    
                             <td colspan="4" style="padding-left: 200px; " >

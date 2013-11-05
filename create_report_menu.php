@@ -1,16 +1,12 @@
 <?php
 error_reporting(0);
-include_once 'includes/';
-?>
-<style type="text/css">
-    @import "css/domtab.css";
-</style>
-<?php
 include_once 'includes/columnLeft.php';
 ?>
+<style type="text/css"> @import "css/domtab.css";</style>
+
 <div class="columnSld">
     <form method="POST" onsubmit="">	
-        <table class="formstyle"> 
+<!--        <table class="formstyle"> 
             <tr><th style="text-align: center" colspan="2"><h1>চার্টসমূহ</h1></th></tr>
             <tr>                                
                 <td><a href="organizational_chart.php">প্রাতিষ্ঠানিক চার্ট</a></td> 
@@ -37,6 +33,6 @@ include_once 'includes/columnLeft.php';
             <tr>
                 <td><a href="find_selling.php">ফাইন্ড সেলিং</a></td>
             </tr>
-        </table>
+        </table>-->
     </form>
 </div>

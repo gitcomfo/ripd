@@ -449,7 +449,7 @@ if ($_GET['action'] == 'first') {
 } elseif ($_GET['action'] == 'sedule') {
     ?>
     <div style="padding-top: 10px;">    
-        <div style="padding-left: 110px; width: 49%; float: left"><a href="index.php?apps=PROGRA"><b>ফিরে যান</b></a></div>
+        <div style="padding-left: 110px; width: 49%; float: left"><a href="presentation_schdule.php?action=list&type=<?php echo $type;?>"><b>ফিরে যান</b></a></div>
         <div><a href="presentation_schdule.php?action=first&type=<?php echo $type;?>"><?php echo $typeinbangla;?> লিস্ট</a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=new&type=<?php echo $type;?>">মেইক <?php echo $typeinbangla;?></a>&nbsp;&nbsp;<a href="presentation_schdule.php?action=list&type=<?php echo $type;?>"><?php echo $whoinbangla?>-এর  লিস্ট</a></div>
     </div>
     <form method="POST" onsubmit="">	

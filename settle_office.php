@@ -4,10 +4,7 @@ include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 ?>
 
-<style type="text/css">
-    @import "css/bush.css";
-</style>
-
+<style type="text/css">@import "css/bush.css";</style>
 <script type="text/javascript" src="javascripts/area.js"></script>
 <script type="text/javascript" src="javascripts/external/mootools.js"></script>
 <script type="text/javascript" src="javascripts/dg-filter.js"></script>

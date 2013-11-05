@@ -61,7 +61,7 @@ if($_GET['action'] == 'viewCalendar'){
             echo '<td colspan="7"><b>সেলস স্টোর ('.$current_salestore_name.') ডে এন্ড অফ ডে</b></td></tr><tr>';
             echo '<td width = 10% height =40px><a href="?apps=SD&action=viewCalendar&salestoreId='.$current_salestore_id.'&salesStore_name='.$current_salestore_name.'&date=' . PREV_MONTH . '"><img src="images/back.ico" height="35px" width="35px"></img></a></td>';
             echo '<td colspan="5" style="text-align:center">' . CURRENT_MONTH_A . ' - ' . CURRENT_YEAR . '</td>';
-            echo '<td width = 10% height =40px><a href="?apps=SD&action=viewCalendar&salestoreId='.$current_salestore_id.'&salesStore_name='.$current_salestore_name.'&date=' . NEXT_MONTH . '"><img src="images/back.ico" height="35px" width="35px" style="-moz-transform: rotate(-180deg);"></img></a></td>';
+            echo '<td width = 10% height =40px><a href="?apps=SD&action=viewCalendar&salestoreId='.$current_salestore_id.'&salesStore_name='.$current_salestore_name.'&date=' . NEXT_MONTH . '"><img src="images/back_right.bmp" height="35px" width="35px" style="-moz-transform: rotate(-180deg);"></img></a></td>';
             echo '</tr><tr bgcolor = #06ACE5>';
             echo '<td width = 10% height =40px>রবি</td>';
             echo '<td width = 10% height =40px>সোম</td>';
@@ -197,14 +197,13 @@ if($_GET['action'] == 'viewCalendar'){
 </div>
 <?php 
 }else{    
-include_once 'includes/function.php';
 ?>
 <fieldset id="fieldset_style">
 
     <div id="table_header_style">
         <table border="0" style="width: 100%; height: 72%;font-size: 17px" align="center">
             <tr align="center">
-                <td><b><?php echo Title('sales_store_table')?></b></td>
+                <td><b>sales_store_table</b></td>
             </tr>
         </table>
     </div>
@@ -238,8 +237,10 @@ include_once 'includes/function.php';
                     $sql_salesStoreTable = "SELECT * from ".$dbname.".sales_store ORDER BY salesStore_name ASC";
                     $db_slNo = 0;
                     $rs = mysql_query($sql_salesStoreTable);
-
                     //echo mysql_num_rows($rs);
+                    if(mysql_num_rows($rs)<=0){
+                        echo "<tr><td colspan='5'>কোনো সেলস স্টোর ক্যালেন্ডার বানানো নাই</td></tr>";
+                    }
                     while ($row_officeNcontact = mysql_fetch_array($rs)) {
                         $db_slNo = $db_slNo + 1;
                         $salestore_id = $row_officeNcontact['idSales_store'];

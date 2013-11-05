@@ -1,7 +1,6 @@
 <?php
 error_reporting(0);
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 $loginUSERname = $_SESSION['UserID'];
@@ -118,7 +117,7 @@ function numbersonly(e)
             <form method="POST" onsubmit="" name="frm" action="">	
                 <table  class="formstyle">          
                     <tr><th colspan="2" style="text-align: center;">ভিউ পোস্ট</th></tr>
-                    <tr><td colspan="2" style="text-align: center;"><?php if($msg!=""){echo $msg;}?></td></tr>
+                    <tr><td colspan="2" style="text-align: center;font-size: 16px;color: green;"><?php if($msg!=""){echo $msg;}?></td></tr>
                     <td colspan="6">
                         <span id="office2">
                             <table  style="border: black solid 1px;" align="center" width= 90%" cellpadding="1px" cellspacing="1px">

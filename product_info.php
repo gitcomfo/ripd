@@ -1,7 +1,8 @@
 <?php
 include 'includes/columnLeft.php';
 ?>
-<table style="width: 50%;">
+<div style="width: 650px;float: left;">
+<table style="width: 10%;">
     <tr>
         <td style="padding: 0px;">
             <div class="columnSld">
@@ -112,3 +113,4 @@ include 'includes/columnLeft.php';
         </td>
     </tr>
 </table>
+</div>

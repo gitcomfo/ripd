@@ -25,7 +25,7 @@ include_once 'includes/columnLeft.php';
                 <td><a href="employee_leave_policy.php">কর্মচারীর ছুটি</a></td>
             </tr>  
             <tr><th style="text-align: center" colspan="2"><h1>সেলারী সংক্রান্ত কার্যক্রম</h1></th></tr>               
-            <tr><td><a href="#">সেলারী স্টেটমেন্ট</a></td></tr>
+            
             <tr>
                 <td><a href="make_salary_range.php">কর্মচারী গ্রেড এবং সেলারী রেঞ্জ</a></td> 
                 <td><a href="create_post.php">ক্রিয়েট পোস্ট</a></td>               
@@ -36,17 +36,14 @@ include_once 'includes/columnLeft.php';
             </tr>
             <tr>
                 <td><a href="charge_making.php">চার্জ তৈরী</a></td>
-                <td><a href="reserve_employee.php">রিজার্ভ কর্মচারী</a></td>              
+                          
             </tr>     
             <tr><th style="text-align: center" colspan="2"><h1>কর্মচারী এটেন্ডেন্স</h1></th></tr>
             <tr>
                 <td><a href="regular_emp_attendance.php">নিয়মিত কর্মচারী হাজিরা শিট</a></td>  
                 <td><a href="offday_emp_attendance.php">অফ ডে কর্মচারী হাজিরা শিট</a></td>            
             </tr>
-            <tr><th style="text-align: center" colspan="2"><h1>ক্ষমতা বিকেন্দ্রীকরণ</h1></th></tr>
-            <tr>
-                <td><a href="manage_role.php">ক্ষমতা বিকেন্দ্রীকরণ</a></td>
-            </tr>
+           
         </table>
     </form>
 </div>
