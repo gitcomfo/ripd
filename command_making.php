@@ -10,8 +10,8 @@ if($_POST['submit_command'])
         $p_commman_no = $_POST['command_no'];
         $p_commman_desc = $_POST['command_desc'];
         $p_pv_value_in_100 = $_POST['pv_100'];
-        $p_pv_value_in_1 = (float)$_POST['pv_1'];
-        $pv_value = $p_pv_value_in_100/100;
+        $p_pv_value_in_1 = $_POST['pv_1'];
+        $pv_value = round($p_pv_value_in_100/100, 3);
         //$difference = $p_pv_value_in_1 - $pv_value;
         //$epsilon = 0.000001;        
         //echo "command: ".$p_commman_no."pv_value: ".$pv_value." pv_1: ".$p_pv_value_in_1;
