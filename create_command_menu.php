@@ -14,7 +14,7 @@ include_once 'includes/columnLeft.php';
                 <td><a href="#"></a></td>               
             </tr>
             <tr>
-                <td><a href="#">সফট কস্টিং সংক্রান্ত পিভি বন্টণ</a></td>             
+                <td><a href="command_soft_costing_making.php">সফট কস্টিং সংক্রান্ত পিভি বন্টণ</a></td>             
             </tr>
             <tr>
                 <td><a href="#">কাস্টমার হিটিং সংক্রান্ত পিভি বন্টণ</a></td>
