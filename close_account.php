@@ -80,9 +80,8 @@ if (isset($_POST['submit']) && ($_GET['action'] == 'new')) {
 //echo "account_number: ".$account_number." Cause: ".$cause." scan_document:".$scan_document." account_number_id: ".$account_number_id." postpone_type: ".$postpone_type;
 //Check in account_close_restart Table
 ?>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<title>একাউন্ট বন্ধ-করন</title>
+<style type="text/css">@import "css/bush.css";</style>
 <script>
     function validateForm()
     {

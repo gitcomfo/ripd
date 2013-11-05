@@ -97,12 +97,11 @@ function calculateInstalment(month) // for calculation instalment amount********
 
 </script>
 
-<div class="column6">
     <div class="main_text_box">
         <div style="padding-left: 110px;"><a href="index.php?apps=HRE"><b>ফিরে যান</b></a></div>
         <div>
             <form method="POST" onsubmit="" name="" enctype="multipart/form-data" action="loan_given.php">	
-                <table  class="formstyle" style="font-family: SolaimanLipi !important;">          
+                <table  class="formstyle" style="font-family: SolaimanLipi !important;width: 80%;">          
                     <tr><th colspan="2" style="text-align: center;">লোন প্রদান</th></tr>
                     <?php
                     if($msg !="")

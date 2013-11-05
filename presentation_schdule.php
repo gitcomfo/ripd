@@ -433,7 +433,7 @@ if ($_GET['action'] == 'first') {
                         <td><?php echo $db_rl_presennter_thana; ?></td>
                         <td><?php echo $db_rl_presenter_district; ?></td>
                         <td><?php echo $db_rl_presenter_division; ?></td>
-                        <td style="text-align: center " > <a href="presentation_schdule.php?action=sedule&id=<?php echo $db_rl_presenter_id; ?>">সিডিউল </a></td>  
+                        <td style="text-align: center " > <a href="presentation_schdule.php?action=sedule&id=<?php echo $db_rl_presenter_id; ?>&type=<?php echo $type;?>">সিডিউল </a></td>  
                     </tr>
                 <?php } ?>
             </tbody>
@@ -458,7 +458,7 @@ if ($_GET['action'] == 'first') {
                 <th colspan="100" >সিডিউল  </th>                        
             </tr>             
             <tr id = "table_row_odd">
-                <td><?php echo $whoinbangla?>-এর নাম </td>
+                <td><?php echo $typeinbangla?>-এর নাম </td>
                 <td >তারিখ</td>
                 <td >সময়</td>
                 <td >ভেন্যু</td>                
@@ -468,18 +468,17 @@ if ($_GET['action'] == 'first') {
             <?php
             $G_presenter_id = $_GET['id'];
             $sql_sedule = "SELECT *
-                              FROM  $dbname.cfs_user, $dbname .employee,  $dbname .program
-                              WHERE  employee.cfs_user_idUser=cfs_user.idUser AND employee.idEmployee= '$G_presenter_id'
-                              AND employee.idEmployee = program.Employee_idEmployee AND employee.employee_type='presenter'";
+                              FROM  program, presenter_list
+                              WHERE  idprogram = fk_idprogram AND fk_Employee_idEmployee = $G_presenter_id";
             $db_result_sql_sedule = mysql_query($sql_sedule);
             while ($row_sedule = mysql_fetch_array($db_result_sql_sedule)) {
-                $db_sedule_presenter_name = $row_sedule['user_name'];
+                $db_sedule_presentation_name = $row_sedule['program_name'];
                 $db_sedule_presentaiton_date = $row_sedule['program_date'];
                 $db_sedule_presentation_time = $row_sedule['program_time'];
                 $db_sedule_presentation_venue = $row_sedule['program_location'];
                 ?>            
                 <tr>
-                    <td ><?php echo $db_sedule_presenter_name; ?></td>
+                    <td ><?php echo $db_sedule_presentation_name; ?></td>
                     <td><?php echo $db_sedule_presentaiton_date; ?></td>                    
                     <td><?php echo $db_sedule_presentation_time; ?></td>
                     <td><?php echo $db_sedule_presentation_venue; ?></td>                    

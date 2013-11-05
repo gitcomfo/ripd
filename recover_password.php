@@ -3,9 +3,8 @@ error_reporting(0);
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 ?>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<title>পাসওয়ার্ড পুনরুদ্ধার</title>
+<style type="text/css">@import "css/bush.css";</style>
 
 <?php
 $flag = "";

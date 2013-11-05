@@ -2,6 +2,7 @@
 error_reporting(0);
 include_once 'includes/header.php';
 include 'includes/ConnectDB.inc';
+include_once 'includes/header.php';
 $flag = 'false';
 
 function showMessage($flag, $msg) {
@@ -39,8 +40,7 @@ if (isset($_POST['submit']) && ($_GET['action'] == 'edit')) {
     }
 }
 ?>
-<?php include_once 'includes/header.php';
-?>
+<title>গ্রাম</title>
 <script type="text/javascript" src="javascripts/division_district_thana.js"></script>
 <script type="text/javascript" src="javascripts/external/mootools.js"></script>
 <script type="text/javascript" src="javascripts/dg-filter.js"></script>

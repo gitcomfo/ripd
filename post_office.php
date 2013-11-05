@@ -2,6 +2,7 @@
 error_reporting(0);
 include_once 'includes/header.php';
 include 'includes/ConnectDB.inc';
+include_once 'includes/header.php';
 $flag = 'false';
 
 function showMessage($flag, $msg) {
@@ -38,8 +39,7 @@ if (isset($_POST['submit']) && ($_GET['action'] == 'edit')) {
     }
 }
 ?>
-<?php include_once 'includes/header.php';
-?>
+<title>পোস্ট অফিস</title>
 <script type="text/javascript">
     function isBlankPost_edit()
     {
