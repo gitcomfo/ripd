@@ -10,14 +10,13 @@ include_once 'includes/columnLeft.php';
         <table class="formstyle"> 
             <tr><th style="text-align: center" colspan="2"><h1>কমান্ড ও পি,ভি বন্টণ</h1></th></tr>
             <tr>
-                <td><a href="command_making.php">কমান্ড অপশন তৈরি</a></td>
-                <td><a href="#"></a></td>               
+                <td><a href="command_making.php">কমান্ড অপশন তৈরি</a></td>            
             </tr>
             <tr>
                 <td><a href="command_soft_costing_making.php">সফট কস্টিং সংক্রান্ত পিভি বন্টণ</a></td>             
             </tr>
             <tr>
-                <td><a href="#">কাস্টমার হিটিং সংক্রান্ত পিভি বন্টণ</a></td>
+                <td><a href="command_hitting_customer_making.php">কাস্টমার হিটিং সংক্রান্ত পিভি বন্টণ</a></td>
                 <td><a href="#">আন-রেজিস্ট্রার্ড কাস্টমার এর সংক্রান্ত পিভি বন্টণ</a></td>               
             </tr>
             <tr><th style="text-align: center" colspan="2"><h1>সিকিউরিটি </h1></th></tr>
