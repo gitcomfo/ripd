@@ -9,14 +9,13 @@ $host = '192.168.1.100';
 $dbuser = 'cfs_ibrahim';
 $dbpassword = 'ibrahim4321';
 $dbname = 'ripd_db_comfosys';
-
-/*$host = 'localhost';
+/*
+$host = 'localhost';
 $dbuser = 'root';
 $dbpassword = '';
 $dbname = 'ripd_db_comfosys';
- * 
- */
  
+ */
  
 $_SESSION['DatabaseName'] = $dbname;
 /*if(!isset($_SESSION['DatabaseName'])){
