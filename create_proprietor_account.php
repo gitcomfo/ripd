@@ -1,13 +1,13 @@
 <?php
 error_reporting(0);
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include_once 'includes/header.php';
 include_once 'includes/MiscFunctions.php';
+$proprietorID = $_GET['proID'];
+
 ?>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<title>প্রোপ্রাইটার ফর্ম পূরণ</title>
+<style type="text/css">@import "css/bush.css";</style>
 <script type="text/javascript" src="javascripts/division_district_thana.js"></script>
 <script type="text/javascript" src="javascripts/jquery-1.4.3.min.js"></script>
 <script type="text/javascript">    
@@ -33,10 +33,13 @@ include_once 'includes/MiscFunctions.php';
             $("#container_others33:last").after(appendTxt);           
         }  
         count4 = count4 + 1;        
-    })        
+    })    
 </script>
 <?php
 if (isset($_POST['submit1'])) {
+    $proprietorTableID = $_POST['proprietorID'];
+    //$sql_proprie_sel = mysql_query("SELECT * FROM proprietor_account WHERE idpropaccount= $proprietorTableID ");
+    
     $prop_father_name = $_POST['prop_father_name'];
     $prop_motherName = $_POST['prop_motherName'];
     $prop_spouseName = $_POST['prop_spouseName'];
@@ -84,11 +87,8 @@ if (isset($_POST['submit1'])) {
                                                         prop_occupation='$prop_occupation', prop_religion='$prop_religion', prop_natonality='$prop_natonality', prop_nationalID_no='$prop_nationalID_no', 
                                                         prop_passportID_no='$prop_passportID_no', prop_date_of_birth='$dob', prop_birth_certificate_no='$prop_birth_certificate_no',  
                                                         prop_scanDoc_picture='$image_path', prop_scanDoc_signature='$sing_path',  prop_scanDoc_finger_print='$finger_path'
-                                                        WHERE cfs_user_idUser='4' AND Office_idOffice='2' ");
+                                                        WHERE idpropaccount = $proprietorTableID");
       
-    $result = mysql_query("Select  * from $dbname.proprietor_account where cfs_user_idUser='4'");
-    $proprietor_id = mysql_fetch_array($result);
-    $prop = $proprietor_id['idpropaccount'];                 
     //proprietor's Current Address Infromation
     $p_Village_idVillage = $_POST['village_id1'];
     $p_Post_idPost = $_POST['post_id1'];
@@ -108,11 +108,11 @@ if (isset($_POST['submit1'])) {
    //address_type=Present
     $sql_p_insert_current_address = mysql_query("INSERT INTO $dbname.address 
                                     (address_type, house, house_no, road, address_whom, post_code,Thana_idThana, post_idpost, village_idvillage ,adrs_cepng_id)
-                                     VALUES ('Present', '$p_house', '$p_house_no', '$p_road', 'pwr', '$p_post_code','$p_Thana_idThana','$p_Post_idPost', '$p_Village_idVillage', '$prop')");
+                                     VALUES ('Present', '$p_house', '$p_house_no', '$p_road', 'pwr', '$p_post_code','$p_Thana_idThana','$p_Post_idPost', '$p_Village_idVillage', '$proprietorTableID')");
     //address_type=Permanent
     $sql_pp_insert_permanent_address = mysql_query("INSERT INTO $dbname.address 
                                     (address_type, house, house_no, road, address_whom, post_code,Thana_idThana,  post_idpost, village_idvillage ,adrs_cepng_id)
-                                     VALUES ('Permanent', '$pp_house', '$pp_house_no', '$pp_road', 'pwr', '$pp_post_code','$pp_Thana_idThana', '$pp_Post_idPost', '$pp_Village_idVillage', '$prop')");
+                                     VALUES ('Permanent', '$pp_house', '$pp_house_no', '$pp_road', 'pwr', '$pp_post_code','$pp_Thana_idThana', '$pp_Post_idPost', '$pp_Village_idVillage', '$proprietorTableID')");
 
     if ($sql_update_proprietor || $sql_p_insert_current_address || $sql_pp_insert_permanent_address) {
         $msg = "তথ্য সংরক্ষিত হয়েছে";
@@ -127,10 +127,6 @@ if (isset($_POST['submit1'])) {
     $nominee_email = $_POST['nominee_email'];
     $nominee_national_ID = $_POST['nominee_national_ID'];
     $nominee_passport_ID = $_POST['nominee_passport_ID'];
-
-    $result = mysql_query("Select  * from $dbname.employee_information where Employee_idEmployee='1'");
-    $employee_id = mysql_fetch_array($result);
-    $emp1 = $employee_id['idEmployee_information'];
     //Insert Into Nominee table
     $allowedExts = array("gif", "jpeg", "jpg", "png", "JPG", "JPEG", "GIF", "PNG");
     $extension = end(explode(".", $_FILES["nominee_picture"]["name"]));
@@ -145,7 +141,7 @@ if (isset($_POST['submit1'])) {
     $sql_nominee = mysql_query("INSERT INTO $dbname.nominee(nominee_name, nominee_relation, nominee_mobile,
                                        nominee_email, nominee_national_ID, nominee_age, nominee_passport_ID, nominee_picture,cep_type, cep_nominee_id) 
                                        VALUES('$nominee_name','$nominee_relation','$nominee_mobile','$nominee_email','$nominee_national_ID',
-                                       '$nominee_age','$nominee_passport_ID','$image_path','pwr','$emp1')");
+                                       '$nominee_age','$nominee_passport_ID','$image_path','pwr','$proprietorID')");
     //Current Address Infromation
     $n_Village_idVillage = $_POST['village_id5'];
     $n_Post_idPost = $_POST['post_id5'];
@@ -169,21 +165,18 @@ if (isset($_POST['submit1'])) {
     //nominee address_type=Present
     $sql_n_insert_current_address = mysql_query("INSERT INTO $dbname.address 
                                     (address_type, house, house_no,road, address_whom, post_code,Thana_idThana,  post_idpost, village_idvillage ,adrs_cepng_id)
-                                     VALUES ('Present', '$n_house', '$n_house_no', '$n_road', 'nmn', '$n_post_code', '$n_Thana_idThana', '$n_Post_idPost', '$n_Village_idVillage','$emp1')");
+                                     VALUES ('Present', '$n_house', '$n_house_no', '$n_road', 'nmn', '$n_post_code', '$n_Thana_idThana', '$n_Post_idPost', '$n_Village_idVillage','$proprietorID')");
     //nominee address_type=Permanent
     $sql_np_insert_permanent_address = mysql_query("INSERT INTO $dbname.address 
                                     (address_type, house, house_no, road, address_whom,post_code,Thana_idThana,  post_idpost, village_idvillage ,adrs_cepng_id)
-                                     VALUES ('Permanent', '$np_house', '$np_house_no','$np_road', 'nmn',  '$np_post_code','$np_Thana_idThana','$np_Post_idPost', '$np_Village_idVillage','$emp1')");
+                                     VALUES ('Permanent', '$np_house', '$np_house_no','$np_road', 'nmn',  '$np_post_code','$np_Thana_idThana','$np_Post_idPost', '$np_Village_idVillage','$proprietorID')");
 
     if ($sql_nominee || $sql_n_insert_current_address || $sql_np_insert_permanent_address) {
-        $msg1 = "তথ্য সংরক্ষিত হয়েছে";
+        $msg = "তথ্য সংরক্ষিত হয়েছে";
     } else {
-        $msg1 = "ভুল হয়েছে";
+        $msg = "ভুল হয়েছে";
     }
 } elseif (isset($_POST['submit3'])) {
-    $result = mysql_query("Select  * from $dbname.employee_information where Employee_idEmployee='1'");
-    $employee_id = mysql_fetch_array($result);
-    $emp2 = $employee_id['idEmployee_information'];
     //customer education
     $e_ex_name = $_POST['e_ex_name'];
     $e_pass_year = $_POST['e_pass_year'];
@@ -192,10 +185,13 @@ if (isset($_POST['submit1'])) {
     $e_gpa = $_POST['e_gpa'];
     $a = count($e_ex_name);
     for ($i = 0; $i < $a; $i++) {
-        $sql_insert_emp_edu = "INSERT INTO " . $dbname . ".`education` ( `exam_name` ,`passing_year` ,`institute_name`,`board`,`gpa`,`education_type`,`cepn_id`) VALUES ('$e_ex_name[$i]', '$e_pass_year[$i]','$e_institute[$i]','$e_board[$i]','$e_gpa[$i]','pwr','$emp2');";
+        $sql_insert_emp_edu = "INSERT INTO " . $dbname . ".`education` ( `exam_name` ,`passing_year` ,`institute_name`,`board`,`gpa`,`education_type`,`cepn_id`) VALUES ('$e_ex_name[$i]', '$e_pass_year[$i]','$e_institute[$i]','$e_board[$i]','$e_gpa[$i]','pwr','$proprietorID');";
         $emp_edu = mysql_query($sql_insert_emp_edu) or exit('query failed: ' . mysql_error());
     }
     //nominee education
+    $result = mysql_query("SELECT * FROM $dbname.nominee WHERE cep_type = 'pwr' AND cep_nominee_id=$proprietorID ");
+    $nomrow = mysql_fetch_array($result);
+    $nomineeID = $nomrow['idNominee'];
     $n_ex_name = $_POST['n_ex_name'];
     $n_pass_year = $_POST['n_pass_year'];
     $n_institute = $_POST['n_institute'];
@@ -203,18 +199,15 @@ if (isset($_POST['submit1'])) {
     $n_gpa = $_POST['n_gpa'];
     $b = count($n_ex_name);
     for ($i = 0; $i < $b; $i++) {
-        $sql_insert_nom_edu = "INSERT INTO " . $dbname . ".`education` ( `exam_name` ,`passing_year` ,`institute_name`,`board`,`gpa`,`education_type`,`cepn_id`) VALUES ('$n_ex_name[$i]', '$n_pass_year[$i]','$n_institute[$i]','$n_board[$i]','$n_gpa[$i]','nmn','$emp2');";
+        $sql_insert_nom_edu = "INSERT INTO " . $dbname . ".`education` ( `exam_name` ,`passing_year` ,`institute_name`,`board`,`gpa`,`education_type`,`cepn_id`) VALUES ('$n_ex_name[$i]', '$n_pass_year[$i]','$n_institute[$i]','$n_board[$i]','$n_gpa[$i]','nmn','$nomineeID');";
         $nom_edu = mysql_query($sql_insert_nom_edu) or exit('query failed: ' . mysql_error());
     }
     if ($emp_edu || $nom_edu) {
-        $msg2 = "তথ্য সংরক্ষিত হয়েছে";
+        $msg = "তথ্য সংরক্ষিত হয়েছে";
     } else {
-        $msg2 = "ভুল হয়েছে";
+        $msg = "ভুল হয়েছে";
     }
 }elseif (isset($_POST['submit4'])) {
-    $result = mysql_query("Select  * from $dbname.proprietor_account where cfs_user_idUser='4'");
-    $proprietor_id = mysql_fetch_array($result);
-    $prop3 = $proprietor_id['idpropaccount'];
     $pathArray = array();
     for ($i = 1; $i < 12; $i++) {
         $scan_document = "";
@@ -239,11 +232,11 @@ if (isset($_POST['submit1'])) {
     $sql_images_scan_doc = mysql_query("INSERT INTO $dbname.ep_certificate_scandoc_extra
                                  (emplo_scanDoc_national_id, emplo_scanDoc_birth_certificate, emplo_scanDoc_chairman_certificate, scanDoc_ssc, scanDoc_hsc, scanDoc_onars, scanDoc_masters, scanDoc_other, emp_type, emp_id)
                                  VALUES('$pathArray[2]', '$pathArray[4]', '$pathArray[6]', '$pathArray[1]', '$pathArray[3]', 
-                                 '$pathArray[5]',  '$pathArray[7]', '$pathArray[8]', 'pwr','$prop3')");
+                                 '$pathArray[5]',  '$pathArray[7]', '$pathArray[8]', 'pwr','$proprietorID')");
     if ($sql_images_scan_doc) {
-        $msg_scan_doc = "তথ্য সংরক্ষিত হয়েছে";
+        $msg = "তথ্য সংরক্ষিত হয়েছে";
     } else {
-        $msg_scan_doc = "ভুল হয়েছে";
+        $msg = "ভুল হয়েছে";
     }
 }
 ?>
@@ -255,7 +248,6 @@ if (isset($_POST['submit1'])) {
                 <li class="current"><a href="#01">মূল তথ্য</a></li><li class="current"><a href="#02">নমিনির তথ্য</a></li><li class="current"><a href="#03">শিক্ষাগত যোগ্যতা</a></li><li class="current"><a href="#04">প্রয়োজনীয় ডকুমেন্টস</a></li>
             </ul>
         </div>  
-
         <div>
             <h2><a name="01" id="01"></a></h2><br/>
             <form method="POST" onsubmit="" enctype="multipart/form-data" action="" id="prop_form" name="prop_form">	
@@ -267,28 +259,12 @@ if (isset($_POST['submit1'])) {
                         echo '<tr><td ></td><td colspan="4" style="text-allign: center; color: red; font-size: 15px"><blink>' . $msg . '</blink></td></tr>';
                     }
                     ?>
-                    <tr>
-                        <td>পাওয়ার স্টোরের নাম</td>
-                        <td >:  <select  class="box2"  name="powerStore_name" style =" font-size: 11px">
-                                <option > একটি নির্বাচন করুন</option>
-                                <option value=1></option>
-                                <option value=2></option>
-                                <option value=3></option>
-                                <option value=4></option> 
-                            </select>	
-                        </td>
-                        <td >একাউন্ট নং </td>
-                        <td>:  <input class="box" type="text" id="powerStore_accountNumber" name="powerStore_accountNumber" /></td>	
-                    </tr>
-                    <tr>
-                        <td colspan="4" ><hr /></td>
-                    </tr>
                     <tr>	
                         <td  colspan="4" style =" font-size: 14px"><b>ব্যাক্তিগত  তথ্য</b></td>                            
                     </tr>
                     <tr>
-                        <td  >স্বত্বাধিকারীর নাম</td>
-                        <td>:  <input  class="box" type="text" id="prop_name" name="prop_name" /></td>   
+                        <td>স্বত্বাধিকারীর নাম</td>
+                        <td>:  <input  class="box" type="text" id="prop_name" name="prop_name" /><input type="hidden" name="proprietorID" value="<?php echo $proprietorID;?>"/></td>   
                         <td font-weight="bold" >ছবি </td>
                         <td>:   <input class="box5" type="file" id="image" name="image" style="font-size:10px;"/></td>               
                     </tr>
@@ -319,14 +295,6 @@ if (isset($_POST['submit1'])) {
                     <tr>
                         <td >জাতীয়তা</td>
                         <td>:  <input class="box" type="text" id="prop_natonality" name="prop_natonality" /> </td>			
-                    </tr>
-                    <tr>
-                        <td >মোবাইল নং</td>
-                        <td>:  <input class="box" type="text" id="proprietor_mobile" name="proprietor_mobile"/></td>			
-                    </tr>
-                    <tr>
-                        <td >ইমেল</td>
-                        <td>:  <input class="box" type="text" id="proprietor_email" name="proprietor_email" /></td>			
                     </tr>
                     <tr>
                         <td>জন্মতারিখ</td>

@@ -1,7 +1,6 @@
 <?php
 error_reporting(0); 
 include_once 'includes/ConnectDB.inc';
-include_once 'includes/function.php';
 include_once 'includes/header.php'; 
 $g_type = $_GET['pwr'];
 ?>
@@ -15,7 +14,6 @@ $g_type = $_GET['pwr'];
     function infoFromThana()
     {
         var type = <?php echo $g_type;?>;
-        alert(type);
         var xmlhttp;
         if (window.XMLHttpRequest) xmlhttp=new XMLHttpRequest();
         else xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
@@ -59,21 +57,19 @@ $g_type = $_GET['pwr'];
                         <th><?php echo "করনীয়"; ?></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody>                    
                     <?php
-                    if($g_type == 1)
+                    if($g_type==1)
                     {
-                    $sql_officeTable = "SELECT * from ".$dbname.".office WHERE office_type = 'pwr_head' ORDER BY office_name ASC";
-                    $db_slNo = 0;
+                    $sql_officeTable = "SELECT * from $dbname.office WHERE office_type = 'pwr_head' ORDER BY office_name ASC";
                     $rs = mysql_query($sql_officeTable);
                     }
-                    else {$sql_officeTable = "SELECT * from ".$dbname.".office WHERE office_type <> 'pwr_head' ORDER BY office_name ASC";
-                    $db_slNo = 0;
-                    $rs = mysql_query($sql_officeTable);}
-
-                    while ($row_officeNcontact = mysql_fetch_assoc($rs)) 
-                    {
-                        $db_slNo = $db_slNo + 1;
+                    else{
+                    $sql_officeTable = "SELECT * from ".$dbname.".office WHERE office_type <> 'pwr_head' ORDER BY office_name ASC";
+                    $rs = mysql_query($sql_officeTable);
+                    }
+                    //echo mysql_num_rows($rs);
+                    while ($row_officeNcontact = mysql_fetch_array($rs)) {
                         $db_offName = $row_officeNcontact['office_name'];
                         $db_offNumber = $row_officeNcontact['office_number'];
                         $db_offAN = $row_officeNcontact['account_number'];
@@ -85,7 +81,7 @@ $g_type = $_GET['pwr'];
                         echo "<td>$db_offAN</td>";
                         echo "<td>$db_offAddress</td>";
                         $v = base64_encode($db_offID);
-                        echo "<td><a href='update_account.php?id=$v'>আপডেট.</a></td>";
+                        echo "<td><a href='update_account.php?id=$v&type=$g_type'>আপডেট</a></td>";
                         echo "</tr>";
                     }
                     ?>

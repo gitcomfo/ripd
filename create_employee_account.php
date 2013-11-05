@@ -5,9 +5,8 @@ include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 error_reporting(0);
 ?>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<title>ক্রিয়েট কর্মচারী অ্যাকাউন্ট</title>
+<style type="text/css">@import "css/bush.css";</style>
 <script type="text/javascript" src="javascripts/division_district_thana.js"></script>
 <script type="text/javascript" src="javascripts/jquery-1.4.3.min.js"></script>
 <script type="text/javascript">    

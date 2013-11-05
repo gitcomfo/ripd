@@ -37,7 +37,7 @@ window.onclick = function()
 
 <div class="column6">
     <div class="main_text_box">
-        <div style="padding-left: 110px;"><a href="index.php?apps=HRE"><b>ফিরে যান</b></a></div>
+        <div style="padding-left: 110px;"><a href="index.php?apps=ACM"><b>ফিরে যান</b></a></div>
         <div>
             <form method="POST" onsubmit="" name="" action="cheque_make_out.php">	
                 <table  class="formstyle" style="font-family: SolaimanLipi !important;">          

@@ -37,9 +37,8 @@ if (isset($_POST['pro_submit'])) {
     }
 }
 ?>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<title>মেইক প্রোডাক্ট ক্যাটাগরি এন্ড টাইপ</title>
+<style type="text/css">@import "css/bush.css";</style>
 <script>
     function shownew_product_caregory(new_product_category) // for types dropdown list
     {
@@ -63,12 +62,11 @@ if (isset($_POST['pro_submit'])) {
         xmlhttp.send();	
     }
 </script>
-    <div class="columnSld" style=" padding-left: 50px;">
         <div class="main_text_box">
-            <div style="padding-left: 162px;"><a href="index.php?apps=PROD"><b>ফিরে যান</b></a></div>
+            <div style="padding-left: 112px;"><a href="index.php?apps=PROD"><b>ফিরে যান</b></a></div>
             <div>           
-                <form method="POST" onsubmit="" style=" padding-left: 50px;">	
-                    <table class="formstyle"  style=" width:570px; ">          
+                <form method="POST" onsubmit="" >	
+                    <table class="formstyle"  style="font-family: SolaimanLipi !important;width: 80%;">          
                         <tr><th style="text-align: center" colspan="3"><h1>মেইক প্রোডাক্ট ক্যাটাগরি এন্ড টাইপ</h1>
                         </th>
                         </tr>
@@ -80,42 +78,38 @@ if (isset($_POST['pro_submit'])) {
                         }
                         ?>
                         <tr>
-                            <td ><b>প্রোডাক্ট ক্যাটাগরি </b> &nbsp;&nbsp;&nbsp;<select class="box2" type="text" id="product_id" name="product" onchange="shownew_product_caregory(this.value)" />
-                        <option value='' selected="selected">- প্রোডাক্ট ক্যাটাগরি -</option>
-                        <option value="new">নতুন ক্যাটাগরি</option>
-                        <?php
-                        $product_cat_sql = mysql_query("SELECT DISTINCT pro_catagory, pro_cat_code FROM $dbname.product_catagory");
-                        while ($product_cat_rows = mysql_fetch_array($product_cat_sql)) {
-                            $db_product_cat_code = $product_cat_rows['pro_cat_code'];
-                            $db_product_cat_name = $product_cat_rows['pro_catagory'];
-                            echo "<option style='width: 96%'  value='$db_product_cat_code'>$db_product_cat_name</option>";
-                        }
-                        ?>
+                            <td ><b>প্রোডাক্ট ক্যাটাগরি </b> &nbsp;&nbsp;&nbsp;
+                                <select class="box2" type="text" id="product_id" name="product" onchange="shownew_product_caregory(this.value)" />
+                                    <option value='' selected="selected">- প্রোডাক্ট ক্যাটাগরি -</option>
+                                    <option value="new">নতুন ক্যাটাগরি</option>
+                                    <?php
+                                    $product_cat_sql = mysql_query("SELECT DISTINCT pro_catagory, pro_cat_code FROM $dbname.product_catagory");
+                                    while ($product_cat_rows = mysql_fetch_array($product_cat_sql)) {
+                                        $db_product_cat_code = $product_cat_rows['pro_cat_code'];
+                                        $db_product_cat_name = $product_cat_rows['pro_catagory'];
+                                        echo "<option style='width: 96%'  value='$db_product_cat_code'>$db_product_cat_name</option>";
+                                    }
+                                    ?>
                         </select></td> 
                         </tr>
                         <tr id="new_product_category"></tr>   
                         <tr>
-                            <td ><b>প্রোডাক্ট টাইপ </b></td>
-                            <td><b>প্রোডাক্ট টাইপ কোড</b></td>          
+                            <td ><b>প্রোডাক্ট টাইপ </b> <input class="box" type="text" id="pro_type" name="pro_type" /></td>
+                            <td><b>প্রোডাক্ট টাইপ কোড</b> <input class="box" type="text" id="pro_type_code" name="pro_type_code" /></td>          
                         </tr>   
-                        <tr>
-                            <td ><input class="box" type="text" id="pro_type" name="pro_type" /></td>
-                            <td><input class="box" type="text" id="pro_type_code" name="pro_type_code" /></td>          
-                        </tr>  
                         <tr>                    
                             <td>
                             </td>                           
                         </tr>
                     <tr>                    
-                        <td colspan="4" style="padding-top: 5px; padding-left: 160px;padding-bottom: 5px; " ><input class="btn" style =" font-size: 12px; " type="submit" name="pro_submit" value="সেভ করুন" />
+                        <td colspan="4" style="padding-top: 5px; padding-bottom: 5px;text-align: center; " ><input class="btn" style =" font-size: 12px; " type="submit" name="pro_submit" value="সেভ করুন" />
                             <input class="btn" style =" font-size: 12px" type="reset" name="reset" value="রিসেট করুন" />
                         </td>                           
                     </tr>
                     </table>
                 </form>
             </div>
-        </div>
-    </div>   
+        </div>   
     <?php
 include 'includes/footer.php';
 ?>

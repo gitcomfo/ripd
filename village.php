@@ -2,6 +2,7 @@
 error_reporting(0);
 include_once 'includes/header.php';
 include 'includes/ConnectDB.inc';
+include_once 'includes/header.php';
 $flag = 'false';
 
 function showMessage($flag, $msg) {
@@ -39,8 +40,7 @@ if (isset($_POST['submit']) && ($_GET['action'] == 'edit')) {
     }
 }
 ?>
-<?php include_once 'includes/header.php';
-?>
+<title>গ্রাম</title>
 <script type="text/javascript" src="javascripts/division_district_thana.js"></script>
 <script type="text/javascript" src="javascripts/external/mootools.js"></script>
 <script type="text/javascript" src="javascripts/dg-filter.js"></script>
@@ -245,7 +245,7 @@ if ($_GET['action'] == 'edit') {
 } else {
     ?>
     <div style="padding-top: 10px;">    
-        <div style="padding-left: 110px; width: 65%; float: left"><a href="index.php?apps=CA"><b>ফিরে যান</b></a></div>
+        <div style="padding-left: 110px; width: 65%; float: left"><a href="index.php?apps=AREA"><b>ফিরে যান</b></a></div>
         <div ><a href="village.php?action=new"> নতুন গ্রাম</a>&nbsp;&nbsp;<a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">গ্রামের লিস্ট</a></div>
     </div>
     <div>

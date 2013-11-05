@@ -99,9 +99,8 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<title>প্রোডাক্ট ইন</title>
+<style type="text/css">@import "css/bush.css";</style>
 <script type="text/javascript">
     function isfillinput()
     {
@@ -113,12 +112,12 @@ if (isset($_POST['submit'])) {
     }
 </script>
 <script type="text/javascript" src="javascripts/product.js"></script>
-<div class="columnSld" style=" padding-left: 50px;">
+
     <div class="main_text_box">
-        <div style="padding-left: 162px;"><a href="index.php?apps=PROD"><b>ফিরে যান</b></a><a style="padding-left: 252px;" href="make_product_introduce.php"><b>মেইক প্রোডাক্ট ক্যাটাগরি এন্ড টাইপ</b></a></div>
+        <div style="padding-left: 112px;"><a href="index.php?apps=PROD"><b>ফিরে যান</b></a><a style="padding-left: 500px;" href="make_product_introduce.php"><b>মেইক প্রোডাক্ট ক্যাটাগরি এন্ড টাইপ</b></a></div>
         <div>           
-            <form method="POST" onsubmit ="" style=" padding-left: 50px;"enctype="multipart/form-data" action="" id="product_form" name="product_form">	
-                <table class="formstyle"  style=" width:520px; ">          
+            <form method="POST" onsubmit ="" enctype="multipart/form-data" action="" id="product_form" name="product_form">	
+                <table class="formstyle" style="font-family: SolaimanLipi !important;width: 80%;">          
                     <tr><th style="text-align: center" colspan="3"><h1>প্রোডাক্ট ইন</h1>
                     </th>
                     </tr>
@@ -209,7 +208,6 @@ if (isset($_POST['submit'])) {
             </form>
         </div>
     </div>
-</div>   
 <?php
 include 'includes/footer.php';
 ?>

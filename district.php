@@ -1,6 +1,7 @@
 <?php
 error_reporting(0);
 include 'includes/ConnectDB.inc';
+include_once 'includes/header.php';
 ?>
 <?php
 $flag = 'false';
@@ -39,8 +40,8 @@ if (isset($_POST['submit']) && ($_GET['action'] == 'edit')){
     }
 }
 ?>
-<?php include_once 'includes/header.php';
-?>
+<title>জেলা</title>
+<style type="text/css">@import "css/bush.css";</style>
 <script type="text/javascript" src="javascripts/external/mootools.js"></script>
 <script type="text/javascript" src="javascripts/dg-filter.js"></script>
 <script type="text/javascript">
@@ -91,9 +92,6 @@ if (isset($_POST['submit']) && ($_GET['action'] == 'edit')){
     }
 </script>
 
-<style type="text/css">
-    @import "css/bush.css";
-</style>
 <?php
 if ($_GET['action'] == 'edit') {
     ?>
@@ -199,7 +197,7 @@ if ($_GET['action'] == 'edit') {
 } else {
     ?>
     <div style="padding-top: 10px;">    
-        <div style="padding-left: 110px; width:64%; float: left"><a href="index.php?apps=CA"><b>ফিরে যান</b></a></div>
+        <div style="padding-left: 110px; width:64%; float: left"><a href="index.php?apps=AREA"><b>ফিরে যান</b></a></div>
         <div ><a href="district.php?action=new"> নতুন জেলা</a>&nbsp;&nbsp;<a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">জেলার  লিস্ট</a></div>
     </div>
     <div>

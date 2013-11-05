@@ -1,11 +1,10 @@
 <?php include_once 'includes/header.php';?>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<title>পিন স্থগিত করন</title>
+<style type="text/css">@import "css/bush.css";</style>
 
 <div class="columnSld" style=" padding-left: 50px;">
     <div class="main_text_box">
-        <div style="padding-left: 110px;"><a href="index.php?apps=PROD"><b>ফিরে যান</b></a></div>
+        <div style="padding-left: 110px;"><a href="index.php?apps=CRM"><b>ফিরে যান</b></a></div>
         <div>           
             <form method="POST" onsubmit="">	
                 <table class="formstyle"  style=" width: 98%; ">          

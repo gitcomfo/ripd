@@ -9,6 +9,7 @@ $arr_presenter = array();
 $type=$_GET['type'];
 $typeinbangla = getProgramType($type);
 $whoinbangla =  getProgramer($type);
+$whoType = getProgramerType($type);
 
 $sql_cfs_emp_sel = $conn->prepare("SELECT idEmployee FROM cfs_user, employee WHERE cfs_user_idUser = idUser AND account_number= ?");
 $sql_program_ins = $conn->prepare("INSERT INTO  $dbname .program (program_no, program_name, program_date, program_time, program_type, Office_idOffice) 
@@ -196,24 +197,28 @@ if ($_GET['action'] == 'first') {
 
                     <!--######################SELECT QUERY########################## -->
                     <?php
-                    $sql = "SELECT * FROM $dbname.program, $dbname.employee, $dbname.cfs_user
-                              WHERE program.Employee_idEmployee=employee.idEmployee AND employee.cfs_user_idUser=cfs_user.idUser 
-                              AND employee.employee_type='presenter'";
-
+                    $sql = "SELECT * FROM $dbname.program WHERE program_type = '$type'";
+                    $str_presenter_list = "";
+                    $str_presenter_email_list = "";
                     $db_result_presenter_name = mysql_query($sql);
                     while ($row_prstn = mysql_fetch_array($db_result_presenter_name)) {
+                        $db_programID = $row_prstn['idprogram'];
                         $db_rl_prstn_number = $row_prstn['program_no'];
                         $db_rl_prstn_name = $row_prstn['program_name'];
-                        $db_rl_presenter_name = $row_prstn['user_name'];
-                        $db_rl_presenter_email = $row_prstn['email'];
                         $db_rl_prstn_date = $row_prstn['program_date'];
                         $db_rl_prstn_time = $row_prstn['program_time'];
+                        $sql_prsntr_list = mysql_query("SELECT * FROM presenter_list, employee, cfs_user 
+                            WHERE idUser=cfs_user_idUser AND idEmployee= fk_Employee_idEmployee AND fk_idprogram=$db_programID ");
+                         while ($row_prsnter = mysql_fetch_array($sql_prsntr_list)) {
+                             $str_presenter_list = $row_prsnter['account_name'].",\n".$str_presenter_list;
+                             $str_presenter_email_list = $row_prsnter['email'].",\n".$str_presenter_email_list;
+                         }
                         ?>
                         <tr>
                             <td><?php echo $db_rl_prstn_number; ?></td>
                             <td><?php echo $db_rl_prstn_name; ?></td>
-                            <td><?php echo $db_rl_presenter_name; ?></td>
-                            <td><?php echo $db_rl_presenter_email; ?></td>
+                            <td><?php echo $str_presenter_list; ?></td>
+                            <td><?php echo $str_presenter_email_list; ?></td>
                             <td><?php echo $db_rl_prstn_date; ?></td>
                             <td>
                                 <?php
@@ -222,7 +227,7 @@ if ($_GET['action'] == 'first') {
                                 if ($day == 'Wed') {
                                     echo "বুধ";
                                 } elseif ($day == 'Thu') {
-                                    echo "বিরহস্পতি";
+                                    echo "বৃহস্পতি";
                                 } elseif ($day == 'Fri') {
                                     echo "শুক্র";
                                 } elseif ($day == 'Sat') {
@@ -237,7 +242,7 @@ if ($_GET['action'] == 'first') {
                                 ?>
                             </td>
                             <td><?php echo $db_rl_prstn_time; ?></td>
-                            <td style="text-align: center " > <a href="presentation_schdule.php?action=edit&id=<?php echo $db_rl_prstn_number; ?>"> এডিট সিডিউল </a></td>  
+                            <td style="text-align: center " > <a href="presentation_schdule.php?action=edit&id=<?php echo $db_programID; ?>&type=<?php echo $type;?>"> এডিট সিডিউল </a></td>  
                         </tr>
                     <?php } ?>
                 </tbody>
@@ -312,9 +317,7 @@ if ($_GET['action'] == 'first') {
         <!--PHP coding for SHOWING THE DATA IN EDIT SCHEDULE -->     
         <?php
         $G_presentation_id = $_GET['id'];
-        $sql_edit = "SELECT * FROM $dbname.cfs_user, $dbname.program, $dbname.employee
-                       WHERE program.Employee_idEmployee=employee.idEmployee AND employee.cfs_user_idUser=cfs_user.idUser
-                       AND program.program_type = 'presentation' AND program_no='$G_presentation_id'";
+        $sql_edit = "SELECT * FROM $dbname.program WHERE program_type = '$type'";
         $db_result_edit = mysql_query($sql_edit);
         $row_edit = mysql_fetch_array($db_result_edit);
         $db_rl_presentation_number = $row_edit['program_no'];
@@ -322,6 +325,12 @@ if ($_GET['action'] == 'first') {
         $db_rl_prstnr_name = $row_edit['user_name'];
         $db_rl_presentation_date = $row_edit['program_date'];
         $db_rl_presentation_time = $row_edit['program_time'];
+        $sql_prsntr_list = mysql_query("SELECT * FROM presenter_list, employee, cfs_user 
+                            WHERE idUser=cfs_user_idUser AND idEmployee= fk_Employee_idEmployee AND fk_idprogram=$db_programID ");
+                         while ($row_prsnter = mysql_fetch_array($sql_prsntr_list)) {
+                             $str_presenter_list = $row_prsnter['account_name'].",\n".$str_presenter_list;
+                             $str_presenter_email_list = $row_prsnter['email'].",\n".$str_presenter_email_list;
+                         }
         ?>
         <form method="POST"> <!--Redirect from one page to another -->
             <table class="formstyle" style =" width:78%" id="presentation_fillter">       
@@ -338,28 +347,7 @@ if ($_GET['action'] == 'first') {
                 </tr>
                 <tr>
                     <td ><?php echo $whoinbangla?>-এর নাম</td>   <!--Writing query for drop-down list -->            
-                    <td>: <select class="box2" name="user_name" style="width: 150px;">
-                            <?php
-                            $sql = "SELECT * FROM $dbname.cfs_user,$dbname.employee 
-                                      WHERE  employee.cfs_user_idUser=cfs_user.idUser 
-                                      AND employee.employee_type='presenter' ORDER BY user_name ASC";
-                            $db_reuslt = mysql_query($sql);
-                            while ($row_prsnt = mysql_fetch_array($db_reuslt)) {
-                                $db_user_id = $row_prsnt['idUser'];
-                                $db_employee_name = $row_prsnt['user_name'];
-                                $sql_employee_id = "SELECT * FROM $dbname.employee 
-                                                      WHERE employee.cfs_user_idUser='$db_user_id'";
-                                $db_result_emplolyee_id = mysql_query($sql_employee_id);
-                                $row_employee_id = mysql_fetch_array($db_result_emplolyee_id);
-                                $db_employee_id = $row_employee_id['idEmployee'];
-                                if ($db_employee_id == $db_rl_prstnr_name) {
-                                    echo "<option style='width: 96%' value='$db_employee_id' selected=\"selected\">$db_employee_name</option>";
-                                }
-                                else
-                                    echo "<option style='width: 96%' value='$db_employee_id'>$db_employee_name</option>";
-                            }
-                            ?>
-                        </select>
+                    <td>: <input class="box" id="presenters" name="presenters" value="<?php echo $str_presenter_list;?>" />
                     </td>
 
                 </tr>
@@ -370,7 +358,7 @@ if ($_GET['action'] == 'first') {
                 </tr>
                 <tr>
                     <td > সময় </td>
-                    <td>: <input  class="box" type="text" name="presentation_time" value="<?php echo $db_rl_presentation_time; ?>"/></td>
+                    <td>: <input  class="box" type="time" name="presentation_time" value="<?php echo $db_rl_presentation_time; ?>"/></td>
                 </tr> 
                 <?php
                 if ($msgi != "") {
@@ -418,12 +406,10 @@ if ($_GET['action'] == 'first') {
             <tbody>
                 <!--Presenter List Query -->
                 <?php
-                $sql_list = "SELECT * FROM $dbname.cfs_user, $dbname.employee, $dbname.employee_grade, $dbname.address, $dbname.thana, $dbname.district, $dbname.division  
+                $sql_list = "SELECT * FROM cfs_user, employee, pay_grade  
                              WHERE 
-                             cfs_user.idUser=employee.cfs_user_idUser AND employee.Employee_grade_idEmployee_grade=employee_grade.idEmployee_grade 
-                             AND address.adrs_cepng_id= employee.idEmployee AND thana.idThana=address.Thana_idThana 
-                             AND thana.District_idDistrict=district.idDistrict AND district.Division_idDivision= division.idDivision
-                             AND employee.employee_type='presenter'";
+                             cfs_user.idUser=employee.cfs_user_idUser AND pay_grade_id=idpaygrade 
+                             AND employee.employee_type='$whoType'";
 
 
                 $db_result_presenter_info = mysql_query($sql_list); //Saves the query of Presenter Infromation
@@ -447,7 +433,7 @@ if ($_GET['action'] == 'first') {
                         <td><?php echo $db_rl_presennter_thana; ?></td>
                         <td><?php echo $db_rl_presenter_district; ?></td>
                         <td><?php echo $db_rl_presenter_division; ?></td>
-                        <td style="text-align: center " > <a href="presentation_schdule.php?action=sedule&id=<?php echo $db_rl_presenter_id; ?>">সিডিউল </a></td>  
+                        <td style="text-align: center " > <a href="presentation_schdule.php?action=sedule&id=<?php echo $db_rl_presenter_id; ?>&type=<?php echo $type;?>">সিডিউল </a></td>  
                     </tr>
                 <?php } ?>
             </tbody>
@@ -472,7 +458,7 @@ if ($_GET['action'] == 'first') {
                 <th colspan="100" >সিডিউল  </th>                        
             </tr>             
             <tr id = "table_row_odd">
-                <td><?php echo $whoinbangla?>-এর নাম </td>
+                <td><?php echo $typeinbangla?>-এর নাম </td>
                 <td >তারিখ</td>
                 <td >সময়</td>
                 <td >ভেন্যু</td>                
@@ -482,18 +468,17 @@ if ($_GET['action'] == 'first') {
             <?php
             $G_presenter_id = $_GET['id'];
             $sql_sedule = "SELECT *
-                              FROM  $dbname.cfs_user, $dbname .employee,  $dbname .program
-                              WHERE  employee.cfs_user_idUser=cfs_user.idUser AND employee.idEmployee= '$G_presenter_id'
-                              AND employee.idEmployee = program.Employee_idEmployee AND employee.employee_type='presenter'";
+                              FROM  program, presenter_list
+                              WHERE  idprogram = fk_idprogram AND fk_Employee_idEmployee = $G_presenter_id";
             $db_result_sql_sedule = mysql_query($sql_sedule);
             while ($row_sedule = mysql_fetch_array($db_result_sql_sedule)) {
-                $db_sedule_presenter_name = $row_sedule['user_name'];
+                $db_sedule_presentation_name = $row_sedule['program_name'];
                 $db_sedule_presentaiton_date = $row_sedule['program_date'];
                 $db_sedule_presentation_time = $row_sedule['program_time'];
                 $db_sedule_presentation_venue = $row_sedule['program_location'];
                 ?>            
                 <tr>
-                    <td ><?php echo $db_sedule_presenter_name; ?></td>
+                    <td ><?php echo $db_sedule_presentation_name; ?></td>
                     <td><?php echo $db_sedule_presentaiton_date; ?></td>                    
                     <td><?php echo $db_sedule_presentation_time; ?></td>
                     <td><?php echo $db_sedule_presentation_venue; ?></td>                    

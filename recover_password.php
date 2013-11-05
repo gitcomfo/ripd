@@ -8,9 +8,8 @@ $user_id = $_SESSION['userIDUser'];
 
 $update_msg = "";
 ?>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<title>পাসওয়ার্ড পুনরুদ্ধার</title>
+<style type="text/css">@import "css/bush.css";</style>
 
 <script>
     function getAccount(keystr) //search employee by account number***************

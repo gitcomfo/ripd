@@ -1,16 +1,14 @@
 <?php
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 ?>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<title>ক্রিয়েট এগ্রিমেন্ট একাউন্ট</title>
+<style type="text/css">@import "css/bush.css";</style>
 
 <div class="column6">
     <div class="main_text_box">
-        <div style="padding-left: 110px;"><a href="index.php?apps=CA"><b>ফিরে যান</b></a></div>
+        <div style="padding-left: 110px;"><a href="index.php?apps=CRM"><b>ফিরে যান</b></a></div>
         <div>
             <form method="POST" onsubmit="">	
                 <table  class="formstyle">          

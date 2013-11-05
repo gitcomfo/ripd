@@ -1,20 +1,21 @@
 <?php
 
 session_start();
-
-/* $Id: ConnectDB_mysql.inc 4861 2012-01-31 21:48:58Z vvs2012 $ */
-
 global  $db;
 $host = '192.168.1.100';
-$dbuser = 'cfs_ibrahim';
-$dbpassword = 'ibrahim4321';
+$dbuser = 'cfs_iftee';
+$dbpassword = 'iftee54321';
 $dbname = 'ripd_db_comfosys';
 /*
 $host = 'localhost';
 $dbuser = 'root';
 $dbpassword = '';
 $dbname = 'ripd_db_comfosys';
+<<<<<<< HEAD
  
+=======
+ * 
+>>>>>>> branch 'master' of https://github.com/gitcomfo/ripd.git
  */
  
 $_SESSION['DatabaseName'] = $dbname;

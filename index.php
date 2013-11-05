@@ -24,6 +24,7 @@ session_start();
         $quickLinkList['ECOM'] = 'ই-কমার্স ';
         $quickLinkList['REPORT'] = 'রিপোর্টিং ';
         $quickLinkList['ACM'] = 'একাউন্ট ম্যানেজমেন্ট ';
+        $quickLinkList['PROF'] = 'প্রোফাইল ম্যানেজমেন্ট ';
        /* $quickLinkList['PSA'] = 'পাওয়ার স্টোর এডমিন';
         $quickLinkList['ALO'] = 'এডমিন লোকাল অফিস';
         $quickLinkList['ASS'] = 'এডমিন সেলসস্টোর';
@@ -276,6 +277,9 @@ session_start();
                         break;
                     case 'ACM'://একাউন্ট ম্যানেজমেন্ট
                         include 'create_accmanage_menu.php';
+                        break;
+                     case 'PROF'://প্রোফাইল ম্যানেজমেন্ট
+                        include 'create_profile_menu.php';
                         break;
                     case 'OTH': //ভিউ কাস্টমার একাউন্ট
                         include 'create_others.php';

@@ -225,6 +225,7 @@ em{
     background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #89C2FA 100%);
     /* W3C Markup, IE10 Release Preview */ 
     background-image: linear-gradient(to bottom, #FFFFFF 0%, #89C2FA 100%);
+    font-family: SolaimanLipi !important;
 }
 .formstyle th{    
     padding-top: 5px;

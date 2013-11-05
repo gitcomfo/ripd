@@ -1,6 +1,7 @@
 <?php error_reporting(0); include_once 'includes/header.php'; include 'includes/ConnectDB.inc';
 
-      $x= $_GET['id'];
+$type  = $_GET['type'];     
+$x= $_GET['id'];
       $ofid= base64_decode($x);
       $all = "SELECT * from ".$dbname.".office WHERE idOffice=$ofid ";
       $allsql = mysql_query($all) or exit('query failed: '.mysql_error());
@@ -343,7 +344,7 @@ xmlhttp.send();
  
 <div class="column6">
     <div class="main_text_box">
-        <div style="padding-left: 110px;"><a href="update_office_account.php"><b>ফিরে যান</b></a></div>
+        <div style="padding-left: 110px;"><a href="update_office_account.php?pwr=<?php echo $type;?>"><b>ফিরে যান</b></a></div>
       <div>
            <table  class="formstyle"  >   
                <tr><th colspan="4" style="text-align: center" colspan="2"><h1>আপডেট</h1></th></tr>

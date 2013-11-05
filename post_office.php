@@ -2,6 +2,7 @@
 error_reporting(0);
 include_once 'includes/header.php';
 include 'includes/ConnectDB.inc';
+include_once 'includes/header.php';
 $flag = 'false';
 
 function showMessage($flag, $msg) {
@@ -38,8 +39,7 @@ if (isset($_POST['submit']) && ($_GET['action'] == 'edit')) {
     }
 }
 ?>
-<?php include_once 'includes/header.php';
-?>
+<title>পোস্ট অফিস</title>
 <script type="text/javascript">
     function isBlankPost_edit()
     {
@@ -215,7 +215,7 @@ if ($_GET['action'] == 'edit') {
 } else {
     ?>
     <div style="padding-top: 10px;">    
-        <div style="padding-left: 110px; width: 54%; float: left"><a href="index.php?apps=CA"><b>ফিরে যান</b></a></div>
+        <div style="padding-left: 110px; width: 54%; float: left"><a href="index.php?apps=AREA"><b>ফিরে যান</b></a></div>
         <div ><a href="post_office.php?action=new"> নতুন পোস্ট অফিস </a>&nbsp;&nbsp;<a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">পোস্ট অফিসের  লিস্ট</a></div>
     </div>
     <div>

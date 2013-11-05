@@ -13,8 +13,8 @@ include_once 'includes/columnLeft.php';
         <table class="formstyle"> 
             <tr><th style="text-align: center" colspan="2"><h1>মূল ফান্ড</h1></th></tr>
             <tr>
-                <td><a href="/POS/index.php">প্রোডাক্ট সেলিং</a></td>
-                <td><a href="/POS/index.php">ইনভেনটরী</a></td>
+                <td><a href="/pos/pos/index.php">প্রোডাক্ট সেলিং</a></td>
+                <td><a href="/pos/pos/index.php">ইনভেনটরী</a></td>
             </tr>
         </table>
     </form>

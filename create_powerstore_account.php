@@ -158,9 +158,8 @@ if(isset($_POST['submit0']))
         });
     }
     
-     function numbersonly(e)
-   {
-   
+function numbersonly(e)
+{   
 var unicode=e.charCode? e.charCode : e.keyCode
     if (unicode!=8)
     { //if the key isn't the backspace key (which we should allow)
@@ -463,7 +462,7 @@ xmlhttp.send();
                     </tr>
                     <tr>
                         <td >মোবাইল নাম্বার</td>
-                        <td>:   <input class="textfield" type="text" id="mobile_number" name="mobile_number" /> <em> (ইংরেজিতে লিখুন)</em></td>
+                        <td>:   <input class="textfield" type="text" id="mobile_number" name="mobile_number" onkeypress=' return numbersonly(event)'/> <em> (ইংরেজিতে লিখুন)</em></td>
                     </tr>
                     <tr>
                         <td >ই-মেইল</td>
