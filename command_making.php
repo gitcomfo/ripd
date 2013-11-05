@@ -1,8 +1,6 @@
 <?php
 error_reporting(0);
-//include 'includes/ConnectDB.inc';
 include_once 'includes/header.php';
-//include 'includes/connectionPDO.php';
 include_once 'includes/insertQueryPDO.php';
 
 if($_POST['submit_command'])
@@ -12,9 +10,6 @@ if($_POST['submit_command'])
         $p_pv_value_in_100 = $_POST['pv_100'];
         $p_pv_value_in_1 = $_POST['pv_1'];
         $pv_value = round($p_pv_value_in_100/100, 3);
-        //$difference = $p_pv_value_in_1 - $pv_value;
-        //$epsilon = 0.000001;        
-        //echo "command: ".$p_commman_no."pv_value: ".$pv_value." pv_1: ".$p_pv_value_in_1;
         if($pv_value == $p_pv_value_in_1)
                 {
                 $sql_insert_command->execute(array($p_commman_no, $p_commman_desc, $pv_value));
