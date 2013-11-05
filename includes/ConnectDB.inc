@@ -12,7 +12,11 @@ $dbuser = 'root';
 $dbpassword = '';
 $dbname = 'ripd_db_comfosys';
 <<<<<<< HEAD
+<<<<<<< HEAD
  
+=======
+ * 
+>>>>>>> branch 'master' of https://github.com/gitcomfo/ripd.git
 =======
  * 
 >>>>>>> branch 'master' of https://github.com/gitcomfo/ripd.git
