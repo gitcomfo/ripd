@@ -6,12 +6,20 @@ $host = '192.168.1.100';
 $dbuser = 'cfs_iftee';
 $dbpassword = 'iftee54321';
 $dbname = 'ripd_db_comfosys';
-
-/*$host = 'localhost';
+/*
+$host = 'localhost';
 $dbuser = 'root';
 $dbpassword = '';
 $dbname = 'ripd_db_comfosys';
+<<<<<<< HEAD
+<<<<<<< HEAD
+ 
+=======
  * 
+>>>>>>> branch 'master' of https://github.com/gitcomfo/ripd.git
+=======
+ * 
+>>>>>>> branch 'master' of https://github.com/gitcomfo/ripd.git
  */
  
 $_SESSION['DatabaseName'] = $dbname;
