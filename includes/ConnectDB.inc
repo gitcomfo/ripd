@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 global  $db;
 $host = '192.168.1.100';
@@ -11,15 +10,6 @@ $host = 'localhost';
 $dbuser = 'root';
 $dbpassword = '';
 $dbname = 'ripd_db_comfosys';
-<<<<<<< HEAD
-<<<<<<< HEAD
- 
-=======
- * 
->>>>>>> branch 'master' of https://github.com/gitcomfo/ripd.git
-=======
- * 
->>>>>>> branch 'master' of https://github.com/gitcomfo/ripd.git
  */
  
 $_SESSION['DatabaseName'] = $dbname;

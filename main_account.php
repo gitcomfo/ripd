@@ -14,15 +14,15 @@ function showPowerHeads()
 }
 if($_POST['submit'])
         {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+        $user_username = $_POST['user_username'];
+        $user_password = $_POST['user_password'];
         $account_name = $_POST['name'];
         $account_number = $_POST['acc_num'];
         $account_email = $_POST['email'];
         $account_mobile = $_POST['mobile'];
         mysql_query("INSERT INTO cfs_user (user_name, password, blocked, overall_access, account_name, account_number, account_open_date, mobile, email, cfs_account_status, user_type)
-                                                                        VALUES ('$username', '$password', '0', 'blank', '$account_name', '$account_number', NOW(), '$account_mobile', '$account_email', 'active', 'owner')") or exit(mysql_error()." sorry");
-       echo  $cfs_user_id = mysql_insert_id();
+                                                                        VALUES ('$user_username', '$user_password', '0', 'blank', '$account_name', '$account_number', NOW(), '$account_mobile', '$account_email', 'active', 'owner')") or exit(mysql_error()." sorry");
+       $cfs_user_id = mysql_insert_id();
         $account_type = $_POST['account_type'];
         if($account_type == "employee")
                 {
@@ -50,12 +50,12 @@ if($_POST['submit'])
                 }
        else if($account_type == "proprietor")
                 {
-                    echo $pwrHeadAccNo = $_POST['powerStore_accountNumber'];
+                    $pwrHeadAccNo = $_POST['powerStore_accountNumber'];
                     $sel_pwrID = mysql_query("SELECT * FROM office WHERE account_number = '$pwrHeadAccNo' ");
                     $officerow = mysql_fetch_assoc($sel_pwrID);
-                    echo $db_pwrOfficeID = $officerow['idOffice'];
-                    echo $db_pwrHeadname = $officerow['office_name'];
-                    echo $sql_pro_ins= mysql_query("INSERT INTO proprietor_account (powerStore_name, powerStore_accountNumber, Office_idOffice, cfs_user_idUser)
+                    $db_pwrOfficeID = $officerow['idOffice'];
+                    $db_pwrHeadname = $officerow['office_name'];
+                    $sql_pro_ins= mysql_query("INSERT INTO proprietor_account (powerStore_name, powerStore_accountNumber, Office_idOffice, cfs_user_idUser)
                                             VALUES ('$db_pwrHeadname', '$pwrHeadAccNo',$db_pwrOfficeID,  $cfs_user_id)");
                     $propreitor_account_id = mysql_insert_id();
                     if($sql_pro_ins == 1){$pass_message = "create_proprietor_account.php?proID=".$propreitor_account_id;}                     
@@ -103,8 +103,8 @@ if($_POST['submit'])
 }
 function checkPass(passvalue) // check password in repeat
 {
-    var password = document.getElementById('password').value;
-    if(password != passvalue)
+    var user_password = document.getElementById('user_password').value;
+    if(user_password != passvalue)
         {
             document.getElementById('reap_password').focus();
             document.getElementById('passcheck').style.color='red';
@@ -189,11 +189,11 @@ xmlhttp.send();
                     echo "
                    <tr>
                         <td>ইউজারের নাম</td>
-                      <td>:   <input class='box' type='text' id='username' name='username' /> <em>ইংরেজিতে লিখুন</em></td>
+                      <td>:   <input class='box' type='text' id='user_username' name='user_username' /> <em>ইংরেজিতে লিখুন</em></td>
                     </tr>   
                     <tr>
                         <td>পাসওয়ার্ড</td>
-                       <td>:   <input class='box' type='password' id='password' name='password' /> <em>ইংরেজিতে লিখুন</em></td>
+                       <td>:   <input class='box' type='password' id='user_password' name='user_password' /> <em>ইংরেজিতে লিখুন</em></td>
                     </tr>
                     <tr>
                         <td>কনফার্ম পাসওয়ার্ড</td>
@@ -225,7 +225,7 @@ xmlhttp.send();
                     </tr>
                     <tr>
                         <td>সেলারি</td>
-                       <td>:   <input class='box' type='password' id='password' name='password' /> টাকা</td>
+                       <td>:   <input class='box' type='password' id='user_password' name='user_password' /> টাকা</td>
                     </tr>
                      <tr>
                         <td>অফিস / সেলস স্টোর / পাওয়ার স্টোর</td>

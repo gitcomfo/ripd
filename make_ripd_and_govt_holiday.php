@@ -1,10 +1,10 @@
 <?php
 error_reporting(0);
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 ?>
+<title>রিপড এন্ড সরকারি ছুটি তৈরি</title>
 <?php
 
 $user_id = $_SESSION['userIDUser'];
