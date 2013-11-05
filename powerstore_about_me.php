@@ -1,9 +1,7 @@
 <?php
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
-include_once 'includes/function.php';
 error_reporting(0);
 ?>
 <style type="text/css">
