@@ -21,33 +21,56 @@ if($_POST['submit'])
         $account_number = $_POST['acc_num'];
         $account_email = $_POST['email'];
         $account_mobile = $_POST['mobile'];
-        mysql_query("INSERT INTO cfs_user (user_name, password, blocked, overall_access, account_name, account_number, account_open_date, mobile, email, cfs_account_status, user_type)
-                                                                        VALUES ('$user_username', '$user_password', '0', 'blank', '$account_name', '$account_number', NOW(), '$account_mobile', '$account_email', 'active', 'owner')") or exit(mysql_error()." sorry");
-       $cfs_user_id = mysql_insert_id();
         $account_type = $_POST['account_type'];
+        if($account_type == "proprietor")
+        {
+             mysql_query("INSERT INTO cfs_user (user_name, password, blocked, overall_access, account_name, account_number, account_open_date, mobile, email, cfs_account_status, user_type)
+                                                                        VALUES ('$user_username', '$user_password', '0', 'blank', '$account_name', '$account_number', NOW(), '$account_mobile', '$account_email', 'active', 'owner')") or exit(mysql_error()." sorry");
+        }
+        elseif($account_type == "employee")
+        {
+            $p_employee_type = $_POST['employee_type']; 
+            mysql_query("INSERT INTO cfs_user (user_name, password, blocked, overall_access, account_name, account_number, account_open_date, mobile, email, cfs_account_status, user_type)
+                                                                        VALUES ('$user_username', '$user_password', '0', 'blank', '$account_name', '$account_number', NOW(), '$account_mobile', '$account_email', 'active', '$p_employee_type')") or exit(mysql_error()." sorry");
+        }
+ else {
+     mysql_query("INSERT INTO cfs_user (user_name, password, blocked, overall_access, account_name, account_number, account_open_date, mobile, email, cfs_account_status, user_type)
+                                                                        VALUES ('$user_username', '$user_password', '0', 'blank', '$account_name', '$account_number', NOW(), '$account_mobile', '$account_email', 'active', 'customer')") or exit(mysql_error()." sorry");
+ }
+       
+        $cfs_user_id = mysql_insert_id();
         if($account_type == "employee")
                 {
-                $employee_type = $_POST['employee_type'];
-                $employee_grade = $_POST['employee_grade'];
-                $employee_office = $_POST['office_selection'];
-                mysql_query("INSERT into $dbname.employee (status, employee_type, Office_idOffice, cfs_user_idUser, Employee_grade_idEmployee_grade)
-                                                                                    VALUES ('Non-posting', '$employee_type', '$employee_office', '$cfs_user_id', '$employee_grade')");
-                $employee_id = mysql_insert_id();
-                mysql_query("INSERT into $dbname.employee_information (employee_attendance_idemployee_attendance, Employee_idEmployee)
-                                                                                                VALUES ('1', '$employee_id')");
-                $employee_info_id = mysql_insert_id();
-                $pass_message = "create_employee_account.php?=".$employee_info_id;
+                    $p_employee_type = $_POST['employee_type'];
+                    $p_employee_grade = $_POST['employee_grade'];
+                    $p_employee_salary = $_POST['salary'];
+                    $p_onsid = $_POST['ospID'];
+                    $p_postonsID = $_POST['post'];
+                    $p_posting_type = $_POST['posttype'];
+                    mysql_query("INSERT into $dbname.employee (status, employee_type, joining_date, posting_type, emp_ons_id, pay_grade_id, cfs_user_idUser)
+                                           VALUES ('posting', '$p_employee_type', NOW() ,'$p_posting_type', '$p_onsid', '$p_employee_grade', '$cfs_user_id')") or exit(mysql_error());
+                    $employee_id = mysql_insert_id();
+                    // employee_posting table-e insert***********************
+                    mysql_query("INSERT into $dbname.employee_posting (posting_type, posting_date, Employee_idEmployee, ons_relation_idons_relation, post_in_ons_idpostinons)
+                                            VALUES ('$p_posting_type',NOW(), $employee_id, $p_onsid, $p_postonsID)");
+                   //employee_salary table-e insert***************
+                    mysql_query("INSERT into $dbname.employee_salary (total_salary, insert_date, user_id, pay_grade_idpaygrade)
+                                            VALUES ('$p_employee_salary',NOW(), $employee_id, $p_employee_grade)");
+                    
+                    $empinfo_ins = mysql_query("INSERT into $dbname.employee_information (Employee_idEmployee) VALUES ($employee_id)");
+                    $employee_info_id = mysql_insert_id();
+                    if($empinfo_ins == 1) {$pass_message = "create_employee_account.php?empInfoID=".$employee_info_id; }
                 }
         else if($account_type == "customer")
                 {
-                $pin_number = $_POST['pin_num'];
-                mysql_query("INSERT into $dbname.employee (status, employee_type, Office_idOffice, cfs_user_idUser, Employee_grade_idEmployee_grade)
-                                                                                    VALUES ('Non-posting', '$employee_type', '$employee_office', '$cfs_user_id', '$employee_grade')");
-                $employee_id = mysql_insert_id();
-                mysql_query("INSERT into $dbname.employee_information (employee_attendance_idemployee_attendance, Employee_idEmployee)
-                                                                                                VALUES ('1', '$employee_id')");
-                $employee_info_id = mysql_insert_id();
-                $pass_message = "create_employee_account.php?=".$employee_info_id;
+                    $pin_number = $_POST['pin_num'];
+                    mysql_query("INSERT into $dbname.employee (status, employee_type, Office_idOffice, cfs_user_idUser, Employee_grade_idEmployee_grade)
+                                                                                        VALUES ('Non-posting', '$employee_type', '$employee_office', '$cfs_user_id', '$employee_grade')");
+                    $employee_id = mysql_insert_id();
+                    mysql_query("INSERT into $dbname.employee_information (employee_attendance_idemployee_attendance, Employee_idEmployee)
+                                                                                                    VALUES ('1', '$employee_id')");
+                    $employee_info_id = mysql_insert_id();
+                    $pass_message = "create_employee_account.php?=".$employee_info_id;
                 }
        else if($account_type == "proprietor")
                 {
@@ -137,6 +160,10 @@ function setParent(office,offid)
         document.getElementById('officesearch').value = office;
         document.getElementById('ospID').value = offid;
         document.getElementById('offResult').style.display = "none";
+}
+function showTypeBox()
+{
+    document.getElementById('postingbox').style.visibility= 'visible';
 }
 </script>
 <script>
@@ -316,7 +343,7 @@ xmlhttp.send();
                     </tr>
                     <tr>
                         <td>কর্মচারীর ধরন</td>
-                      <td>:   <select  class='box'  name='date' style =' font-size: 14px' onchange='setTypeGrade(this.value)'>
+                      <td>:   <select  class='box'  name='employee_type' style =' font-size: 14px' onchange='setTypeGrade(this.value)'>
                                 <option >-একটি নির্বাচন করুন-</option>
                                 <option value='programmer'>প্রোগ্রামার</option>
                                 <option value='presenter'>প্রেজেন্টার</option>
@@ -330,7 +357,7 @@ xmlhttp.send();
                     </tr>
                     <tr>
                         <td>সেলারি</td>
-                       <td>:   <input class='box' type='text' id='salary' name='salary' onkeypress='return checkIt(event)' onkeyup='checkSalaryRange(this.value);'/> টাকা <span id='SalaryRange' style='color:red;'></span></td>
+                       <td>:   <input class='box' type='text' id='salary' name='salary' onkeypress='return checkIt(event)' onkeyup='checkSalaryRange(this.value);'/> টাকা (সেলারি রেঞ্জঃ <span id='SalaryRange' style='color:red;'></span>)</td>
                     </tr>
                     <tr>
                         <td colspan='2' id='showerror' style='text-align:center;color:red;'></td>
@@ -347,9 +374,14 @@ xmlhttp.send();
                         </td>            
                     </tr>
                     <tr>
-                        <td>দায়িত্ব / পোস্ট</td>
+                        <td>দায়িত্ব / পোস্ট</td>  
                         <td id='getPost'>
                         </td>            
+                    </tr>
+                    <tr id='postingbox'  style='visibility: hidden;'>
+                        <td>পোস্টের ধরন</td>
+                        <td>: <input type='radio' name='posttype' value ='Acting'/> অ্যাক্টিং &nbsp;&nbsp;&nbsp;
+                            <input  type='radio' name='posttype' value ='Permanent'/> পার্মানেন্ট</td>
                     </tr>
                     <tr>
                         <td>যোগদানের তারিখ</td>

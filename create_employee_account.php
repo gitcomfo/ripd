@@ -1,9 +1,9 @@
 <?php
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 error_reporting(0);
+$g_id = $_GET['empInfoID'];
 ?>
 <title>ক্রিয়েট কর্মচারী অ্যাকাউন্ট</title>
 <style type="text/css">@import "css/bush.css";</style>
@@ -84,11 +84,11 @@ if (isset($_POST['submit1'])) {
                                      employee_occupation='$employee_occupation', employee_religion='$employee_religion', employee_natonality='$employee_natonality',
                                      employee_national_ID='$employee_national_ID', employee_passport='$employee_passport', employee_date_of_birth='$dob',
                                      employee_birth_certificate_No='$employee_birth_certificate_No' ,emplo_scanDoc_signature='$image_path', emplo_scanDoc_picture='$sing_path',  scanDoc_finger_print='$finger_path'
-                                     WHERE Employee_idEmployee='1'");
+                                     WHERE idEmployee_information=$g_id");
 
-    $result = mysql_query("Select  * from $dbname.employee_information where Employee_idEmployee='1'");
+    $result = mysql_query("SELECT  * FROM $dbname.employee_information WHERE idEmployee_information='$g_id'");
     $employee_id = mysql_fetch_array($result);
-    $emp = $employee_id['idEmployee_information'];
+    $emp = $employee_id['Employee_idEmployee'];
     //Current Address Infromation
     $e_Village_idVillage = $_POST['village_id1'];
     $e_Post_idPost = $_POST['post_id1'];
@@ -132,9 +132,9 @@ if (isset($_POST['submit1'])) {
     $nominee_national_ID = $_POST['nominee_national_ID'];
     $nominee_passport_ID = $_POST['nominee_passport_ID'];
 
-    $result = mysql_query("Select  * from $dbname.employee_information where Employee_idEmployee='1'");
+     $result = mysql_query("SELECT  * FROM $dbname.employee_information WHERE idEmployee_information='$g_id'");
     $employee_id = mysql_fetch_array($result);
-    $emp1 = $employee_id['idEmployee_information'];
+    $emp1 = $employee_id['Employee_idEmployee'];
     //Insert Into Nominee table
     $allowedExts = array("gif", "jpeg", "jpg", "png", "JPG", "JPEG", "GIF", "PNG");
     $extension = end(explode(".", $_FILES["nominee_picture"]["name"]));
@@ -180,15 +180,15 @@ if (isset($_POST['submit1'])) {
                                      VALUES ('Permanent', '$np_house', '$np_house_no','$np_road', 'nmn',  '$np_post_code','$np_Thana_idThana','$np_Post_idPost', '$np_Village_idVillage','$emp1')");
 
     if ($sql_nominee || $sql_n_insert_current_address || $sql_np_insert_permanent_address) {
-        $msg1 = "তথ্য সংরক্ষিত হয়েছে";
+        $msg = "তথ্য সংরক্ষিত হয়েছে";
     } else {
-        $msg1 = "ভুল হয়েছে";
+        $msg = "ভুল হয়েছে";
     }
 } elseif (isset($_POST['submit3'])) {
 
-    $result = mysql_query("Select  * from $dbname.employee_information where Employee_idEmployee='1'");
+    $result = mysql_query("SELECT  * FROM $dbname.employee_information WHERE idEmployee_information='$g_id'");
     $employee_id = mysql_fetch_array($result);
-    $emp2 = $employee_id['idEmployee_information'];
+    $emp2 = $employee_id['Employee_idEmployee'];
     //customer education
     $e_ex_name = $_POST['e_ex_name'];
     $e_pass_year = $_POST['e_pass_year'];
@@ -212,9 +212,9 @@ if (isset($_POST['submit1'])) {
         $nom_edu = mysql_query($sql_insert_nom_edu) or exit('query failed: ' . mysql_error());
     }
     if ($emp_edu || $nom_edu) {
-        $msg2 = "তথ্য সংরক্ষিত হয়েছে";
+        $msg = "তথ্য সংরক্ষিত হয়েছে";
     } else {
-        $msg2 = "ভুল হয়েছে";
+        $msg = "ভুল হয়েছে";
     }
 }elseif (isset($_POST['submit4'])) {
     $result = mysql_query("Select  * from $dbname.employee_information where Employee_idEmployee='1'");
