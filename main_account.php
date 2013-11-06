@@ -12,6 +12,7 @@ function showPowerHeads()
         echo  "<option value=".$headrow['account_number'].">".$headrow['office_name']."</option>";
     }
 }
+
 if($_POST['submit'])
         {
         $user_username = $_POST['user_username'];
@@ -119,6 +120,24 @@ function checkPass(passvalue) // check password in repeat
     {
         document.getElementById('powerStore_accountNumber').value= account;
     }
+
+function checkSalaryRange(sal)
+{
+    var range = document.getElementById('SalaryRange').innerText;
+    var myarr = range.split("-");
+    var min = myarr[0];
+    var max = myarr[1];
+    var sal = Number(sal);
+    if((sal<= max) && (sal>=min))
+        {document.getElementById('showerror').innerHTML = "";}
+    else{document.getElementById('showerror').innerHTML = "দুঃখিত, সেলারি রেঞ্জ অতিক্রম করেছে"; }
+}
+function setParent(office,offid)
+{
+        document.getElementById('officesearch').value = office;
+        document.getElementById('ospID').value = offid;
+        document.getElementById('offResult').style.display = "none";
+}
 </script>
 <script>
 function check(str) // for currect email address form checking
@@ -146,6 +165,98 @@ xmlhttp.onreadystatechange=function()
     }
   }
 xmlhttp.open("GET","includes/check.php?x="+str,true);
+xmlhttp.send();
+}
+
+function setTypeGrade(emptype) // for select grade according to type of employee
+{
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("showGrade").innerHTML=xmlhttp.responseText;
+    }
+  }
+xmlhttp.open("GET","includes/getGradeForEmployeeType.php?type="+emptype+"&step=1",true);
+xmlhttp.send();
+}
+
+function showSalaryRange(paygrdid) // for selecting salary range according to grade
+{
+    if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("SalaryRange").innerHTML=xmlhttp.responseText;
+    }
+  }
+xmlhttp.open("GET","includes/getGradeForEmployeeType.php?paygrdid="+paygrdid+"&step=2",true);
+xmlhttp.send();
+}
+
+function searchOSP(keystr)
+{
+        var xmlhttp;
+        var type = document.querySelector('input[name = "whatoffice"]:checked').value;
+        if (window.XMLHttpRequest)
+        {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp=new XMLHttpRequest();
+        }
+        else
+        {// code for IE6, IE5
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange=function()
+        {
+            if(keystr.length ==0)
+                {
+                   document.getElementById('offResult').style.display = "none";
+               }
+                else
+                    {document.getElementById('offResult').style.visibility = "visible";
+                document.getElementById('offResult').setAttribute('style','position:absolute;top:80.5%;left:48%;width:250px;z-index:10;border: 1px inset black; overflow:auto; height:105px; background-color:#F5F5FF;');
+                    }
+                document.getElementById('offResult').innerHTML=xmlhttp.responseText;
+        }
+        xmlhttp.open("GET","includes/getGradeForEmployeeType.php?searchkey="+keystr+"&step=3&type="+type,true);
+        xmlhttp.send();	
+}
+
+function showPost()
+{
+    var onsid = document.getElementById('ospID').value;
+     if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("getPost").innerHTML=xmlhttp.responseText;
+    }
+  }
+xmlhttp.open("GET","includes/getGradeForEmployeeType.php?onsid="+onsid+"&step=4",true);
 xmlhttp.send();
 }
 </script>
@@ -199,42 +310,45 @@ xmlhttp.send();
                         <td>কনফার্ম পাসওয়ার্ড</td>
                        <td>:   <input class='box' type='password' id='reap_password' name='reap_password' onkeyup='checkPass(this.value);'/> <em>ইংরেজিতে লিখুন</em> <span id='passcheck'></span></td>
                     </tr>";
-                    if($input == "customer" || $input == "employee") {
+                    if($input == "employee") {
                    echo "<tr>
                         <td colspan='2' ><hr /></td>
                     </tr>
                     <tr>
                         <td>কর্মচারীর ধরন</td>
-                      <td>:   <select  class='box'  name='date' style =' font-size: 11px'>
-                                <option > একটি নির্বাচন করুন</option>
-                                <option value=1></option>
-                                <option value=2></option>
-                                <option value=3></option>
-                                <option value=4></option> 
+                      <td>:   <select  class='box'  name='date' style =' font-size: 14px' onchange='setTypeGrade(this.value)'>
+                                <option >-একটি নির্বাচন করুন-</option>
+                                <option value='programmer'>প্রোগ্রামার</option>
+                                <option value='presenter'>প্রেজেন্টার</option>
+                                <option value='trainer'>ট্রেইনার</option>
+                                <option value='employee'>এমপ্লয়ী</option> 
                             </select></td>
                     </tr>   
                     <tr>
                         <td>গ্রেড নির্বাচন</td>
-                       <td>:    <select  class='box'  name='date' style =' font-size: 11px'>
-                                <option > একটি নির্বাচন করুন</option>
-                                <option value=1></option>
-                                <option value=2></option>
-                                <option value=3></option>
-                                <option value=4></option> 
-                            </select></td>
+                       <td id='showGrade'>: </td>
                     </tr>
                     <tr>
                         <td>সেলারি</td>
-                       <td>:   <input class='box' type='password' id='user_password' name='user_password' /> টাকা</td>
+                       <td>:   <input class='box' type='text' id='salary' name='salary' onkeypress='return checkIt(event)' onkeyup='checkSalaryRange(this.value);'/> টাকা <span id='SalaryRange' style='color:red;'></span></td>
+                    </tr>
+                    <tr>
+                        <td colspan='2' id='showerror' style='text-align:center;color:red;'></td>
+                   </tr>
+                   <tr>
+                        <td>অফিস সিলেক্ট করুন</td> 
+                        <td>: <input type='radio'  id='whatoffice' name='whatoffice' value ='office'/> অফিস &nbsp;&nbsp;&nbsp;
+                            <input  type='radio' id='whatoffice' name='whatoffice' value ='s_store'/> সেলসস্টোর</td>
                     </tr>
                      <tr>
                         <td>অফিস / সেলস স্টোর / পাওয়ার স্টোর</td>
-                        <td>: <input class='box' type='text' id='officesearch' name='officesearch' />
+                        <td>: <input class='box' type='text' id='officesearch' name='officesearch' onkeyup='searchOSP(this.value)'/>
+                        <div id='offResult'></div><input type='hidden' name='ospID' id='ospID'/></br>
                         </td>            
                     </tr>
                     <tr>
                         <td>দায়িত্ব / পোস্ট</td>
-                        <td>: <input class='box' type='text' id='officesearch' name='officesearch' />
+                        <td id='getPost'>
                         </td>            
                     </tr>
                     <tr>
