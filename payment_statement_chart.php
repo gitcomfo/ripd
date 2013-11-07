@@ -1,13 +1,9 @@
 <?php
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
-include_once 'includes/function.php';
 ?>
-<style type="text/css">
-    @import "css/iftee_statement.css";
-</style>
+<style type="text/css">@import "css/iftee_statement.css";</style>
 <script type="text/javascript" src="javascripts/area.js"></script>
 <script type="text/javascript" src="javascripts/external/mootools.js"></script>
 <script type="text/javascript" src="javascripts/dg-filter.js"></script>

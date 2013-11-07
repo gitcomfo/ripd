@@ -1,10 +1,8 @@
 <?php
         include_once 'includes/ConnectDB.inc';
         include_once 'includes/showTables.php';
-        include_once 'includes/function.php';
         include 'includes/columnLeft.php';
 ?>
-
 <script type="text/javascript" src="javascripts/external/mootools.js"></script>
         <script type="text/javascript" src="javascripts/dg-filter.js"></script>
         <fieldset id="fieldset_style">
@@ -12,7 +10,7 @@
             <div id="table_header_style">
                 <table border="0" style="width: 100%; height: 100%;font-size: 17px" align="center">
                     <tr align="center">
-                        <td><b><?php echo Title('award')?></b></td>
+                        <td><b>এওয়ার্ড</b></td>
                     </tr>
                 </table>
             </div>

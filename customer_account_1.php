@@ -1,11 +1,8 @@
 <?php
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 ?>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<style type="text/css">@import "css/bush.css";</style>
 <script type="text/javascript" src="javascripts/division_district_thana.js"></script>
 <script type="text/javascript" src="javascripts/jquery-1.4.3.min.js"></script>
 <script type="text/javascript"> 

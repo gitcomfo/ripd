@@ -1,12 +1,9 @@
  <?php
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 ?>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<style type="text/css">@import "css/bush.css";</style>
 <div class="column6">
     <div class="main_text_box">
         <div style="padding-left: 110px;"><a href="index.php?apps=CA"><b>ফিরে যান</b></a></div> 

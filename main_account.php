@@ -64,13 +64,20 @@ if($_POST['submit'])
         else if($account_type == "customer")
                 {
                     $pin_number = $_POST['pin_num'];
-                    mysql_query("INSERT into $dbname.employee (status, employee_type, Office_idOffice, cfs_user_idUser, Employee_grade_idEmployee_grade)
-                                                                                        VALUES ('Non-posting', '$employee_type', '$employee_office', '$cfs_user_id', '$employee_grade')");
-                    $employee_id = mysql_insert_id();
-                    mysql_query("INSERT into $dbname.employee_information (employee_attendance_idemployee_attendance, Employee_idEmployee)
-                                                                                                    VALUES ('1', '$employee_id')");
-                    $employee_info_id = mysql_insert_id();
-                    $pass_message = "create_employee_account.php?=".$employee_info_id;
+                    // get referer ID*****************************
+                    $getreferer_sql = mysql_query("SELECT * FROM pin_makingused, sales_summery WHERE idsalessummery = 	sales_summery_idsalessummery AND pin_no = '$pin_number'");
+                    $refererrow = mysql_fetch_assoc($getreferer_sql);
+                    $db_referid = $refererrow['sal_buyerid'];
+                    $db_pv= $refererrow['sal_totalpv'];
+                     //get account type from pv ************************
+                    $getactype_sql = mysql_query("SELECT * FROM account_type WHERE account_minPV_value <= $db_pv ORDER BY account_minPV_value DESC LIMIT 1");
+                    $actyperow = mysql_fetch_assoc($getactype_sql);
+                    $db_accounttypeID = $actyperow['idAccount_type'];
+                    //cutomer_account table-e insert*************
+                    mysql_query("INSERT into $dbname.customer_account (opening_pin_no, referer_id, Account_type_idAccount_type, Designation_idDesignation, cfs_user_idUser)
+                                            VALUES ('$pin_number', $db_referid, $db_accounttypeID, 1, $cfs_user_id )");
+                    $cust_acc_id= mysql_insert_id();
+                    $pass_message = "create_employee_account.php?custACid=".$cust_acc_id;
                 }
        else if($account_type == "proprietor")
                 {

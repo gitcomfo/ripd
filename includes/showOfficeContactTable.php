@@ -3,11 +3,11 @@ include_once 'ConnectDB.inc';
 ?>
        <table id="info_table" border="1" align="center" width= 100%" cellpadding="5px" cellspacing="0px">       
         <tr id="table_row_odd">
-            <th><?php echo Title('ot_no'); ?></th>
-            <th><?php echo Title('ot_name'); ?></th>
-            <th><?php echo Title('ot_number'); ?></th>
-            <th><?php echo Title('ot_address'); ?></th>
-            <th><?php echo Title('ot_email'); ?></th>
+            <th>ক্রম</th>
+            <th>অফিসের নাম</th>
+            <th>অফিসের নাম্বার</th>
+            <th>অফিসের ঠিকানা</th>
+            <th>অফিসের ইমেইল</th>
         </tr>
         <?php
         $sql_officeNcontact = "select * from ".$dbname.".office where Thana_idThana >4";

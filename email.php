@@ -1,9 +1,7 @@
 <?php
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
-include_once 'includes/function.php';
 error_reporting(0);
 if (isset($_POST['submit'])) {
     $e_name = $_POST['e_name'];
@@ -20,9 +18,7 @@ if (isset($_POST['submit'])) {
         $msg = "দুঃখিত মেইলটি প্রেরন করা যায়নি.. আবার চেষ্টা করুন";
 }
 ?>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<style type="text/css">@import "css/bush.css";</style>
 <div class="column6">
     <div class="main_text_box">	      
         <div>  

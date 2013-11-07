@@ -1,7 +1,6 @@
 <?php
 include_once 'includes/ConnectDB.inc';
 include_once 'includes/showTables.php';
-include_once 'includes/function.php';
 include 'includes/columnLeft.php';
 ?>
 <table id="master_chart">
