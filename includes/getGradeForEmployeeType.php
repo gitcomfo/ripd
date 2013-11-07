@@ -48,7 +48,7 @@ elseif ($_GET['step']==3) {
                                     $sel_onsrel = mysql_query("SELECT * FROM ons_relation WHERE catagory = '$type' AND add_ons_id = $id");
                                     $onsrow = mysql_fetch_assoc($sel_onsrel);
                                     $onsID = $onsrow['idons_relation'];
-                                    echo "<u><a onclick=setParent('$acc','$onsID'); style='text-decoration:none;color:brown;cursor:pointer;'>" . $suggest['account_number'] . " (".$suggest['salesStore_name'].")</a></u></br>";
+                                    echo "<u><a onclick=setParent('$acc','$onsID'),showPost(); style='text-decoration:none;color:brown;cursor:pointer;'>" . $suggest['account_number'] . " (".$suggest['salesStore_name'].")</a></u></br>";
                                 }
                   }
 }
