@@ -53,6 +53,8 @@ if($_POST['submit'])
                     // employee_posting table-e insert***********************
                     mysql_query("INSERT into $dbname.employee_posting (posting_type, posting_date, Employee_idEmployee, ons_relation_idons_relation, post_in_ons_idpostinons)
                                             VALUES ('$p_posting_type',NOW(), $employee_id, $p_onsid, $p_postonsID)");
+                    // update post_in_ons table***********************
+                    mysql_query("UPDATE `post_in_ons` SET `free_post` = free_post-1,`used_post` = used_post+1 WHERE `idpostinons` =$p_postonsID");
                    //employee_salary table-e insert***************
                     mysql_query("INSERT into $dbname.employee_salary (total_salary, insert_date, user_id, pay_grade_idpaygrade)
                                             VALUES ('$p_employee_salary',NOW(), $employee_id, $p_employee_grade)");
