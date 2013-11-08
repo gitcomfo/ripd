@@ -79,7 +79,7 @@ if($_POST['submit'])
                     mysql_query("INSERT into $dbname.customer_account (opening_pin_no, referer_id, Account_type_idAccount_type, Designation_idDesignation, cfs_user_idUser)
                                             VALUES ('$pin_number', $db_referid, $db_accounttypeID, 1, $cfs_user_id )");
                     $cust_acc_id= mysql_insert_id();
-                    $pass_message = "create_employee_account.php?custACid=".$cust_acc_id;
+                    $pass_message = "create_customer_account.php?custACid=".$cust_acc_id;
                 }
        else if($account_type == "proprietor")
                 {

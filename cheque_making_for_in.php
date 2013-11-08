@@ -163,23 +163,24 @@ function numbersonly(e)
                                 </thead>
                                 <tbody>
                                 <?php
-                                    $sql_officeTable = "SELECT * from ".$dbname.".office ORDER BY office_name ASC";
+                                    $sql_officeTable = "SELECT * FROM office ORDER BY office_name ASC";
                                     $db_slNo = 0;
                                     $rs = mysql_query($sql_officeTable);
 
                                     while ($row_officeNcontact = mysql_fetch_assoc($rs)) 
                                     {
                                         $db_slNo = $db_slNo + 1;
+                                        $slno = english2bangla($db_slNo);
                                         $db_offName = $row_officeNcontact['office_name'];
                                         $db_offNumber = $row_officeNcontact['office_number'];
                                         $db_offID = $row_officeNcontact['idOffice'];
                                         echo "<tr style='border: black solid 1px;'>";
-                                        echo "<td>$db_slNo</td>";
+                                        echo "<td>$slno</td>";
                                         echo "<td>$db_offName</td>";
                                         echo "<td>$db_offNumber</td>";
                                         echo "<td>total amount</td>";
                                         echo "<td><input class='box' type='text' name ='need_amount' id='need_amount' onkeypress=' return numbersonly(event)'</td>";
-                                        echo "<td><input type='checkbox'  name='chkName[]' value= $db_offID onClick='selectall()' /></td>";
+                                        echo "<td><input type='checkbox'  name='chkName[]' value='$db_offID' onClick='selectall()' /></td>";
                                         echo "</tr>";
                                     }
                                     ?>

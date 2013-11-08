@@ -81,8 +81,8 @@ function showOffices($inp_offID, $inp_mainCheque)
     echo "<tr>";
    foreach($inp_offID as $ID)
     {
-        $psql="SELECT * FROM ".$dbname ." .office WHERE idOffice = $ID ";
-        $result= mysql_query($psql) or exit('query failed: '.mysql_error());
+        $psql="SELECT * FROM office WHERE idOffice = $ID ";
+        $result= mysql_query($psql) or exit('query failed?????: '.mysql_error());
         $row = mysql_fetch_assoc($result);
         $off_name=$row['office_name'];
         $off_no = $row['account_number'];
