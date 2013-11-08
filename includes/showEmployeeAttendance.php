@@ -1,6 +1,5 @@
 <?php
 error_reporting(0);
-include 'db.php';
 include 'ConnectDB.inc';
 include 'connectionPDO.php';
 $holiday =0;$specialonday=0;

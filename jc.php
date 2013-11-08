@@ -1,6 +1,5 @@
 <?php
 //error_reporting(0);
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include './includes/connectionPDO.php';
 $arr = array('dipie-ibu-join','ac-8463-4399');

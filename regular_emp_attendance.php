@@ -1,11 +1,9 @@
 <?php
 error_reporting(0);
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 include 'includes/connectionPDO.php';
-//$backlocation = $_GET['backlink'];
 $loginUSERname = $_SESSION['UserID'] ;
 
 $sql = "INSERT INTO employee_attendance(emp_intime, emp_outtime, emp_worktime ,emp_extratime , date_of_atnd , emp_atnd_type , present_type ,emp_atnd_desc, emp_min_gaptime, emp_min_gapdesc, emp_maj_gaptime, emp_maj_gapdesc, atnd_making_date, month_no, year_no,emp_user_id, atnd_maker_id  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,NOW(),?,?,?,?)";

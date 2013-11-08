@@ -108,9 +108,7 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<style type="text/css">@import "css/bush.css";</style>
 <?php
 // Search for weekly Holiday Table
 $first_weekly_holiday = '';

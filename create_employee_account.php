@@ -272,7 +272,7 @@ if (isset($_POST['submit1'])) {
                     </tr>
                     <?php
                     if ($msg != "") {
-                        echo '<tr><td colspan="4" style="text-allign: center; color: green; font-size: 15px"><b>' . $msg . '</b></td></tr>';
+                        echo '<tr><td colspan="4" style="text-align: center; color: green; font-size: 15px"><b>' . $msg . '</b></td></tr>';
                     }
                     ?>
                     <tr>	
