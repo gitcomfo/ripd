@@ -1,7 +1,6 @@
 <?php
 error_reporting(0);
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 if (isset($_POST['submit1'])) {

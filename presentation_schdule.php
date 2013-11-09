@@ -81,7 +81,7 @@ elseif (isset($_POST['submit1'])) {
 <style type="text/css">@import "css/bush.css";</style>
 <?php
   $name_row = array();
-                $sql_query = $conn->prepare("SELECT * FROM cfs_user WHERE user_type= 'presenter' OR user_type='programmer' OR user_type='trainer' ;");
+                $sql_query = $conn->prepare("SELECT * FROM cfs_user WHERE user_type='$whoType' ;");
                 $sql_query->execute();
                 $row = $sql_query->fetchAll();
                 foreach ($row as $k)
@@ -375,6 +375,7 @@ if ($_GET['action'] == 'first') {
             </table>
         </form>
     </div>
+    <!--***************########### Presenters list 00000000000000000****************** -->
     <?php
 } elseif ($_GET['action'] == 'list') {
     ?>
@@ -407,23 +408,21 @@ if ($_GET['action'] == 'first') {
                 <!--Presenter List Query -->
                 <?php
                 $sql_list = "SELECT * FROM cfs_user, employee, pay_grade  
-                             WHERE 
-                             cfs_user.idUser=employee.cfs_user_idUser AND pay_grade_id=idpaygrade 
+                             WHERE cfs_user.idUser=employee.cfs_user_idUser AND pay_grade_id=idpaygrade 
                              AND employee.employee_type='$whoType'";
-
-
                 $db_result_presenter_info = mysql_query($sql_list); //Saves the query of Presenter Infromation
-
-
                 while ($row_prstn = mysql_fetch_array($db_result_presenter_info)) {
                     $db_rl_presenter_name = $row_prstn['user_name'];
                     $db_rl_presenter_acc = $row_prstn['account_number'];
                     $db_rl_presenter_mobile = $row_prstn['mobile'];
-                    $db_rl_presenter_id = $row_prstn['idEmployee'];
                     $db_rl_presenter_grade = $row_prstn['grade_name'];
-                    $db_rl_presenter_division = $row_prstn['division_name'];
-                    $db_rl_presenter_district = $row_prstn['district_name'];
-                    $db_rl_presennter_thana = $row_prstn['thana_name'];
+                    $db_rl_presenter_id = $row_prstn['idEmployee'];
+                    
+                    $sql_sel_adrs = mysql_query("SELECT * FROM address,thana,district,division WHERE address_type= 'Present' AND address_whom= 'emp' AND adrs_cepng_id='$db_rl_presenter_id' AND idThana=Thana_idThana AND idDistrict= District_idDistrict AND idDivision=Division_idDivision ");
+                    $adrsrow = mysql_fetch_assoc($sql_sel_adrs);
+                    $db_rl_presenter_division = $adrsrow['division_name'];
+                    $db_rl_presenter_district = $adrsrow['district_name'];
+                    $db_rl_presennter_thana = $adrsrow['thana_name'];
                     ?>
                     <tr>
                         <td ><?php echo $db_rl_presenter_name; ?></td>
@@ -445,6 +444,7 @@ if ($_GET['action'] == 'first') {
         filterEl: $('presentation_fillter')
     });
     </script>
+<!--   ****************************** Presenter's schedule ****************************-->
     <?php
 } elseif ($_GET['action'] == 'sedule') {
     ?>

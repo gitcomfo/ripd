@@ -1,7 +1,6 @@
 <?php
 error_reporting(0);
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 $msg = "";
@@ -14,7 +13,7 @@ if(isset($_POST['submit']))
     $p_pension = $_POST['pension'];
     
     $insquery = mysql_query("INSERT INTO pay_grade (grade_name, employee_type, max_salary ,min_salary , insert_date , pension ) 
-            VALUES ('$p_grade','$p_catagory',$p_minsalary,$p_maxsalary,NOW(),$p_pension)");
+            VALUES ('$p_grade','$p_catagory',$p_maxsalary,$p_minsalary,NOW(),$p_pension)");
     if($insquery == 1)
     {
         $msg = "গ্রেড-সেলারি সফলভাবে এন্ট্রি হয়েছে";

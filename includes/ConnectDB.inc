@@ -5,7 +5,7 @@ $host = '192.168.1.100';
 $dbuser = 'cfs_iftee';
 $dbpassword = '';
 $dbname = 'ripd_db_comfosys';
- 
+
 $_SESSION['DatabaseName'] = $dbname;
 /*if(!isset($_SESSION['DatabaseName'])){
     $_SESSION['DatabaseName'] = $dbname;

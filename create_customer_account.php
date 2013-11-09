@@ -3,9 +3,9 @@ include_once 'includes/MiscFunctions.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 error_reporting(0);
-$g_id = $_GET['empInfoID'];
+$g_id = $_GET['custACid'];
 ?>
-<title>ক্রিয়েট কর্মচারী অ্যাকাউন্ট</title>
+<title>ক্রিয়েট কাস্টমার অ্যাকাউন্ট</title>
 <style type="text/css">@import "css/bush.css";</style>
 <script type="text/javascript" src="javascripts/division_district_thana.js"></script>
 <script type="text/javascript" src="javascripts/jquery-1.4.3.min.js"></script>
@@ -36,19 +36,19 @@ $g_id = $_GET['empInfoID'];
 </script>
 <?php
 if (isset($_POST['submit1'])) {
-    $employee_fatherName = $_POST['employee_fatherName'];
-    $employee_motherName = $_POST['employee_motherName'];
-    $employee_spouseName = $_POST['employee_spouseName'];
-    $employee_occupation = $_POST['employee_occupation'];
-    $employee_religion = $_POST['employee_religion'];
-    $employee_natonality = $_POST['employee_natonality'];
+    $cust_fatherName = $_POST['cust_fatherName'];
+    $cust_motherName = $_POST['cust_motherName'];
+    $cust_spouseName = $_POST['cust_spouseName'];
+    $cust_occupation = $_POST['cust_occupation'];
+    $cust_religion = $_POST['cust_religion'];
+    $cust_natonality = $_POST['cust_natonality'];
     $dob_day = $_POST['date'];
     $dob_month = $_POST['month'];
     $dob_year = $_POST['year'];
     $dob = $dob_year . "-" . $dob_month . "-" . $dob_day; //Concating different strings of date written in php function
-    $employee_national_ID = $_POST['employee_national_ID'];
-    $employee_passport = $_POST['employee_passport'];
-    $employee_birth_certificate_No = $_POST['employee_birth_certificate_No'];
+    $cust_national_ID = $_POST['cust_national_ID'];
+    $cust_passport = $_POST['cust_passport'];
+    $cust_birth_certificate_No = $_POST['cust_birth_certificate_No'];
     // picture, sign, sign
     $allowedExts = array("gif", "jpeg", "jpg", "png", "JPG", "JPEG", "GIF", "PNG");
     $extension = end(explode(".", $_FILES["image"]["name"]));
@@ -79,16 +79,13 @@ if (isset($_POST['submit1'])) {
     } else {
         echo "Invalid file format.";
     }
-    $sql_update_employee = mysql_query("UPDATE $dbname.employee_information SET employee_fatherName='$employee_fatherName', 
-                                     employee_motherName='$employee_motherName', employee_spouseName='$employee_spouseName', 
-                                     employee_occupation='$employee_occupation', employee_religion='$employee_religion', employee_natonality='$employee_natonality',
-                                     employee_national_ID='$employee_national_ID', employee_passport='$employee_passport', employee_date_of_birth='$dob',
-                                     employee_birth_certificate_No='$employee_birth_certificate_No' ,emplo_scanDoc_signature='$image_path', emplo_scanDoc_picture='$sing_path',  scanDoc_finger_print='$finger_path'
-                                     WHERE idEmployee_information=$g_id");
+    $sql_update_customer = mysql_query("UPDATE customer_account SET cust_father_name='$cust_fatherName', 
+                                     cust_mother_name='$cust_motherName', cust_spouse_name='$cust_spouseName', 
+                                     cust_occupation='$cust_occupation', cust_religion='$cust_religion', cust_nationality='$cust_natonality',
+                                     cust_nationalID_no='$cust_national_ID', cust_passportID_no='$cust_passport', cust_date_of_birth='$dob',
+                                     birth_certificate_no='$cust_birth_certificate_No' ,scanDoc_signature='$sing_path', scanDoc_picture='$image_path',  scanDoc_finger_print='$finger_path'
+                                     WHERE idCustomer_account=$g_id");
 
-    $result = mysql_query("SELECT  * FROM $dbname.employee_information WHERE idEmployee_information='$g_id'");
-    $employee_id = mysql_fetch_array($result);
-    $emp = $employee_id['Employee_idEmployee'];
     //Current Address Infromation
     $e_Village_idVillage = $_POST['village_id1'];
     $e_Post_idPost = $_POST['post_id1'];
@@ -109,16 +106,16 @@ if (isset($_POST['submit1'])) {
     $ep_road = $_POST['ep_road'];
     $ep_post = $_POST['ep_post'];
     $ep_post_code = $_POST['ep_post_code'];
-    //employee address_type=Present
+    //cust address_type=Present
     $sql_e_insert_current_address = mysql_query("INSERT INTO $dbname.address 
                                     (address_type, house, house_no, road, address_whom, post_code,Thana_idThana, post_idpost, village_idvillage ,adrs_cepng_id)
-                                     VALUES ('Present', '$e_house', '$e_house_no', '$e_road', 'emp', '$e_post_code','$e_Thana_idThana','$e_Post_idPost', '$e_Village_idVillage', '$emp')");
-    //employee address_type=Permanent
+                                     VALUES ('Present', '$e_house', '$e_house_no', '$e_road', 'cust', '$e_post_code','$e_Thana_idThana','$e_Post_idPost', '$e_Village_idVillage', '$g_id')");
+    //cust address_type=Permanent
     $sql_ep_insert_permanent_address = mysql_query("INSERT INTO $dbname.address 
                                     (address_type, house, house_no, road, address_whom, post_code,Thana_idThana,  post_idpost, village_idvillage ,adrs_cepng_id)
-                                     VALUES ('Permanent', '$ep_house', '$ep_house_no', '$ep_road', 'emp', '$ep_post_code','$ep_Thana_idThana', '$ep_Post_idPost', '$ep_Village_idVillage', '$emp')");
+                                     VALUES ('Permanent', '$ep_house', '$ep_house_no', '$ep_road', 'cust', '$ep_post_code','$ep_Thana_idThana', '$ep_Post_idPost', '$ep_Village_idVillage', '$g_id')");
 
-    if ($sql_update_employee || $sql_e_insert_current_address || $sql_ep_insert_permanent_address) {
+    if ($sql_update_customer || $sql_e_insert_current_address || $sql_ep_insert_permanent_address) {
         $msg = "তথ্য সংরক্ষিত হয়েছে";
     } else {
         $msg = "ভুল হয়েছে";
@@ -132,9 +129,6 @@ if (isset($_POST['submit1'])) {
     $nominee_national_ID = $_POST['nominee_national_ID'];
     $nominee_passport_ID = $_POST['nominee_passport_ID'];
 
-     $result = mysql_query("SELECT  * FROM $dbname.employee_information WHERE idEmployee_information='$g_id'");
-    $employee_id = mysql_fetch_array($result);
-    $emp1 = $employee_id['Employee_idEmployee'];
     //Insert Into Nominee table
     $allowedExts = array("gif", "jpeg", "jpg", "png", "JPG", "JPEG", "GIF", "PNG");
     $extension = end(explode(".", $_FILES["nominee_picture"]["name"]));
@@ -149,7 +143,7 @@ if (isset($_POST['submit1'])) {
     $sql_nominee = mysql_query("INSERT INTO $dbname.nominee(nominee_name, nominee_relation, nominee_mobile,
                                        nominee_email, nominee_national_ID, nominee_age, nominee_passport_ID, nominee_picture,cep_type, cep_nominee_id) 
                                        VALUES('$nominee_name','$nominee_relation','$nominee_mobile','$nominee_email','$nominee_national_ID',
-                                       '$nominee_age','$nominee_passport_ID','$image_path','emp','$emp1')");
+                                       '$nominee_age','$nominee_passport_ID','$image_path','cust','$g_id')");
     //Current Address Infromation
     $n_Village_idVillage = $_POST['village_id5'];
     $n_Post_idPost = $_POST['post_id5'];
@@ -173,11 +167,11 @@ if (isset($_POST['submit1'])) {
     //nominee address_type=Present
     $sql_n_insert_current_address = mysql_query("INSERT INTO $dbname.address 
                                     (address_type, house, house_no,road, address_whom, post_code,Thana_idThana,  post_idpost, village_idvillage ,adrs_cepng_id)
-                                     VALUES ('Present', '$n_house', '$n_house_no', '$n_road', 'nmn', '$n_post_code', '$n_Thana_idThana', '$n_Post_idPost', '$n_Village_idVillage','$emp1')");
+                                     VALUES ('Present', '$n_house', '$n_house_no', '$n_road', 'nmn', '$n_post_code', '$n_Thana_idThana', '$n_Post_idPost', '$n_Village_idVillage','$g_id')");
     //nominee address_type=Permanent
     $sql_np_insert_permanent_address = mysql_query("INSERT INTO $dbname.address 
                                     (address_type, house, house_no, road, address_whom,post_code,Thana_idThana,  post_idpost, village_idvillage ,adrs_cepng_id)
-                                     VALUES ('Permanent', '$np_house', '$np_house_no','$np_road', 'nmn',  '$np_post_code','$np_Thana_idThana','$np_Post_idPost', '$np_Village_idVillage','$emp1')");
+                                     VALUES ('Permanent', '$np_house', '$np_house_no','$np_road', 'nmn',  '$np_post_code','$np_Thana_idThana','$np_Post_idPost', '$np_Village_idVillage','$g_id')");
 
     if ($sql_nominee || $sql_n_insert_current_address || $sql_np_insert_permanent_address) {
         $msg = "তথ্য সংরক্ষিত হয়েছে";
@@ -186,9 +180,6 @@ if (isset($_POST['submit1'])) {
     }
 } elseif (isset($_POST['submit3'])) {
 
-    $result = mysql_query("SELECT  * FROM $dbname.employee_information WHERE idEmployee_information='$g_id'");
-    $employee_id = mysql_fetch_array($result);
-    $emp2 = $employee_id['Employee_idEmployee'];
     //customer education
     $e_ex_name = $_POST['e_ex_name'];
     $e_pass_year = $_POST['e_pass_year'];
@@ -197,7 +188,7 @@ if (isset($_POST['submit1'])) {
     $e_gpa = $_POST['e_gpa'];
     $a = count($e_ex_name);
     for ($i = 0; $i < $a; $i++) {
-        $sql_insert_emp_edu = "INSERT INTO " . $dbname . ".`education` ( `exam_name` ,`passing_year` ,`institute_name`,`board`,`gpa`,`education_type`,`cepn_id`) VALUES ('$e_ex_name[$i]', '$e_pass_year[$i]','$e_institute[$i]','$e_board[$i]','$e_gpa[$i]','emp','$emp2');";
+        $sql_insert_emp_edu = "INSERT INTO " . $dbname . ".`education` ( `exam_name` ,`passing_year` ,`institute_name`,`board`,`gpa`,`education_type`,`cepn_id`) VALUES ('$e_ex_name[$i]', '$e_pass_year[$i]','$e_institute[$i]','$e_board[$i]','$e_gpa[$i]','cust','$g_id');";
         $emp_edu = mysql_query($sql_insert_emp_edu) or exit('query failed: ' . mysql_error());
     }
     //nominee education
@@ -208,47 +199,13 @@ if (isset($_POST['submit1'])) {
     $n_gpa = $_POST['n_gpa'];
     $b = count($n_ex_name);
     for ($i = 0; $i < $b; $i++) {
-        $sql_insert_nom_edu = "INSERT INTO " . $dbname . ".`education` ( `exam_name` ,`passing_year` ,`institute_name`,`board`,`gpa`,`education_type`,`cepn_id`) VALUES ('$n_ex_name[$i]', '$n_pass_year[$i]','$n_institute[$i]','$n_board[$i]','$n_gpa[$i]','nmn','$emp2');";
+        $sql_insert_nom_edu = "INSERT INTO " . $dbname . ".`education` ( `exam_name` ,`passing_year` ,`institute_name`,`board`,`gpa`,`education_type`,`cepn_id`) VALUES ('$n_ex_name[$i]', '$n_pass_year[$i]','$n_institute[$i]','$n_board[$i]','$n_gpa[$i]','nmn','$g_id');";
         $nom_edu = mysql_query($sql_insert_nom_edu) or exit('query failed: ' . mysql_error());
     }
     if ($emp_edu || $nom_edu) {
         $msg = "তথ্য সংরক্ষিত হয়েছে";
     } else {
         $msg = "ভুল হয়েছে";
-    }
-}elseif (isset($_POST['submit4'])) {
-    $result = mysql_query("Select  * from $dbname.employee_information where Employee_idEmployee='1'");
-    $employee_id = mysql_fetch_array($result);
-    $emp3 = $employee_id['idEmployee_information'];
-    $pathArray = array();
-    for ($i = 1; $i < 12; $i++) {
-        $scan_document = "";
-        $allowedExts = array("gif", "jpeg", "jpg", "png", "JPG", "JPEG", "GIF", "PNG", "pdf"); //File Type
-        $scanDoc = "scanDoc" . $i;
-        $files_sequence = array(1 => "ssc", "nationalID", "hsc", "birth_certificate", "onars", "chairman_cert", "masters", "other");
-        $file_name = $files_sequence[$i];
-        $t = time();
-        $extension = end(explode(".", $_FILES[$scanDoc]['name']));
-        $scan_doc_name = $account_number . "_" . $file_name . "_" . $t . "_" . $_FILES[$scanDoc]['name'];
-        $scan_doc_path_temp = "images/scan_documents/" . $scan_doc_name;
-        if (($_FILES[$scanDoc]['size'] < 999999999999) && in_array($extension, $allowedExts)) {
-            move_uploaded_file($_FILES[$scanDoc]['tmp_name'], $scan_doc_path_temp);
-            $scan_document = $scan_doc_path_temp;
-            $pathArray[$i] = $scan_document;
-        } elseif ($_FILES[$scanDoc]['size'] == 0) {
-            $pathArray[$i] = NULL;
-        } else {
-            echo "Invalid file format.</br>";
-        }
-    }
-    $sql_images_scan_doc = mysql_query("INSERT INTO $dbname.ep_certificate_scandoc_extra
-                                 (emplo_scanDoc_national_id, emplo_scanDoc_birth_certificate, emplo_scanDoc_chairman_certificate, scanDoc_ssc, scanDoc_hsc, scanDoc_onars, scanDoc_masters, scanDoc_other, emp_type, emp_id)
-                                 VALUES('$pathArray[2]', '$pathArray[4]', '$pathArray[6]', '$pathArray[1]', '$pathArray[3]', 
-                                 '$pathArray[5]',  '$pathArray[7]', '$pathArray[8]', 'emp','$emp3')");
-    if ($sql_images_scan_doc) {
-        $msg_scan_doc = "তথ্য সংরক্ষিত হয়েছে";
-    } else {
-        $msg_scan_doc = "ভুল হয়েছে";
     }
 }
 ?>
@@ -258,7 +215,7 @@ if (isset($_POST['submit1'])) {
         <div style="padding-left: 110px;"><a href="index.php?apps=HRE"><b>ফিরে যান</b></a></div>
         <div class="domtab">
             <ul class="domtabs">
-                <li class="current"><a href="#01">মূল তথ্য</a></li><li class="current"><a href="#02">নমিনির তথ্য</a></li><li class="current"><a href="#03">শিক্ষাগত যোগ্যতা</a></li><li class="current"><a href="#04">প্রয়োজনীয় ডকুমেন্টস</a></li>
+                <li class="current"><a href="#01">মূল তথ্য</a></li><li class="current"><a href="#02">নমিনির তথ্য</a></li><li class="current"><a href="#03">শিক্ষাগত যোগ্যতা</a></li><li class="current"></li>
             </ul>
         </div>  
 
@@ -266,7 +223,7 @@ if (isset($_POST['submit1'])) {
             <h2><a name="01" id="01"></a></h2><br/>
             <form method="POST" onsubmit="" style=" padding-right: 70px;" enctype="multipart/form-data" action="" id="emp_form" name="emp_form">	
                 <table class="formstyle" > 
-                    <tr><th colspan="4" style="text-align: center" colspan="2"><h1>কর্মচারীর একাউন্ট তৈরির ফর্ম</h1></th></tr>
+                    <tr><th colspan="4" style="text-align: center" colspan="2"><h1>কাস্টমারের একাউন্ট তৈরির ফর্ম</h1></th></tr>
                     <tr>
                         <td colspan="4" ><hr /></td>
                     </tr>
@@ -280,33 +237,33 @@ if (isset($_POST['submit1'])) {
                     </tr>
                     <tr>
                         <td >বাবার নাম </td>
-                        <td>:  <input class="box" type="text" id="employee_fatherName" name="employee_fatherName" /></td>
+                        <td>:  <input class="box" type="text" id="cust_fatherName" name="cust_fatherName" /></td>
                         <td   font-weight="bold" >পাসপোর্ট ছবি </td>
                         <td >:   <input class="box" type="file" id="image" name="image" style="font-size:10px;"/></td>    
                     </tr>
                     <tr>
                         <td >মার নাম </td>
-                        <td>:  <input class="box" type="text" id="employee_motherName" name="employee_motherName"/></td>
+                        <td>:  <input class="box" type="text" id="cust_motherName" name="cust_motherName"/></td>
                         <td  font-weight="bold" >স্বাক্ষর</td>
                         <td >:  <input class="box1" type="file" id="scanDoc_signature" name="scanDoc_signature" style="font-size:10px;"/> </td>
                     </tr>
                     <tr>
                         <td >দম্পতির নাম  </td>
-                        <td>:  <input class="box" type="text" id="employee_spouseName" name="employee_spouseName" /> </td>	
+                        <td>:  <input class="box" type="text" id="cust_spouseName" name="cust_spouseName" /> </td>	
                         <td font-weight="bold" > টিপসই</td>
                         <td >:   <input class="box5" type="file" id="scanDoc_finger_print" name="scanDoc_finger_print" style="font-size:10px;"/> </td> 		
                     </tr>
                     <tr>
                         <td >পেশা</td>
-                        <td>:  <input class="box" type="text" id="employee_occupation" name="employee_occupation" /></td>                         
+                        <td>:  <input class="box" type="text" id="cust_occupation" name="cust_occupation" /></td>                         
                     </tr>
                     <tr>
                         <td>ধর্ম </td>
-                        <td>:  <input  class="box" type="text" id="employee_religion" name="employee_religion" /></td>	                             
+                        <td>:  <input  class="box" type="text" id="cust_religion" name="cust_religion" /></td>	                             
                     </tr>
                     <tr>
                         <td >জাতীয়তা</td>
-                        <td>:  <input class="box" type="text" id="employee_natonality" name="employee_natonality" /> </td>			
+                        <td>:  <input class="box" type="text" id="cust_natonality" name="cust_natonality" /> </td>			
                     </tr>
                     <td>জন্মতারিখ</td>
                     <td >:   <select  class="box1"  name="date" style =" font-size: 11px">
@@ -347,15 +304,15 @@ if (isset($_POST['submit1'])) {
                     </td>			
                     </tr>                     
                     <td >জাতীয় পরিচয়পত্র নং</td>
-                    <td>:  <input class="box" type="text" id="employee_national_ID" name="employee_national_ID" /></td>			
+                    <td>:  <input class="box" type="text" id="cust_national_ID" name="cust_national_ID" /></td>			
                     </tr>
                     <tr>
                         <td >পাসপোর্ট আইডি নং</td>
-                        <td>:  <input class="box" type="text" id="employee_passport" name="employee_passport" /></td>			
+                        <td>:  <input class="box" type="text" id="cust_passport" name="cust_passport" /></td>			
                     </tr>
                     <tr>
                         <td >জন্ম সনদ নং</td>
-                        <td>:  <input class="box" type="text" id="employee_birth_certificate_No" name="employee_birth_certificate_No" /></td>			
+                        <td>:  <input class="box" type="text" id="cust_birth_certificate_No" name="cust_birth_certificate_No" /></td>			
                     </tr>
                     <tr>
                         <td colspan="4" ><hr /></td>
@@ -451,7 +408,7 @@ if (isset($_POST['submit1'])) {
             <h2><a name="02" id="02"></a></h2><br/>
             <form method="POST" onsubmit="" style=" padding-right: 70px;" enctype="multipart/form-data" action="" id="emp_form1" name="emp_form1">	
                 <table  class="formstyle">     
-                    <tr><th colspan="4" style="text-align: center" colspan="2"><h1>কর্মচারীর একাউন্ট তৈরির ফর্ম</h1></th></tr>
+                    <tr><th colspan="4" style="text-align: center" colspan="2"><h1>কাস্টমারের একাউন্ট তৈরির ফর্ম</h1></th></tr>
                     <tr>
                         <td >নমিনির নাম</td>
                         <td>:  <input class="box" type="text" id="nominee_name" name="nominee_name" /></td>	
@@ -578,7 +535,7 @@ if (isset($_POST['submit1'])) {
             <h2><a name="03" id="03"></a></h2><br/>
             <form method="POST" onsubmit="">	
                 <table  class="formstyle">          
-                    <tr><th colspan="4" style="text-align: center" colspan="2"><h1>কর্মচারীর একাউন্ট তৈরির ফর্ম</h1></th></tr>
+                    <tr><th colspan="4" style="text-align: center" colspan="2"><h1>কাস্টমারের একাউন্ট তৈরির ফর্ম</h1></th></tr>
                     <tr>
                         <td colspan="2" > 
                     </tr>
@@ -586,7 +543,7 @@ if (isset($_POST['submit1'])) {
                         <td colspan="2" >
                             <table width="100%">
                                 <tr>	
-                                    <td  colspan="2"   style =" font-size: 14px"><b>কর্মচারীর শিক্ষাগত যোগ্যতা</b></td>                                                
+                                    <td  colspan="2"   style =" font-size: 14px"><b>কাস্টমারের শিক্ষাগত যোগ্যতা</b></td>                                                
                                 </tr>
                                 <tr>                      
                                     <td>
@@ -654,44 +611,6 @@ if (isset($_POST['submit1'])) {
             </form>
         </div>
         <!-- **********************Form Number 4***************************-->
-
-        <div>
-            <h2><a name="04" id="04"></a></h2><br/>
-            <form name="scanDoc_form" method="POST" enctype="multipart/form-data" onsubmit="">	
-                <table  class="formstyle">     
-                    <tr><th colspan="4" style="text-align: center" colspan="2"><h1>কর্মচারীর একাউন্ট তৈরির ফর্ম</h1></th></tr>               
-                    <tr>	
-                        <td  style="width: 110px;" font-weight="bold" > এস.এস.সির সার্টিফিকেট</td>
-                        <td>:  <input class="box" type="file" id="scanDoc1" name="scanDoc1" style="font-size:10px;"/></td>
-                        <td  font-weight="bold" > জাতীয় পরিচয়পত্র</td>
-                        <td>:  <input class="box" type="file" id="scanDoc2" name="scanDoc2" style="font-size:10px;"/></td>
-                    </tr>
-                    <tr>	
-                        <td  font-weight="bold"  style="width: 112px;">এইচ.এস.সির সার্টিফিকেট</td>
-                        <td>:  <input class="box" type="file" id="scanDoc3" name="scanDoc3" style="font-size:10px;"/></td>
-                        <td  font-weight="bold" >জন্ম সনদ</td>
-                        <td>:  <input class="box" type="file" id="scanDoc4" name="scanDoc4" style="font-size:10px;"/></td>
-                    </tr>
-                    <tr>	
-                        <td  font-weight="bold" >অনার্সের সার্টিফিকেট</td>
-                        <td>:  <input class="box" type="file" id="scanDoc5" name="scanDoc5" style="font-size:10px;"/></td>
-                        <td  font-weight="bold" >চারিত্রিক সনদ</td>
-                        <td>:  <input class="box" type="file" id="scanDoc6" name="scanDoc6" style="font-size:10px;"/></td>
-                    </tr>
-                    <tr>	
-                        <td  font-weight="bold" >মাস্টার্সের  সার্টিফিকেট</td>
-                        <td>:  <input class="box" type="file" id="scanDoc7" name="scanDoc7" style="font-size:10px;"/></td>
-                        <td  font-weight="bold" >অন্যান্য </td>
-                        <td>:  <input class="box" type="file" id="scanDoc8" name="scanDoc8" style="font-size:10px;"/></td>
-                    </tr>
-                    <tr>                    
-                        <td colspan="4" style="padding-top: 10px; padding-left: 250px;padding-bottom: 5px; " ><input class="btn" style =" font-size: 12px; " type="submit" name="submit4" value="সেভ করুন" />
-                            <input class="btn" style =" font-size: 12px" type="reset" name="reset" value="রিসেট করুন" />
-                        </td>                           
-                    </tr>
-                </table>
-            </form>
-        </div>
     </div>      
 </div> 
 <?php include_once 'includes/footer.php'; ?>

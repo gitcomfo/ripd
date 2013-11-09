@@ -55,7 +55,7 @@ include 'includes/columnLeft.php';
     <div id="table_header_style">
         <table border="0" style="width: 100%; height: 100%;font-size: 17px" align="center">
             <tr align="center">
-                <td><b><?php echo Title('program_table') ?></b></td>
+                <td><b>প্রোগ্রাম</b></td>
             </tr>
         </table>
     </div>

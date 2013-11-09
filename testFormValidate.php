@@ -1,7 +1,6 @@
 <?php
 error_reporting(0);
 include_once 'includes/header.php';
-include_once 'includes/db.php';
 include_once 'includes/ConnectDB.inc';
 
 if (isset($_POST['pro_submit'])) {

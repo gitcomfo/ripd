@@ -1,6 +1,5 @@
 <?php
 error_reporting(0);
-include 'db.php';
 include 'ConnectDB.inc';
 include 'connectionPDO.php';
 $holiday =0;$specialonday=0;
@@ -68,7 +67,7 @@ if(($holiday==0) || ($specialonday==1))
 }
  else
      {
-      $db_slNo = 0;
+      $db_slNo = 1;
                                     $rs = mysql_query("SELECT * FROM cfs_user WHERE  	cfs_account_status = 'active' AND idUser = ANY(SELECT cfs_user_idUser FROM employee  WHERE emp_ons_id = '$db_onsid');");
 
                                     while ($rowemployee = mysql_fetch_assoc($rs)) 

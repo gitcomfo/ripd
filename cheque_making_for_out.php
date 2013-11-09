@@ -1,13 +1,10 @@
 <?php
 error_reporting(0);
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
-include_once 'includes/function.php';
 include_once 'includes/areaSearch.php';
 ?>
-
 <style type="text/css"> @import "css/bush.css";</style>
 <script type="text/javascript" src="javascripts/area.js"></script>
 <script type="text/javascript" src="javascripts/external/mootools.js"></script>

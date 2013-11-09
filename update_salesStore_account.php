@@ -1,14 +1,10 @@
 <?php
 error_reporting(0); 
 include_once 'includes/ConnectDB.inc';
-include_once 'includes/header.php';
-            
+include_once 'includes/header.php';         
 ?>
 <title>আপডেট সেলসস্টোর</title>
-<style type="text/css">
-    @import "css/style.css";
-  
-</style>
+<style type="text/css">@import "css/style.css";</style>
 <script type="text/javascript" src="javascripts/area.js"></script>
         <script type="text/javascript" src="javascripts/external/mootools.js"></script>
         <script type="text/javascript" src="javascripts/dg-filter.js"></script>

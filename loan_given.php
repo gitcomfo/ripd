@@ -1,7 +1,6 @@
 <?php
 error_reporting(0);
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 $msg = "";
@@ -87,7 +86,7 @@ function calculateInstalment(month) // for calculation instalment amount********
                }
                 else
                     {document.getElementById('empfound').style.visibility = "visible";
-                document.getElementById('empfound').setAttribute('style','position:absolute;top:34%;left:61%;width:225px;z-index:10;padding:5px;border: 1px inset black; overflow:auto; height:105px; background-color:#F5F5FF;');
+                document.getElementById('empfound').setAttribute('style','position:absolute;top:36%;left:62.5%;width:225px;z-index:10;padding:5px;border: 1px inset black; overflow:auto; height:105px; background-color:#F5F5FF;');
                     }
                 document.getElementById('empfound').innerHTML=xmlhttp.responseText;
         }
@@ -130,12 +129,12 @@ function calculateInstalment(month) // for calculation instalment amount********
                                             $sql_empinfo = mysql_query("SELECT * FROM employee_information WHERE Employee_idEmployee = $db_empid");
                                             $empinforow = mysql_fetch_assoc($sql_empinfo);
                                             $db_empphoto = $empinforow['emplo_scanDoc_picture'];
-                                            $sql_empsal = mysql_query("SELECT * FROM employee_salary WHERE user_id=$empCfsid AND pay_grade_idpaygrade= $db_paygrdid;");
+                                            $sql_empsal = mysql_query("SELECT * FROM employee_salary WHERE user_id=$db_empid AND pay_grade_idpaygrade= $db_paygrdid;");
                                             $empsalrow = mysql_fetch_assoc($sql_empsal);
                                             $db_empsalary = $empsalrow['total_salary'];
                                         }
                             ?>
-                        <td>
+                        <td></br>
                             <table style="margin-left: 0px !important;">
                                  <tr>
                                      <td width="35%" style="padding-left: 0px;" >লোনের পরিমাণ</td>
@@ -163,7 +162,7 @@ function calculateInstalment(month) // for calculation instalment amount********
                                 </tr>
                             </table>     
                         </td>
-                         <td width="41%">
+                         <td width="41%"></br>
                             <table>
                                  <tr>
                                      <td colspan="8" style="text-align: right">খুঁজুন:  <input type="text" class="box" style="width: 230px;" id="empsearch" name="empsearch" onkeyup="getEmployee(this.value)"/>
@@ -180,21 +179,21 @@ function calculateInstalment(month) // for calculation instalment amount********
                                             <input type="hidden" readonly="" id="emp_paygrade" name="emp_paygrade" value="<?php echo $db_paygrdid;?>" /></td>
                                     </tr>    
                                     <tr>
-                                        <td height="74"><input type="hidden" readonly="" value="<?php echo $db_empmobile;?>" /><?php echo $db_empmobile;?>
+                                        <td><input type="hidden" readonly="" value="<?php echo $db_empmobile;?>" /><?php echo $db_empmobile;?>
                                         <input type="hidden" readonly="" name="empid"value="<?php echo $db_empid;?>" /></td>
                                     </tr>
                                      <tr>
-                                        <td height="74"><input type="hidden" readonly="" value="<?php echo $db_empsalary;?>" />বেতন : <?php echo $db_empsalary;?> টাকা</td>
+                                        <td><input type="hidden" readonly="" value="<?php echo $db_empsalary;?>" />বেতন : <?php echo $db_empsalary;?> টাকা</td>
                                     </tr>     
                                     <tr>
-                                        <td height="74" style="text-align: center;"><a href="">বিস্তারিত</a></td>
+                                        <td style="text-align: center;"><a href="">বিস্তারিত</a></td>
                                     </tr>     
                                     </table>
                                 </td>
                             </tr>
                             <tr>                    
-                        <td colspan="2" style="padding-left: 250px; " ><input class="btn" style =" font-size: 12px; " type="submit" name="submit" value="সেভ করুন" />
-                        <input class="btn" style =" font-size: 12px" type="reset" name="reset" value="রিসেট করুন" /></td>                           
+                        <td colspan="2" style="padding-left: 250px; " ></br></br><input class="btn" style =" font-size: 12px; " type="submit" name="submit" value="সেভ করুন" />
+                        <input class="btn" style =" font-size: 12px" type="reset" name="reset" value="রিসেট করুন" /></br></br></td>                           
                     </tr>    
                 </table>
                 </fieldset>

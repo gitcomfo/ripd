@@ -1,14 +1,12 @@
 <?php
 error_reporting(0);
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 
 $mainChequeNo= $_GET['maincheque'];
 $officeID = $_GET['id'];
 ?>
-
 <style type="text/css"> @import "css/bush.css";</style>
 <link href="css/print.css" rel="stylesheet" type="text/css" media="print"/>
 <div class="columnSld" style=" padding-left: 50px;">

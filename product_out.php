@@ -1,12 +1,9 @@
 <?php
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
 ?>
-<style type="text/css">
-    @import "css/bush.css";
-</style>
+<style type="text/css"> @import "css/bush.css";</style>
 <script type="text/javascript">
    
     $(function(){

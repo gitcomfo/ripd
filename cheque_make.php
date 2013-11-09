@@ -1,12 +1,9 @@
 <?php
 error_reporting(0);
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
-//include_once 'includes/function.php';
 ?>
-
 <?php
 function convert_number($number)
 {
@@ -84,8 +81,8 @@ function showOffices($inp_offID, $inp_mainCheque)
     echo "<tr>";
    foreach($inp_offID as $ID)
     {
-        $psql="SELECT * FROM ".$dbname ." .office WHERE idOffice = $ID ";
-        $result= mysql_query($psql) or exit('query failed: '.mysql_error());
+        $psql="SELECT * FROM office WHERE idOffice = $ID ";
+        $result= mysql_query($psql) or exit('query failed?????: '.mysql_error());
         $row = mysql_fetch_assoc($result);
         $off_name=$row['office_name'];
         $off_no = $row['account_number'];

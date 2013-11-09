@@ -1,14 +1,9 @@
 <?php
 include_once 'includes/MiscFunctions.php';
-include 'includes/db.php';
 include 'includes/ConnectDB.inc';
-include_once 'includes/function.php';
 error_reporting(0);
 ?>
-<style type="text/css">
-    @import "css/bush.css";
-    @import "css/expand_collapse.css";
-</style>
+<style type="text/css">@import "css/bush.css";@import "css/expand_collapse.css";</style>
 <script type="text/javascript" src="javascripts/expand_collapse01.js"></script>
 <script type="text/javascript" src="javascripts/expand_collapse02_ui.js"></script>
 <script>    
