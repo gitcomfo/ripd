@@ -76,9 +76,9 @@ function goBack()
                 </thead>
                 <tbody>                    
                     <?php
-                    if($g_type==1)
+                    if($input== 'proprietor')
                     {
-                    $sql_officeTable = "SELECT * from $dbname.office WHERE office_type = 'pwr_head' ORDER BY office_name ASC";
+                    $sql_officeTable = "SELECT * FROM cfs_user, proprietor_account WHERE user_type = 'owner'";
                     $rs = mysql_query($sql_officeTable);
                     }
                     else{
