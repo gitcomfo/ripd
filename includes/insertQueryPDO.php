@@ -16,4 +16,10 @@ $columns_hitting_customer = array('command_idcommand', 'Account_type_idAccount_t
 $column_list_hitting_cust = join(',', $columns_hitting_customer);
 $param_list_hitting_cust = join(',', array_map(function($col_hcc) { return ":$col_hcc"; }, $columns_hitting_customer));
 $sql_insert_hitting_customer_command = $conn->prepare("INSERT into pv_hitting_customer ($column_list_hitting_cust) VALUES ($param_list_hitting_cust)");
+
+//PV hitting unregistered customer for different sales store and sales type
+$columns_unreg_customer = array('command_idcommand', 'sales_type', 'store_type', 'less_amount', 'selling_earn', 'patent_nh', 'ripd_income');
+$column_list_unreg_cust = join(',', $columns_unreg_customer);
+$param_list_unreg_cust = join(',', array_map(function($col_ucc) { return ":$col_ucc"; }, $columns_unreg_customer));
+$sql_insert_unreg_customer_command = $conn->prepare("INSERT into pv_unregistered_customer ($column_list_unreg_cust) VALUES ($param_list_unreg_cust)");
 ?>

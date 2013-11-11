@@ -17,9 +17,14 @@ include_once 'includes/columnLeft.php';
             </tr>
             <tr>
                 <td><a href="command_hitting_customer_making.php">কাস্টমার হিটিং সংক্রান্ত পিভি বন্টণ</a></td>
-                <td><a href="#">আন-রেজিস্ট্রার্ড কাস্টমার এর সংক্রান্ত পিভি বন্টণ</a></td>               
+                <td><a href="command_unreg_cust_making.php">আন-রেজিস্ট্রার্ড কাস্টমার এর সংক্রান্ত পিভি বন্টণ</a></td>               
             </tr>
-            <tr><th style="text-align: center" colspan="2"><h1>সিকিউরিটি </h1></th></tr>
+            <tr><th style="text-align: center" colspan="2"><h1>কমান্ড কার্যকর</h1></th></tr>
+            <tr>
+                <td><a href="command_list.php">কমান্ড লিস্ট দেখুন</a></td>
+                <td><a href="#">কমান্ড কার্যকর করুন</a></td>               
+            </tr>
+            <tr><th style="text-align: center" colspan="2"><h1>সিকিউরিটি</h1></th></tr>
             <tr>
                 <td><a href="security_module.php">মডিউল</a></td>
                 <td><a href="security_submodule.php">সাবমডিউল</a></td>               
