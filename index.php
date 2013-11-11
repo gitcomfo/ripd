@@ -7,17 +7,17 @@ session_start();
     <?php
     $quickLinkList = array(
         'PI' => 'প্রোডাক্ট ইনফরমেশন',
-        'OD' => 'অফিস ডে এন্ড অফ ডে',
-        'SD' => 'সেলস স্টোর ডে এন্ড অফ ডে',
-        'PP' => 'প্রোগ্রাম প্রোফাইল',
-        'MA' => 'মেইক আপ্লিকেশন');
+        'OD' => 'অফিস ক্যালেন্ডার',
+        'SD' => 'শপিং ক্যালেন্ডার',
+        'PP' => 'অনুষ্ঠানসূচি',
+        'MA' => 'আবেদনপত্র');
     if ($_SESSION['UserID'] == 'admin') {
-        $quickLinkList['AREA'] = 'এরিয়া ইনফরমেশন ';
+        $quickLinkList['AREA'] = 'এরিয়া মেকিং';
         $quickLinkList['OSP'] = 'অফিস এবং সেলসস্টোর ';
         $quickLinkList['HRE'] = 'এইচ আর এবং কর্মচারী ';
-        $quickLinkList['PROGRA'] = 'প্রোগ্রাম সিডিউল ';
+        $quickLinkList['PROGRA'] = 'প্রোগ্রাম সিডিউল';
         $quickLinkList['CRM'] = 'কাস্টমার রিলেশনশিপ ম্যানেজমেন্ট ';
-        $quickLinkList['PROD'] = 'প্রোডাক্ট ইনফরমেশন ';
+        $quickLinkList['PROD'] = 'পণ্যতথ্য';
         $quickLinkList['POS'] = 'পয়েন্ট অফ সেলস';
         $quickLinkList['ACC'] = 'একাউন্টিং সিস্টেম ';
         $quickLinkList['COMM'] = 'কমান্ড এন্ড সিস্টেম ';
@@ -63,8 +63,8 @@ session_start();
     $sub_title4 = $SubModuleListNoticeBoard[$_SESSION['Module']];
 
     $ModuleList = array('HM' => 'হোম',
-        'MC' => 'মাস্টার চার্ট',
-        'CO' => 'কন্টাক্ট',
+        'MC' => 'মূল পণ্যতালিকা',
+        'CO' => 'যোগাযোগ',
         'PT' => 'প্যাটেন্ট',
         'AW' => 'এওয়ার্ড',
         'NB' => 'নোটিস বোর্ড');

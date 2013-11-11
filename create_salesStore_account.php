@@ -2,6 +2,7 @@
             error_reporting(0);
             include_once 'includes/header.php';
             include 'includes/ConnectDB.inc';
+            include './includes/makeAccountNumbers.php';
 if(isset($_POST['submit']))
 {
     $name = $_POST['sales_name'];
@@ -354,11 +355,11 @@ var xmlhttp;
 </script>
 
 <div class="columnSld" >
-    <div class="main_text_box">      
-        <div style="padding-left: 110px;"><a href="index.php?apps=OSP"><b>ফিরে যান</b></a></div>
+       <div class="main_text_box" style="width: 150%;">
+        <div style="padding-left: 110px;"><a href="index.php?apps=OSP"><b>ফিরে যান</b></a><a href="" onclick="javasrcipt:window.open('update_salesStore_account.php');return false;" style="padding-left: 510px;"><b>সেলস স্টোর লিস্ট</b></a></div>
         <div>           
             <form style="padding-right: 10px;" method="POST" enctype="multipart/form-data" action="" id="sales_form" name="sales_form">	
-                <table class="formstyle"  style=" width: 120%; "> 
+                <table class="formstyle"  style=" width: 70%; "> 
                     <tr><th style="text-align: center" colspan="2"><h1>সেলস স্টোর একাউন্ট তৈরির ফর্ম</h1></th></tr>
                     <tr><td colspan="2" style="text-align: center;color: green;font-size: 16px;"><?php if($msg != "") echo $msg;?></td></tr>
                     <tr>
@@ -439,7 +440,7 @@ var xmlhttp;
                     </tr>
                      <tr>
                         <td>সেলস স্টোরের  অ্যাকাউন্ট</td>
-                        <td>:    <input  class ="textfield" type="text" id="sales_acc" name="sales_acc" /></td>
+                        <td>:    <input  class ="textfield" type="text" readonly="" id="sales_acc" name="sales_acc" value="<?php echo getSalesAccount();?>"/></td>
                     </tr>
                     <tr>
                         <td> প্যারেন্ট পাওয়ারস্টোর অফিস</td>

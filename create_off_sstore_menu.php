@@ -22,7 +22,7 @@ include_once 'includes/columnLeft.php';
             </tr>
             <tr>                                           
                 <td><a href="main_account.php?id=proprietor">ক্রিয়েট প্রোপ্রাইটার একাউন্ট</a></td>
-                <td><a href="#">আপডেট প্রোপ্রাইটার একাউন্ট</a></td>
+                <td><a href="update_main_account.php?id=proprietor">আপডেট প্রোপ্রাইটার একাউন্ট</a></td>
             </tr>
             <tr><th style="text-align: center" colspan="2"><h1>ছুটিসমূহ</h1></th></tr>
             <tr>

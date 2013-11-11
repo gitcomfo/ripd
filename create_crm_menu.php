@@ -15,7 +15,7 @@ include_once 'includes/columnLeft.php';
             
             <tr>
                 <td><a href="main_account.php?id=customer">ক্রিয়েট কাস্টমার একাউন্ট</a></td>
-                <td><a href="#">আপডেট কাস্টমার একাউন্ট</a></td>
+                <td><a href="update_main_account.php?id=customer">আপডেট কাস্টমার একাউন্ট</a></td>
             </tr>
              <tr><th style="text-align: center" colspan="2"><h1>একাউন্ট ম্যানেজম্যান্ট</h1></th></tr>            
             <tr>
