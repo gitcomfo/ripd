@@ -87,18 +87,18 @@ function goBack()
                     }
                     //echo mysql_num_rows($rs);
                     while ($row_officeNcontact = mysql_fetch_array($rs)) {
-                        $db_offName = $row_officeNcontact['office_name'];
-                        $db_offNumber = $row_officeNcontact['office_number'];
-                        $db_offAN = $row_officeNcontact['account_number'];
-                        $db_offAddress = $row_officeNcontact['office_details_address'];
-                        $db_offID = $row_officeNcontact['idOffice'];
+                        $db_Name = $row_officeNcontact['account_name'];
+                        $db_accNumber = $row_officeNcontact['account_number'];
+                        $db_email = $row_officeNcontact['email'];
+                        $db_offName = $row_officeNcontact['powerStore_name'];
+                        $db_proprietorID = $row_officeNcontact['idpropaccount'];
                         echo "<tr>";
+                        echo "<td>$db_Name</td>";
+                        echo "<td>$db_accNumber</td>";
+                        echo "<td>$db_email</td>";
                         echo "<td>$db_offName</td>";
-                        echo "<td>$db_offNumber</td>";
-                        echo "<td>$db_offAN</td>";
-                        echo "<td>$db_offAddress</td>";
-                        $v = base64_encode($db_offID);
-                        echo "<td><a href='update_account.php?id=$v&type=$g_type'>আপডেট</a></td>";
+                        $v = base64_encode($db_proprietorID);
+                        echo "<td><a href='update_proprietor_account.php?id=$v'>আপডেট</a></td>";
                         echo "</tr>";
                     }
                     ?>
