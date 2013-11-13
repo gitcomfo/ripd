@@ -2,6 +2,7 @@
 error_reporting(0);
 include_once 'includes/header.php';
 include 'includes/ConnectDB.inc';
+include './includes/makeAccountNumbers.php';
 $msg = "";
 
 if(isset($_POST['submit0']))
@@ -168,7 +169,6 @@ var unicode=e.charCode? e.charCode : e.keyCode
         return false //disable key press
     }
 }
-
 </script> 
 
 <script  type="text/javascript">
@@ -281,12 +281,11 @@ xmlhttp.send();
 </script>
 
 <div class="columnSld" style=" padding-left: 50px;">
-    <div class="main_text_box">
-        <div style="padding-left: 110px;"><a href="index.php?apps=OSP"><b>ফিরে যান</b></a></div>
+    <div class="main_text_box" style="width: 150%;">
+        <div style="padding-left: 110px;"><a href="index.php?apps=OSP"><b>ফিরে যান</b></a><a href="" onclick="javasrcipt:window.open('update_office_account.php?pwr=1');return false;" style="padding-left: 510px;"><b>মেইন পাওয়ারস্টোর লিস্ট</b></a></div>
         <div>           
-            <form method="POST" enctype="multipart/form-data" action="" id="off_form" name="off_form">
-                
-                <table class="formstyle"  style=" width: 98%; ">          
+            <form method="POST" enctype="multipart/form-data" action="" id="off_form" name="off_form">       
+                <table class="formstyle"  style=" width: 70%; ">          
                     <tr><th style="text-align: center" colspan="2"><h1>মেইন পাওয়ারস্টোর একাউন্ট তৈরির ফর্ম</h1></th></tr>
 
                 <tr><td colspan="2" style="text-align: center;color: green;font-size: 16px;"><?php if($msg != "") echo $msg;?></td></tr>
@@ -296,7 +295,7 @@ xmlhttp.send();
                     </tr>
                      <tr>
                         <td>পাওয়ারস্টোরের অ্যাকাউন্ট</td>
-                        <td>:    <input  class ="textfield" type="text" id="office_acc" name="office_acc" /><em> (ইংরেজিতে লিখুন)</em></td>
+                        <td>:    <input  class ="textfield" type="text" readonly="" id="office_acc" name="office_acc" value="<?php echo getHpwAccount();?>"/></td>
                     </tr>
                     <tr>
                         <td>বিভাগ</td>

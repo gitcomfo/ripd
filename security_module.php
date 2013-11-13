@@ -4,7 +4,15 @@ include 'includes/ConnectDB.inc';
 include_once 'includes/header.php';
 include './includes/connectionPDO.php';
 
-$sql_mod_ins= $conn->prepare("INSERT INTO security_modules (module_name,module_desc) VALUES (?, ?);");
+function getPages() // for getting directory pages
+{ 
+    echo  "<option value=0> -সিলেক্ট করুন- </option>";
+     foreach (glob("*.php") as $filename) {
+    echo  "<option value=".$filename.">".$filename."</option>";
+    }
+}
+
+$sql_mod_ins= $conn->prepare("INSERT INTO security_modules (module_name,module_desc,module_page_name) VALUES (?, ?, ?);");
 $sql_mod_sel = $conn->prepare("SELECT * FROM security_modules");
 ?>
 <?php
@@ -21,7 +29,8 @@ function showMessage($flag, $msg) {
 if (isset($_POST['submit'])) {
     $p_modname = $_POST ['new_module'];
     $p_moddes = $_POST ['module_des'];
-    $mod_ins = $sql_mod_ins->execute(array($p_modname,$p_moddes));
+    $p_pagename = $_POST['page'];
+    $mod_ins = $sql_mod_ins->execute(array($p_modname, $p_moddes, $p_pagename));
     if ($mod_ins==1) {
         $msg = "আপনি সফলভাবে " . $p_modname . " নামে নতুন মডিউলটি তৈরি করেছেন";
         $flag = 'true';
@@ -38,7 +47,7 @@ if (isset($_POST['submit'])) {
 <script src="javascripts/tinybox.js" type="text/javascript"></script>
   <script type="text/javascript">
  function editModule(id)
-	{ TINY.box.show({iframe:'security_module_edit.php?modid='+id,width:500,height:240,opacity:30,topsplit:3,animate:true,close:true,maskid:'bluemask',maskopacity:50,boxid:'success'}); }
+	{ TINY.box.show({iframe:'security_module_edit.php?modid='+id,width:500,height:280,opacity:30,topsplit:3,animate:true,close:true,maskid:'bluemask',maskopacity:50,boxid:'success'}); }
  </script>
 
     <?php
@@ -58,10 +67,11 @@ if ($_GET['action'] == 'list') {
                     <td>
                         <table style="width: 100%;padding-right: 12px;">                         
                             <tr id = "table_row_odd">
-                                <td style="background-color: #89C2FA; width: 10%;" >ক্রম</td>
-                                <td style="background-color: #89C2FA; width: 40%;">মডিউলের নাম</td>
+                                <td style="background-color: #89C2FA; width: 6%;" >ক্রম</td>
+                                <td style="background-color: #89C2FA; width: 26%;">মডিউলের নাম</td>
                                 <td style="background-color: #89C2FA; width: 40%;">বর্ণনা</td>
-                                <td style="background-color: #89C2FA; width: 10%;">করনীয়</td>
+                                <td style="background-color: #89C2FA; width: 20%;">পেজ</td>
+                                <td style="background-color: #89C2FA; width: 8%;">করনীয়</td>
                             </tr>
                             <?php
                                 $sl = 1;
@@ -72,10 +82,12 @@ if ($_GET['action'] == 'list') {
                                     $db_modID = $row['idsecuritymod'];
                                     $db_modname = $row['module_name'];
                                     $db_moddes = $row['module_desc'];
+                                    $db_pages = $row['module_page_name'];
                                     echo "  <tr>
                                     <td>$bnSl</td>
                                     <td>$db_modname</td>
                                     <td>$db_moddes</td>
+                                    <td>$db_pages</td>
                                     <td style='text-align: center ' ><a onclick='editModule($db_modID)' style='cursor:pointer;color:blue;'><u>এডিট</u></a></td>  
                                     </tr>";
                                       $sl++;
@@ -110,6 +122,12 @@ if ($_GET['action'] == 'list') {
                 <tr>
                     <td style="text-align: center; width: 50%;">মডিউলের বর্ণনা</td>
                     <td> <textarea  class="box" type="text" name="module_des"  id="module_des" value=""></textarea></td>   
+                </tr>
+                <tr>
+                    <td style="text-align: center; width: 50%;">পেজের নাম</td>
+                    <td>: <select  class="box"  name="page" style="width: 250px; height: 25px;">
+                            <?php getPages();?>
+                        </select></td>   
                 </tr>
                 <tr>
                     <td colspan="2" style="text-align: center"></br><input type="submit" class="btn" name="submit" value="সেভ">&nbsp;<input type="reset" class="btn" name="reset" value="রিসেট"></td>

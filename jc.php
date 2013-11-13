@@ -1,14 +1,8 @@
 <?php
-//error_reporting(0);
 include 'includes/ConnectDB.inc';
 include './includes/connectionPDO.php';
-$arr = array('dipie-ibu-join','ac-8463-4399');
- for($a=0;$a<2;$a++)
-                       {
-                          echo $account = $arr[$a];
-                           $sql_cfs = mysql_query("SELECT * FROM cfs_user WHERE account_number = '$account';");
-                           $getrow=mysql_fetch_assoc($sql_cfs);
-                           echo $getrow['account_name'];
-                           
-                       }
+include_once 'includes/header.php'; 
+include_once 'includes/areaSearch2.php';
+getArea(1,1,14,10,16);
 ?>
+<script type="text/javascript" src="javascripts/area2.js"></script>

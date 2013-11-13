@@ -12,7 +12,7 @@ include_once 'includes/columnLeft.php';
             <tr><th style="text-align: center" colspan="2"><h1>একাউন্ট তৈরির ফর্মসমূহ</h1></th></tr>
             <tr>
                 <td><a href="main_account.php?id=employee">ক্রিয়েট কর্মচারী একাউন্ট</a></td>
-                <td><a href="#">আপডেট কর্মচারী একাউন্ট</a></td>
+                <td><a href="update_main_account.php?id=employee">আপডেট কর্মচারী একাউন্ট</a></td>
             </tr>
             <tr><th style="text-align: center" colspan="2"><h1>পোস্টিং </h1></th></tr>
             <tr>

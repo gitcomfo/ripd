@@ -2,6 +2,9 @@
 error_reporting(0);
 include_once 'includes/header.php';
 include 'includes/ConnectDB.inc';
+include './includes/makeAccountNumbers.php';
+$RaccNo = getRoAccount();
+$PwaccNo = getPwAccount();
 
 if(isset($_POST['submit0']))
 {
@@ -194,7 +197,16 @@ function setParent(office,offid)
         document.getElementById('parent_id').value = offid;
         document.getElementById('parentResult').style.display = "none";
 }
+window.onload=function() {
 
+var radio = document.forms['off_form'].elements['whatoffice'];
+    radio[0].onclick = function() {
+        this.form.office_acc.value = '<?php echo $RaccNo;?>';
+}
+    radio[1].onclick = function() {
+        this.form.office_acc.value = '<?php echo $PwaccNo;?>';
+}
+}
 </script> 
 
 <script  type="text/javascript">
@@ -222,7 +234,7 @@ function setParent(office,offid)
         xmlhttp.send();
     }
         
-       function getThana()
+ function getThana()
     {
         var xmlhttp;
         if (window.XMLHttpRequest)
@@ -336,12 +348,12 @@ function getParentOfiice(str_key) // for searching parent offices
 </script>
 
 <div class="columnSld" style=" padding-left: 10px;">
-    <div class="main_text_box">
-        <div style="padding-left: 110px;"><a href="index.php?apps=OSP"><b>ফিরে যান</b></a></div>
+     <div class="main_text_box" style="width: 150%;">
+        <div style="padding-left: 110px;"><a href="index.php?apps=OSP"><b>ফিরে যান</b></a><a href="" onclick="javasrcipt:window.open('update_office_account.php?pwr=0');return false;" style="padding-left: 510px;"><b>রিপড অফিস লিস্ট</b></a></div>
         <div>           
             <form style="padding-right: 20px;font-family: SolaimanLipi !important;" method="POST" enctype="multipart/form-data" action="" id="off_form" name="off_form">
                 
-                <table class="formstyle"  style=" width: 110%;font-family: SolaimanLipi !important; ">          
+                <table class="formstyle"  style=" width: 70%;font-family: SolaimanLipi !important; ">          
                     <tr><th style="text-align: center" colspan="2"><h1>অফিস একাউন্ট তৈরির ফর্ম</h1></th></tr>
 
                     <tr><td colspan="2" style="text-align: center;color: green;font-size: 16px;"><?php if($msg != "") echo $msg;?></td></tr>
@@ -424,13 +436,13 @@ function getParentOfiice(str_key) // for searching parent offices
                         <td>অফিসের ইমেইল</td>
                         <td>:    <input  class ="textfield" type="text" id="office_mail" name="office_mail" onblur="check(this.value)"  /><em> (ইংরেজিতে লিখুন)</em><div id="error_msg" style="margin-left: 5px"></div></td>
                     </tr>
-                     <tr>
-                        <td>অফিসের অ্যাকাউন্ট</td>
-                        <td>:    <input  class ="textfield" type="text" id="office_acc" name="office_acc" /><em> (ইংরেজিতে লিখুন)</em></td>
+                    <tr>
+                        <td colspan="2">অফিস সিলেক্ট করুন <input  class ="textfield" type="radio"  id="whatoffice" name="whatoffice" value ="ripd" />রিপড অফিস 
+                            <input  class ="textfield" type="radio" id="whatoffice" name="whatoffice" value ="pwr"  /> পাওয়ারস্টোর অফিস</td>
                     </tr>
                     <tr>
-                        <td colspan="2">অফিস সিলেক্ট করুন <input  class ="textfield" type="radio"  id="whatoffice" name="whatoffice" value ="ripd"/>রিপড অফিস 
-                            <input  class ="textfield" type="radio" id="whatoffice" name="whatoffice" value ="pwr"/> পাওয়ারস্টোর অফিস</td>
+                        <td>অফিসের অ্যাকাউন্ট</td>
+                        <td>:    <input  class ="textfield" type="text" readonly="" id="office_acc" name="office_acc" value="" /></td>
                     </tr>
                     <tr>
                         <td>অফিসের টাইপ</td>

@@ -2,6 +2,7 @@
 include_once 'includes/MiscFunctions.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
+include './includes/makeAccountNumbers.php';
 error_reporting(0);
 function showPowerHeads()
 {
@@ -316,7 +317,7 @@ xmlhttp.send();
                     </tr>
                     <tr>
                         <td >একাউন্ট নাম্বার</td>
-                        <td>:   <input class='box' type='text' id='acc_num' name='acc_num' /> <em>ইংরেজিতে লিখুন</em></td>			
+                        <td>:   <input class='box' type='text' id='acc_num' name='acc_num' readonly value= ".getPersonalAccount()." /></td>			
                     </tr>
                     <tr>
                         <td >ই মেইল</td>

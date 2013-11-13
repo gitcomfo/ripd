@@ -237,8 +237,6 @@ $x= $_GET['id'];
     $deedup="UPDATE `ripd_db_comfosys`.`ons_deed` SET `owner_name`='$own_name',`owner_address` = '$own_add', `cell_number` = '$own_mbl', `owner_email`='$mail', `owner_photo`='$image_path', `owner_signature`='$sing_path', `expire_date`='$own_valid', `scan_documents`='$scan_path', `owner_fingerprint`='$finger_path' WHERE `ons_deed`.`idons_deed` =$deedid AND `ons_deed`.`ons_relation_idons_relation` =$idons;";
     $deedupsql = mysql_query($deedup) or exit('query failed: '.mysql_error());
     echo "<script type='text/javascript'>window.location.href = window.location; </script>";
-       
-    
   }
 ?>
 <title>আপডেট অফিস অ্যাকাউন্ট</title>
@@ -339,8 +337,6 @@ xmlhttp.send();
 }
 </script>
 
-
- 
 <div class="column6">
     <div class="main_text_box">
         <div style="padding-left: 110px;"><a href="update_office_account.php?pwr=<?php echo $type;?>"><b>ফিরে যান</b></a></div>
