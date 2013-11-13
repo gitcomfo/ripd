@@ -22,4 +22,8 @@ $columns_unreg_customer = array('command_idcommand', 'sales_type', 'store_type',
 $column_list_unreg_cust = join(',', $columns_unreg_customer);
 $param_list_unreg_cust = join(',', array_map(function($col_ucc) { return ":$col_ucc"; }, $columns_unreg_customer));
 $sql_insert_unreg_customer_command = $conn->prepare("INSERT into pv_unregistered_customer ($column_list_unreg_cust) VALUES ($param_list_unreg_cust)");
+
+//command execution
+$sql_insert_curr_command = $conn->prepare("INSERT into command_execution (commandno, com_start_date) VALUES (?, NOW())");
+
 ?>

@@ -3,10 +3,6 @@ error_reporting(0);
 include_once 'includes/header.php';
 include_once 'includes/selectQueryPDO.php';
 include 'includes/MiscFunctions.php';
-$arr_bold_conf_name = array('কাস্টমার টাইপ', 'সেলস টাইপ', 'স্টোর টাইপ', 'লেস এমাউন্ট', 'প্যাটেন্ট নূর হোসেন (আউটসাইড)', 'সেলস স্টোর (সেলিং আর্ন)', 'রিপড ইনকাম', 'ডিরেক্ট সেলস (কাস্টমার)', 'একাউন্ট টাইপ');
-$arr_pv_view_name = array('রেফারেন্স-১', 'রেফারেন্স-২', 'রেফারেন্স-৩', 'রেফারেন্স-৪', 'রেফারেন্স-৫',
-                                                        'অফিস', 'কর্মচারী', 'শরীআহ কাউন্সিল', 'চ্যারিটি', 'প্রেজেন্টেশন', 'ট্রেনিং', 'প্রোগ্রাম', 'ট্রাভেল', 'প্যাটেন্ট', 'লীডারশীপ', 
-                                                        'যাতায়াত', 'গবেষণা', 'সার্ভার', 'ব্যাগ', 'ব্রুসিয়র', 'ফরম', 'মানি রিসিট', 'প্যাড', 'বক্স', 'অতিরিক্ত');
 $arr_pv_all_name = array('কাস্টমার টাইপ', 'সেলস টাইপ', 'স্টোর টাইপ', 'লেস এমাউন্ট', 'সেলস স্টোর (সেলিং আর্ন)', 'প্যাটেন্ট নূর হোসেন (আউটসাইড)', 'রিপড ইনকাম', 'ডিরেক্ট সেলস (কাস্টমার)', 'একাউন্ট টাইপ',
                                                     'রেফারেন্স-১', 'রেফারেন্স-২', 'রেফারেন্স-৩', 'রেফারেন্স-৪', 'রেফারেন্স-৫',
                                                         'অফিস', 'কর্মচারী', 'শরীআহ কাউন্সিল', 'চ্যারিটি', 'প্রেজেন্টেশন', 'ট্রেনিং', 'প্রোগ্রাম', 'ট্রাভেল', 'প্যাটেন্ট', 'লীডারশীপ', 
@@ -22,21 +18,20 @@ $get_command_num = $_GET['no'];
 <div style="font-size: 14px;">
         <form  action="" method="post">
                 <div style="padding-top: 10px;">    
-                    <div style="padding-left: 110px; width: 58%; float: left"><a href="index.php?apps=COMM"><b>ফিরে যান</b></a></div>
+                    <div style="padding-left: 5%; width: 58%; float: left"><a href="command_list.php"><b>ফিরে যান</b></a></div>
                 </div>
-                <div style="width: 965px; height: 400px; overflow: auto;">
-                <table class="formstyle" style =" width:99%; margin-left: 5px;">        
+                <div style="width: 95%; height: 400px; overflow: auto;">
+                <table class="formstyle" style =" width:100%; margin-left: 5%;">        
                     <tr>
-                        <th colspan="11">বিভিন্ন কনফিগারেশনে কমান্ড-<?php echo $get_command_num;?> এ পিভি বন্টন</th>
-                        <th colspan="11">বিভিন্ন কনফিগারেশনে কমান্ড-<?php echo $get_command_num;?> এ পিভি বন্টন</th>
-                        <th colspan="12">বিভিন্ন কনফিগারেশনে কমান্ড-<?php echo $get_command_num;?> এ পিভি বন্টন</th>
+                        <th colspan="11">বিভিন্ন কনফিগারেশনে কমান্ড-<?php echo english2bangla($get_command_num);?> এ পিভি বন্টন</th>
+                        <th colspan="11">বিভিন্ন কনফিগারেশনে কমান্ড-<?php echo english2bangla($get_command_num);?> এ পিভি বন্টন</th>
+                        <th colspan="12">বিভিন্ন কনফিগারেশনে কমান্ড-<?php echo english2bangla($get_command_num);?> এ পিভি বন্টন</th>
                     </tr>
                     <tr>
                                 <?php
                                 foreach ($arr_pv_all_name as $spcl_val)
                                         {
-                                        echo
-                                        "<th><b>$spcl_val</b></th>"; 
+                                        echo"<th><b>$spcl_val</b></th>"; 
                                         }
                                 ?>
                     </tr>
