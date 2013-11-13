@@ -6,6 +6,11 @@ $dbuser = 'cfs_jessy';
 $dbpassword = 'jesy4321';
 $dbname = 'ripd_db_comfosys';
 
+//$host = "localhost";
+//$dbname = "ripd_db_comfosys";
+//$dbuser = "root";
+//$dbpassword = "";
+
 $_SESSION['DatabaseName'] = $dbname;
 /*if(!isset($_SESSION['DatabaseName'])){
     $_SESSION['DatabaseName'] = $dbname;

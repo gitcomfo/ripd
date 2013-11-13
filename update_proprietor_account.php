@@ -3,6 +3,7 @@ error_reporting(0);
 include_once 'includes/ConnectDB.inc';
 include_once 'includes/header.php';
 include_once 'includes/MiscFunctions.php';
+include_once 'includes/areaSearch2.php';
 $x= $_GET['id'];
 $proprietorID= base64_decode($x);
 // ************************** update query ***********************************
@@ -17,40 +18,75 @@ if (isset($_POST['submit1'])) {
     $prop_nationalID_no = $_POST['prop_nationalID_no'];
     $prop_passportID_no = $_POST['prop_passportID_no'];
     $prop_birth_certificate_no = $_POST['prop_birth_certificate_no'];
-    $dob_day = $_POST['date'];
-    $dob_month = $_POST['month'];
-    $dob_year = $_POST['year'];
-    $dob = $dob_year . "-" . $dob_month . "-" . $dob_day;
+    $dob = $_POST['dob'];
     // picture, sign, finger print
     $allowedExts = array("gif", "jpeg", "jpg", "png", "JPG", "JPEG", "GIF", "PNG");
     $extension = end(explode(".", $_FILES["image"]["name"]));
-    $image_name = "picture" . "_" . $_FILES["image"]["name"];
-    $image_path = "pic/" . $image_name;
-    if (($_FILES["image"]["size"] < 999999999999) && in_array($extension, $allowedExts)) {
-        move_uploaded_file($_FILES["image"]["tmp_name"], "pic/" . $image_name);
-    } else {
-        echo "Invalid file format.";
-    }
+    $image_name = $_FILES["image"]["name"];
+    if($image_name=="")
+        {
+            $image_name= "picture" . "-" . $_POST['imagename'];
+             $image_path = "pic/" . $image_name;
+        }
+        else
+        {
+            $image_name = "picture" . "-" . $_FILES["image"]["name"];
+            $image_path = "pic/" . $image_name;
+            if (($_FILES["image"]["size"] < 999999999999) && in_array($extension, $allowedExts)) 
+                    {
+                        move_uploaded_file($_FILES["image"]["tmp_name"], "pic/" . $image_name);
+
+                    } 
+            else 
+                    {
+                    echo "Invalid file format.";
+                    }
+        }
 
     $allowedExts = array("gif", "jpeg", "jpg", "png", "JPG", "JPEG", "GIF", "PNG");
     $extension = end(explode(".", $_FILES["scanDoc_signature"]["name"]));
-    $sign_name = "signature" . "_" . $_FILES["scanDoc_signature"]["name"];
-    $sing_path = "sign/" . $sign_name;
-    if (($_FILES["scanDoc_signature"]["size"] < 999999999999) && in_array($extension, $allowedExts)) {
-        move_uploaded_file($_FILES["scanDoc_signature"]["tmp_name"], "sign/" . $sign_name);
-    } else {
-        echo "Invalid file format.";
-    }
-
+    $sign_name = $_FILES["scanDoc_signature"]["name"];
+    if($sign_name=="")
+        {
+            $sign_name= "signature" . "-" . $_POST['signname'];
+             $sing_path = "sign/" . $sign_name;
+        }
+        else
+        {
+            $sign_name = "signature" . "-" . $_FILES["scanDoc_signature"]["name"];
+            $sing_path = "sign/" . $sign_name;
+            if (($_FILES["scanDoc_signature"]["size"] < 999999999999) && in_array($extension, $allowedExts)) 
+                    {
+                        move_uploaded_file($_FILES["scanDoc_signature"]["tmp_name"], "sign/" . $sign_name);
+                    } 
+            else 
+                    {
+                    echo "Invalid file format.";
+                    }
+        }
+ 
     $allowedExts = array("gif", "jpeg", "jpg", "png", "JPG", "JPEG", "GIF", "PNG");
     $extension = end(explode(".", $_FILES["scanDoc_finger_print"]["name"]));
-    $finger_name = "fingerprint" . "_" . $_FILES["scanDoc_finger_print"]["name"];
-    $finger_path = "fingerprints/" . $finger_name;
-    if (($_FILES["scanDoc_finger_print"]["size"] < 999999999999) && in_array($extension, $allowedExts)) {
-        move_uploaded_file($_FILES["scanDoc_finger_print"]["tmp_name"], "fingerprints/" . $finger_name);
-    } else {
-        echo "Invalid file format.";
-    }
+    $finger_name = $_FILES["scanDoc_finger_print"]["name"];
+    if($finger_name=="")
+        {
+            $finger_name= "fingerprint" . "-" . $_POST['fingername'];
+             $finger_path = "fingerprints/" . $finger_name;
+        }
+        else
+        {
+            $finger_name = "fingerprint" . "-" . $_FILES["scanDoc_finger_print"]["name"];
+            $finger_path = "fingerprints/" . $finger_name;
+            if (($_FILES["scanDoc_finger_print"]["size"] < 999999999999) && in_array($extension, $allowedExts)) 
+                    {
+                        move_uploaded_file($_FILES["scanDoc_finger_print"]["tmp_name"], "fingerprints/" . $finger_name);
+                    } 
+            else 
+                    {
+                    echo "Invalid file format.";
+                    }
+        }
+
     $sql_update_proprietor = mysql_query("UPDATE $dbname.proprietor_account SET prop_father_name='$prop_father_name', prop_motherName='$prop_motherName', prop_spouseName='$prop_spouseName', 
                                                         prop_occupation='$prop_occupation', prop_religion='$prop_religion', prop_natonality='$prop_natonality', prop_nationalID_no='$prop_nationalID_no', 
                                                         prop_passportID_no='$prop_passportID_no', prop_date_of_birth='$dob', prop_birth_certificate_no='$prop_birth_certificate_no',  
@@ -58,27 +94,41 @@ if (isset($_POST['submit1'])) {
                                                         WHERE idpropaccount = $proprietorID");
       
     //proprietor's Current Address Infromation
-    $p_Village_idVillage = $_POST['village_id1'];
-    $p_Post_idPost = $_POST['post_id1'];
-    $p_Thana_idThana = $_POST['thana_id1'];
+    $p_Village_idVillage = $_POST['vilg_id'];
+    $p_Post_idPost = $_POST['post_id'];
+    $p_Thana_idThana = $_POST['thana_id'];
     $p_house = $_POST['p_house'];
     $p_house_no = $_POST['p_house_no'];
     $p_road = $_POST['p_road'];
     $p_post_code = $_POST['p_post_code'];
     //proprietor's Permanent Address information
-    $pp_Village_idVillage = $_POST['village_id2'];
-    $pp_Post_idPost = $_POST['post_id2'];
-    $pp_Thana_idThana = $_POST['thana_id2'];
+    $pp_Village_idVillage = $_POST['vilg_id'];
+    $pp_Post_idPost = $_POST['post_id1'];
+    $pp_Thana_idThana = $_POST['thana_id1'];
     $pp_house = $_POST['pp_house'];
     $pp_house_no = $_POST['pp_house_no'];
     $pp_road = $_POST['pp_road'];
     $pp_post_code = $_POST['pp_post_code'];    
    //address_type=Present
-    $sql_p_insert_current_address = mysql_query("UPDATE $dbname.address 
-                                    SET house='$p_house', house_no='$p_house_no', road='$p_road', post_code='$p_post_code',Thana_idThana='$p_Thana_idThana', post_idpost='$p_Post_idPost', village_idvillage='$p_Village_idVillage'  WHERE adrs_cepng_id= AND address_whom='pwr' AND address_type='Present' ");
+    $sql_sel_present_adrs= mysql_query("SELECT * FROM address WHERE adrs_cepng_id= AND address_whom='pwr' AND address_type='Present' ");
+    if(mysql_num_rows($sql_sel_present_adrs)<1)
+    {
+        $sql_p_insert_current_address = mysql_query("INSERT INTO $dbname.address 
+                                    (address_type, house, house_no, road, address_whom, post_code,Thana_idThana, post_idpost, village_idvillage ,adrs_cepng_id)
+                                     VALUES ('Present', '$p_house', '$p_house_no', '$p_road', 'pwr', '$p_post_code','$p_Thana_idThana','$p_Post_idPost', '$p_Village_idVillage', '$proprietorID')");
+    }
+    else {$sql_p_insert_current_address = mysql_query("UPDATE $dbname.address 
+                                                                    SET house='$p_house', house_no='$p_house_no', road='$p_road', post_code='$p_post_code',Thana_idThana='$p_Thana_idThana', post_idpost='$p_Post_idPost', village_idvillage='$p_Village_idVillage'  WHERE adrs_cepng_id=$proprietorID AND address_whom='pwr' AND address_type='Present' ");}
     //address_type=Permanent
-    $sql_pp_insert_permanent_address = mysql_query("UPDATE $dbname.address 
-                                    SET house='$p_house', house_no='$p_house_no', road='$p_road', post_code='$p_post_code',Thana_idThana='$p_Thana_idThana', post_idpost='$p_Post_idPost', village_idvillage='$p_Village_idVillage'  WHERE adrs_cepng_id= AND address_whom='pwr' AND address_type='Permanent ");
+     $sql_sel_permanent_adrs= mysql_query("SELECT * FROM address WHERE adrs_cepng_id= AND address_whom='pwr' AND address_type='Present' ");
+    if(mysql_num_rows($sql_sel_permanent_adrs)<1)
+    {
+        $sql_pp_insert_permanent_address = mysql_query("INSERT INTO $dbname.address 
+                                    (address_type, house, house_no, road, address_whom, post_code,Thana_idThana,  post_idpost, village_idvillage ,adrs_cepng_id)
+                                     VALUES ('Permanent', '$pp_house', '$pp_house_no', '$pp_road', 'pwr', '$pp_post_code','$pp_Thana_idThana', '$pp_Post_idPost', '$pp_Village_idVillage', '$proprietorID')");
+    }
+   else {$sql_pp_insert_permanent_address = mysql_query("UPDATE $dbname.address 
+                                                                         SET house='$pp_house', house_no='$pp_house_no', road='$pp_road', post_code='$pp_post_code',Thana_idThana='$pp_Thana_idThana', post_idpost='$pp_Post_idPost', village_idvillage='$pp_Village_idVillage'  WHERE adrs_cepng_id=$proprietorID AND address_whom='pwr' AND address_type='Permanent ");}
 
     if ($sql_update_proprietor && $sql_p_insert_current_address && $sql_pp_insert_permanent_address) {
         $msg = "তথ্য সংরক্ষিত হয়েছে";
@@ -239,8 +289,11 @@ elseif (isset($_POST['submit5'])) {
      $db_proprietorDOB = $proprietorrow['prop_date_of_birth'];
      $db_proprietorDOBID = $proprietorrow['prop_birth_certificate_no'];
      $db_proprietorSig = $proprietorrow['prop_scanDoc_signature'];
+     $signname = end(explode("-", $db_proprietorSig));
      $db_proprietorPic = $proprietorrow['prop_scanDoc_picture'];
+     $picname = end(explode("-", $db_proprietorPic));
      $db_proprietorFP = $proprietorrow['prop_scanDoc_finger_print'];
+     $fingername = end(explode("-", $db_proprietorFP));
      
      $sql_proprie_adrs_sel = mysql_query("SELECT * FROM address, division, district, thana, post_office, village WHERE address_whom='pwr' AND adrs_cepng_id=$proprietorID AND address_type='Present'
                                                                     AND village_idvillage=idvillage AND post_idpost=idPost_office AND idDivision = Division_idDivision AND idDistrict= District_idDistrict AND idThana=address.Thana_idThana");
@@ -250,17 +303,12 @@ elseif (isset($_POST['submit5'])) {
      $preRode = $presentAddrow['road'];
      $prePostCode = $presentAddrow['post_code'];
      $prePostID = $presentAddrow['idPost_office'];
-     $prePostName = $presentAddrow['post_offc_name'];
      $preVilID = $presentAddrow['idvillage'];
-     $preVilName = $presentAddrow['village_name'];
      $preThanaID = $presentAddrow['idThana'];
-     $preThanaName = $presentAddrow['thana_name'];
      $preDisID = $presentAddrow['idDistrict'];
-     $preDisName = $presentAddrow['district_name'];
      $preDivID = $presentAddrow['idDivision'];
-     $preDivName= $presentAddrow['division_name'];
-     
-     $sql_proprie_Padrs_sel = mysql_query("SELECT * FROM address, division, district, thana, post_office, village WHERE address_whom='pwr' AND adrs_cepng_id=6 AND address_type='Permanent'
+          
+     $sql_proprie_Padrs_sel = mysql_query("SELECT * FROM address, division, district, thana, post_office, village WHERE address_whom='pwr' AND adrs_cepng_id=$proprietorID AND address_type='Permanent'
                                                                     AND village_idvillage=idvillage AND post_idpost=idPost_office AND idDivision = Division_idDivision AND idDistrict= District_idDistrict AND idThana=address.Thana_idThana");
      $permenentAddrow = mysql_fetch_assoc($sql_proprie_Padrs_sel);
      $perHouse = $permenentAddrow['house'];
@@ -268,19 +316,15 @@ elseif (isset($_POST['submit5'])) {
      $perRode = $permenentAddrow['road'];
      $perPostCode = $permenentAddrow['post_code'];
      $perPostID = $permenentAddrow['idPost_office'];
-     $perPostName = $permenentAddrow['post_offc_name'];
      $perVilID = $permenentAddrow['idvillage'];
-     $perVilName = $permenentAddrow['village_name'];
      $perThanaID = $permenentAddrow['idThana'];
-     $perThanaName = $permenentAddrow['thana_name'];
      $perDisID = $permenentAddrow['idDistrict'];
-     $perDisName = $permenentAddrow['district_name'];
      $perDivID = $permenentAddrow['idDivision'];
-     $perDivName= $permenentAddrow['division_name'];
+     
 ?>
 <title>প্রোপ্রাইটার অ্যাকাউন্ট</title>
 <style type="text/css">@import "css/bush.css";</style>
-<script type="text/javascript" src="javascripts/division_district_thana.js"></script>
+<script type="text/javascript" src="javascripts/area2.js"></script>
 <script type="text/javascript" src="javascripts/jquery-1.4.3.min.js"></script>
 <script>
 function goBack()
@@ -378,19 +422,19 @@ function goBack()
                         <td>বাবার নাম </td>
                         <td>:  <input class="box" type="text" id="prop_father_name" name="prop_father_name" value="<?php echo $db_proprietorFather;?>"/></td>	
                         <td>ছবি : </td>
-                        <td><img src="<?php echo $db_proprietorPic;?>" width="80px" height="80px"/>&nbsp;<input class="box" type="file" id="image" name="image" style="font-size:10px;"/></td>
+                        <td><img src="<?php echo $db_proprietorPic;?>" width="80px" height="80px"/><input type="hidden" name="imagename" value="<?php echo $picname;?>"/> &nbsp;<input class="box" type="file" id="image" name="image" style="font-size:10px;" /></td>
                     </tr>
                     <tr>
                         <td >মায়ের নাম </td>
                         <td>:  <input class="box" type="text" id="prop_motherName" name="prop_motherName" value="<?php echo $db_proprietorMother;?>"/></td>
                         <td >স্বাক্ষর: </td>
-                        <td><img src="<?php echo $db_proprietorSig;?>" width="80px" height="80px"/>&nbsp;<input class="box" type="file" id="scanDoc_signature" name="scanDoc_signature" style="font-size:10px;"/></td> 
+                        <td><img src="<?php echo $db_proprietorSig;?>" width="80px" height="80px"/><input type="hidden" name="signname" value="<?php echo $signname;?>"/>&nbsp;<input class="box" type="file" id="scanDoc_signature" name="scanDoc_signature" style="font-size:10px;"/></td> 
                     </tr>
                     <tr>
                         <td >দম্পতির নাম  </td>
                         <td>:  <input class="box" type="text" id="prop_spouseName" name="prop_spouseName" value="<?php echo $db_proprietorSpouse;?>"/> </td>			
                         <td >টিপসই: </td>
-                        <td><img src="<?php echo $db_proprietorFP;?>" width="80px" height="80px"/>&nbsp;<input class="box" type="file" id="scanDoc_finger_print" name="scanDoc_finger_print" style="font-size:10px;"/></td> 
+                        <td><img src="<?php echo $db_proprietorFP;?>" width="80px" height="80px"/><input type="hidden" name="fingername" value="<?php echo $fingername;?>"/>&nbsp;<input class="box" type="file" id="scanDoc_finger_print" name="scanDoc_finger_print" style="font-size:10px;"/></td> 
                     </tr>
                     <tr>
                         <td >পেশা</td>
@@ -452,54 +496,8 @@ function goBack()
                         <td>:   <input class="box" type="text" id="pp_post_code" name="pp_post_code" value="<?php echo $perPostCode;?>"/></td>
                     </tr> 
                     <tr>
-                        <td >বিভাগ</td>
-                        <td>:  <input class="box2" value="<?php echo $preDivName;?>"/></br><select class="box2" type="text" id="division_id_1" name="c_division_name" onChange="getDistrict1()" />
-                            <option value=1>-বিভাগ-</option>
-                            <?php
-                            $division_sql = mysql_query("SELECT * FROM " . $dbname . ".division ORDER BY division_name ASC");
-                            while ($division_rows = mysql_fetch_array($division_sql)) {
-                                $db_division_id = $division_rows['idDivision'];
-                                $db_division_name = $division_rows['division_name'];
-                                echo'<option style="width: 96%" value=' . $db_division_id . '>' . $db_division_name . '</option>';
-                            }
-                            ?>
-                            </select></td>                                
-                        <td >বিভাগ</td>
-                        <td>:  <input class="box2" value="<?php echo $perDivName;?>"/></br><select class="box2" type="text" id="division_id_2" name="p_division_name" onChange="getDistrict2()" />
-                            <option value=1>-বিভাগ-</option>
-                            <?php
-                            $division_sql = mysql_query("SELECT * FROM " . $dbname . ".division ORDER BY division_name ASC");
-                            while ($division_rows = mysql_fetch_array($division_sql)) {
-                                $db_division_id = $division_rows['idDivision'];
-                                $db_division_name = $division_rows['division_name'];
-                                echo'<option style="width: 96%" value=' . $db_division_id . '>' . $db_division_name . '</option>';
-                            }
-                            ?>
-                            </select></td>
-                    </tr>
-                    <tr>
-                        <td >জেলা</td>
-                        <td>: <input class="box2" value="<?php echo $preDisName;?>"/></br><span id="did"></span></td>
-                        <td >জেলা</td>
-                        <td>: <input class="box2" value="<?php echo $perDisName;?>"/></br><span id="did2"></span></td>
-                    </tr>                        
-                    <tr>
-                        <td>উপজেলা / থানা</td>
-                        <td>: <input class="box2" value="<?php echo $preThanaName;?>"/><input class="box2" type="hidden" name="thana_id1" value="<?php echo $preThanaID;?>"/></br><span id="tidd"></span></td>      
-                        <td>উপজেলা / থানা</td>
-                        <td>: <input class="box2"  value="<?php echo $perThanaName;?>"/><input class="box2" type="hidden" name="thana_id2" value="<?php echo $perThanaID;?>"/></br><span id="tidd2"></span></td>
-                    </tr>
-                    <tr>
-                        <td >পোষ্ট অফিস</td>
-                        <td>: <input class="box2"  value="<?php echo $prePostName;?>"/><input class="box2" type="hidden" name="post_id1" value="<?php echo $prePostID;?>"/></br><span id="pidd"></span></td> 
-                        <td >পোষ্ট অফিস</td>
-                        <td>: <input class="box2" value="<?php echo $perPostName;?>"/><input class="box2" type="hidden" name="post_id2" value="<?php echo $perPostID;?>"/></br><span id="pidd2"></span></td> 
-                    </tr>
-                    <tr>
-                        <td  >গ্রাম</td>
-                        <td>: <input class="box2" value="<?php echo $preVilName;?>"/><input class="box2" type="hidden" name="village_id1" value="<?php echo $preVilID;?>"/></br><span id="vidd"></span></td> 
-                        <td >গ্রাম </td>
-                        <td>: <input class="box2" value="<?php echo $perVilName;?>"/><input class="box2" type="hidden" name="village_id2" value="<?php echo $perVilID;?>"/></br><span id="vidd2"></span></td> 
+                        <td colspan="2"><?php getArea($preDivID,$preDisID,$preThanaID,$prePostID,$preVilID); ?></td>
+                        <td colspan="2"><?php getArea2($perDivID,$perDisID,$perThanaID,$perPostID,$perVilID); ?></td>
                     </tr>
                     <tr>                    
                         <td colspan="4" style="padding-left: 250px; " ><input class="btn" style =" font-size: 12px; " type="submit" name="submit1" value="সেভ করুন" />
