@@ -31,10 +31,10 @@ if(isset($_POST['update']))
     $arr_submodlist = explode(',', $p_str_submodlist);
     $p_id = $_POST['roleID'];
     
-    $delquery = mysql_query("DELETE * FROM security_groups WHERE security_role_idsecurityrole = $p_id");
+    $delquery = mysql_query("DELETE FROM security_groups WHERE security_roles_idsecurityrole = $p_id");
     for($i=0;$i<count($arr_submodlist);$i++) {
         $value= $arr_submodlist[$i];
-        $upquery = mysql_query("INSERT INTO security_groups (security_roles_idsecurityrole,security_submodules_idsecuritysubmod) VALUES ($p_id,$value);");
+        $upquery = mysql_query("INSERT INTO security_groups (security_roles_idsecurityrole, security_submodules_idsecuritysubmod) VALUES ($p_id,$value);");
     }    
     if ($upquery ==1)
 	{$msg = "আপডেট হয়েছে"; }
@@ -159,8 +159,7 @@ document.getElementById('optionlist').value = arr.toString();
                          </td>  
                     </tr>
                     <tr>                    
-                        <td colspan="2" style="padding-left: 150px; " ></br><input class="btn" style =" font-size: 12px; " type="submit" id="update" onclick="show()" name="update" value="আপডেট করুন" />
-                        <input class="btn" style =" font-size: 12px" type="reset" name="reset" value="রিসেট করুন" /></td>                           
+                        <td colspan="2" style="padding-left: 150px; " ></br><input class="btn" style =" font-size: 12px; " type="submit" id="update" onclick="show()" name="update" value="আপডেট করুন" /></td>                           
                     </tr>
                     <?php }    
                     else { ?>
