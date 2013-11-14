@@ -102,7 +102,7 @@ if (isset($_POST['submit1'])) {
     $p_road = $_POST['p_road'];
     $p_post_code = $_POST['p_post_code'];
     //proprietor's Permanent Address information
-    $pp_Village_idVillage = $_POST['vilg_id'];
+    $pp_Village_idVillage = $_POST['vilg_id1'];
     $pp_Post_idPost = $_POST['post_id1'];
     $pp_Thana_idThana = $_POST['thana_id1'];
     $pp_house = $_POST['pp_house'];
@@ -115,12 +115,12 @@ if (isset($_POST['submit1'])) {
     {
         $sql_p_insert_current_address = mysql_query("INSERT INTO $dbname.address 
                                     (address_type, house, house_no, road, address_whom, post_code,Thana_idThana, post_idpost, village_idvillage ,adrs_cepng_id)
-                                     VALUES ('Present', '$p_house', '$p_house_no', '$p_road', 'pwr', '$p_post_code','$p_Thana_idThana','$p_Post_idPost', '$p_Village_idVillage', '$proprietorID')");
+                                     VALUES ('Present', '$p_house', '$p_house_no', '$p_road', 'pwr', '$p_post_code','$p_Thana_idThana','$p_Post_idPost', '$p_Village_idVillage', '$proprietorID')") ;
     }
     else {$sql_p_insert_current_address = mysql_query("UPDATE $dbname.address 
                                                                     SET house='$p_house', house_no='$p_house_no', road='$p_road', post_code='$p_post_code',Thana_idThana='$p_Thana_idThana', post_idpost='$p_Post_idPost', village_idvillage='$p_Village_idVillage'  WHERE adrs_cepng_id=$proprietorID AND address_whom='pwr' AND address_type='Present' ");}
     //address_type=Permanent
-     $sql_sel_permanent_adrs= mysql_query("SELECT * FROM address WHERE adrs_cepng_id=$proprietorID AND address_whom='pwr' AND address_type='Present' ");
+     $sql_sel_permanent_adrs= mysql_query("SELECT * FROM address WHERE adrs_cepng_id=$proprietorID AND address_whom='pwr' AND address_type='Permanent' ");
     if(mysql_num_rows($sql_sel_permanent_adrs)<1)
     {
         $sql_pp_insert_permanent_address = mysql_query("INSERT INTO $dbname.address 
@@ -128,7 +128,7 @@ if (isset($_POST['submit1'])) {
                                      VALUES ('Permanent', '$pp_house', '$pp_house_no', '$pp_road', 'pwr', '$pp_post_code','$pp_Thana_idThana', '$pp_Post_idPost', '$pp_Village_idVillage', '$proprietorID')");
     }
    else {$sql_pp_insert_permanent_address = mysql_query("UPDATE $dbname.address 
-                                                                         SET house='$pp_house', house_no='$pp_house_no', road='$pp_road', post_code='$pp_post_code',Thana_idThana='$pp_Thana_idThana', post_idpost='$pp_Post_idPost', village_idvillage='$pp_Village_idVillage'  WHERE adrs_cepng_id=$proprietorID AND address_whom='pwr' AND address_type='Permanent ");}
+                                                                         SET house='$pp_house', house_no='$pp_house_no', road='$pp_road', post_code='$pp_post_code',Thana_idThana='$pp_Thana_idThana', post_idpost='$pp_Post_idPost', village_idvillage='$pp_Village_idVillage'  WHERE adrs_cepng_id=$proprietorID AND address_whom='pwr' AND address_type ='Permanent' ") or exit(mysql_error()); }
 
     if ($sql_update_proprietor && $sql_p_insert_current_address && $sql_pp_insert_permanent_address) {
         $msg = "তথ্য সংরক্ষিত হয়েছে";
@@ -168,9 +168,17 @@ elseif (isset($_POST['submit2'])) {
                     }
         }
 
-    $sql_nominee = mysql_query("UPDATE nominee SET nominee_name='$prop_father_name', nominee_picture='$prop_motherName', nominee_relation='$prop_spouseName', 
-                                                        nominee_mobile='$prop_occupation', nominee_email='$prop_religion', nominee_national_ID='$prop_natonality', nominee_age='$prop_nationalID_no', 
-                                                        nominee_passport_ID='$prop_passportID_no' WHERE idNominee = $nominee_id");
+    $sql_sel_nominee = mysql_query("SELECT * FROM nominee WHERE idNominee = $nominee_id");
+    if(mysql_num_rows($sql_sel_nominee) <1)
+    {
+         $sql_nominee = mysql_query("INSERT INTO nominee(nominee_name, nominee_relation, nominee_mobile,
+                                       nominee_email, nominee_national_ID, nominee_age, nominee_passport_ID, nominee_picture,cep_type, cep_nominee_id) 
+                                       VALUES('$nominee_name','$nominee_relation','$nominee_mobile','$nominee_email','$nominee_national_ID',
+                                       '$nominee_age','$nominee_passport_ID','$image_path','pwr','$proprietorID')") or exit(mysql_error());
+    }
+    else   {$sql_nominee = mysql_query("UPDATE nominee SET nominee_name='$nominee_name', nominee_picture='$image_path', nominee_relation='$nominee_relation', 
+                                                        nominee_mobile='$nominee_mobile', nominee_email='$nominee_email', nominee_national_ID='$nominee_national_ID', nominee_age='$nominee_age', 
+                                                        nominee_passport_ID='$nominee_passport_ID' WHERE idNominee = $nominee_id"); }
     //Current Address Infromation
     $n_Village_idVillage = $_POST['vilg_id'];
     $n_Post_idPost = $_POST['post_id'];
@@ -188,15 +196,31 @@ elseif (isset($_POST['submit2'])) {
     $np_road = $_POST['np_road'];
     $np_post_code = $_POST['np_post_code'];
     //nominee address_type=Present
-     $sql_n_sel_present_adrs= mysql_query("SELECT * FROM address WHERE adrs_cepng_id= AND address_whom='pwr' AND address_type='Present' ");
-    $sql_n_insert_current_address = mysql_query("INSERT INTO $dbname.address 
+     $sql_n_sel_present_adrs= mysql_query("SELECT * FROM address WHERE adrs_cepng_id=$nominee_id AND address_whom='nmn' AND address_type='Present' ");
+    if(mysql_num_rows($sql_n_sel_present_adrs) < 1)
+    {
+        $sql_n_insert_current_address = mysql_query("INSERT INTO $dbname.address 
                                     (address_type, house, house_no,road, address_whom, post_code,Thana_idThana,  post_idpost, village_idvillage ,adrs_cepng_id)
-                                     VALUES ('Present', '$n_house', '$n_house_no', '$n_road', 'nmn', '$n_post_code', '$n_Thana_idThana', '$n_Post_idPost', '$n_Village_idVillage','$proprietorID')");
+                                     VALUES ('Present', '$n_house', '$n_house_no', '$n_road', 'nmn', '$n_post_code', '$n_Thana_idThana', '$n_Post_idPost', '$n_Village_idVillage','$nominee_id')")or exit(mysql_error());
+    }
+    else {
+        $sql_n_update_current_address = mysql_query("UPDATE $dbname.address 
+                                                                    SET house='$n_house', house_no='$n_house_no', road='$n_road', post_code='$n_post_code',Thana_idThana='$n_Thana_idThana', post_idpost='$n_Post_idPost', village_idvillage='$n_Village_idVillage'  
+                                                                    WHERE adrs_cepng_id=$nominee_id AND address_whom='nmn' AND address_type='Present' ");}
     //nominee address_type=Permanent
-    $sql_np_insert_permanent_address = mysql_query("INSERT INTO $dbname.address 
+    $sql_n_sel_permanent_adrs= mysql_query("SELECT * FROM address WHERE adrs_cepng_id=$nominee_id AND address_whom='nmn' AND address_type='Permanent' ");
+    if(mysql_num_rows($sql_n_sel_permanent_adrs)<1)
+    {
+         $sql_np_insert_permanent_address = mysql_query("INSERT INTO $dbname.address 
                                     (address_type, house, house_no, road, address_whom,post_code,Thana_idThana,  post_idpost, village_idvillage ,adrs_cepng_id)
-                                     VALUES ('Permanent', '$np_house', '$np_house_no','$np_road', 'nmn',  '$np_post_code','$np_Thana_idThana','$np_Post_idPost', '$np_Village_idVillage','$proprietorID')");
-
+                                     VALUES ('Permanent', '$np_house', '$np_house_no','$np_road', 'nmn',  '$np_post_code','$np_Thana_idThana','$np_Post_idPost', '$np_Village_idVillage','$nominee_id')");
+    }
+    else {
+        $sql_n_update_permanent_address = mysql_query("UPDATE $dbname.address 
+                                                                    SET house='$np_house', house_no='$np_house_no', road='$np_road', post_code='$np_post_code',Thana_idThana='$np_Thana_idThana', post_idpost='$np_Post_idPost', village_idvillage='$np_Village_idVillage'  
+                                                                    WHERE adrs_cepng_id=$nominee_id AND address_whom='nmn' AND address_type='Permanent' ");
+    }    
+   
     if ($sql_nominee || $sql_n_insert_current_address || $sql_np_insert_permanent_address) {
         $msg = "তথ্য সংরক্ষিত হয়েছে";
     } else {
@@ -210,6 +234,7 @@ elseif (isset($_POST['submit2'])) {
     $e_board = $_POST['e_board'];
     $e_gpa = $_POST['e_gpa'];
     $a = count($e_ex_name);
+    $del_p_edu = mysql_query("DELETE FROM education WHERE education_type='pwr' AND cepn_id=$proprietorID");
     for ($i = 0; $i < $a; $i++) {
         $sql_insert_emp_edu = "INSERT INTO " . $dbname . ".`education` ( `exam_name` ,`passing_year` ,`institute_name`,`board`,`gpa`,`education_type`,`cepn_id`) VALUES ('$e_ex_name[$i]', '$e_pass_year[$i]','$e_institute[$i]','$e_board[$i]','$e_gpa[$i]','pwr','$proprietorID');";
         $emp_edu = mysql_query($sql_insert_emp_edu) or exit('query failed: ' . mysql_error());
@@ -224,6 +249,7 @@ elseif (isset($_POST['submit2'])) {
     $n_board = $_POST['n_board'];
     $n_gpa = $_POST['n_gpa'];
     $b = count($n_ex_name);
+    $del_n_edu = mysql_query("DELETE FROM education WHERE education_type='nmn' AND cepn_id=$nomineeID");
     for ($i = 0; $i < $b; $i++) {
         $sql_insert_nom_edu = "INSERT INTO " . $dbname . ".`education` ( `exam_name` ,`passing_year` ,`institute_name`,`board`,`gpa`,`education_type`,`cepn_id`) VALUES ('$n_ex_name[$i]', '$n_pass_year[$i]','$n_institute[$i]','$n_board[$i]','$n_gpa[$i]','nmn','$nomineeID');";
         $nom_edu = mysql_query($sql_insert_nom_edu) or exit('query failed: ' . mysql_error());
@@ -233,7 +259,8 @@ elseif (isset($_POST['submit2'])) {
     } else {
         $msg = "ভুল হয়েছে";
     }
-}elseif (isset($_POST['submit4'])) {
+}
+elseif (isset($_POST['submit4'])) {
     $pathArray = array();
     for ($i = 1; $i < 12; $i++) {
         $scan_document = "";
@@ -371,17 +398,38 @@ elseif (isset($_POST['submit5'])) {
      $nomperThanaID = $nompermenentAddrow['idThana'];
      $nomperDisID = $nompermenentAddrow['idDistrict'];
      $nomperDivID = $nompermenentAddrow['idDivision'];
+     
+     // *************************************** for education ****************************************************************************** 
+     $p_count =0;
+     $sql_Pedu_sel = mysql_query("SELECT * FROM education WHERE education_type='pwr' AND cepn_id=$proprietorID");
+     while ($pedu_row = mysql_fetch_assoc($sql_Pedu_sel))
+     {
+         $db_p_xmname [$p_count] = $pedu_row['exam_name'];
+         $db_p_xmyear [$p_count] = $pedu_row['passing_year'];
+         $db_p_xminstitute [$p_count] = $pedu_row['institute_name'];
+         $db_p_xmboard [$p_count] = $pedu_row['board'];
+         $db_p_xmgpa [$p_count] = $pedu_row['gpa'];
+         $p_count++;
+     }
+     
+      $n_count =0;
+     $sql_Nedu_sel = mysql_query("SELECT * FROM education,nominee WHERE cep_nominee_id=$proprietorID AND cep_type='pwr' 
+                                                        AND education_type='nmn' AND cepn_id=idNominee");
+     while ($nedu_row = mysql_fetch_assoc($sql_Nedu_sel))
+     {
+         $db_n_xmname [$n_count] = $nedu_row['exam_name'];
+         $db_n_xmyear [$n_count] = $nedu_row['passing_year'];
+         $db_n_xminstitute [$n_count] = $nedu_row['institute_name'];
+         $db_n_xmboard [$n_count] = $nedu_row['board'];
+         $db_n_xmgpa [$n_count] = $nedu_row['gpa'];
+         $n_count++;
+     }
 ?>
 <title>প্রোপ্রাইটার অ্যাকাউন্ট</title>
 <style type="text/css">@import "css/bush.css";</style>
 <script type="text/javascript" src="javascripts/area2.js"></script>
 <script type="text/javascript" src="javascripts/jquery-1.4.3.min.js"></script>
 <script>
-function goBack()
-    {
-        window.history.go(-1);
-    }
-</script>
 </script>
 <script type="text/javascript">    
     $('.del2').live('click',function(){
@@ -463,11 +511,6 @@ function goBack()
                 <table  class="formstyle">  
                     <tr><th colspan="4" style="text-align: center" colspan="2"><h1>প্রোপ্রাইটারের পারিবারিক তথ্য</h1></th></tr>
                     <tr><td colspan="4" ></td></tr>
-                    <?php
-                    if ($msg != "") {
-                        echo '<tr><td ></td><td colspan="4" style="text-allign: center; color: red; font-size: 15px"><blink>' . $msg . '</blink></td></tr>';
-                    }
-                    ?>
                     <tr>
                         <td>বাবার নাম </td>
                         <td>:  <input class="box" type="text" id="prop_father_name" name="prop_father_name" value="<?php echo $db_proprietorFather;?>"/></td>	
@@ -564,11 +607,6 @@ function goBack()
                 <table  class="formstyle">     
                     <tr><th colspan="4" style="text-align: center" colspan="2"><h1>প্রোপ্রাইটারের নমিনির তথ্য</h1></th></tr>
                     <tr><td colspan="4" ></td>
-                        <?php
-                        if ($msg != "") {
-                            echo '<tr> <td colspan="2" style="text-allign: center; color: green; font-size: 15px"><b>' . $msg . '</b></td></tr>';
-                        }
-                        ?>
                     </tr>
                     <tr>
                         <td >নমিনির নাম</td>
@@ -651,11 +689,6 @@ function goBack()
                 <table  class="formstyle">          
                     <tr><th colspan="4" style="text-align: center" colspan="2"><h1>প্রোপ্রাইটারের প্রয়োজনীয় তথ্য</h1></th></tr>
                     <tr><td colspan="4" ></td>
-                        <?php
-                        if ($msg != "") {
-                            echo '<tr> <td colspan="2" style="text-allign: center; color: green; font-size: 15px"><b>' . $msg . '</b></td></tr>';
-                        }
-                        ?>
                     </tr>   
                     <tr>
                         <td colspan="2" > 
@@ -676,14 +709,16 @@ function goBack()
                                                 <td>বোর্ড / বিশ্ববিদ্যালয়</td>
                                                 <td>জি.পি.এ / বিভাগ</td>      
                                             </tr>
-                                            <tr>
-                                                <td><input class="textfield"  name="e_ex_name[]" type="text" /></td>
-                                                <td><input class="box5"  name="e_pass_year[]" type="text" /></td>
-                                                <td><input class="textfield" name="e_institute[]" type="text" /></td>
-                                                <td><input class="textfield"  name="e_board[]" type="text" /></td>
-                                                <td style="padding-right: 45px;"><input class="box5"  name="e_gpa[]" type="text" /></td>                                             
-                                                <td  ><input type="button" class="add2" /></td>
-                                            </tr>
+                                             <?php
+                                                            echo "<tr><td><input class='textfield'  name='e_ex_name[]' type='text' value='$db_p_xmname[0]'/></td><td><input class='box5'  name='e_pass_year[]' type='text' value='$db_p_xmyear[0]'/></td><td><input class='textfield'  name='e_institute[]' type='text' value='$db_p_xminstitute[0]'/>
+                                                                                </td><td><input class='textfield'  name='e_board[]' type='text' value='$db_p_xmboard[0]'/></td><td><input class='box5' name='e_gpa[]' type='text' value='$db_p_xmgpa[0]'/></td><td><input type='button' class='add2' /></td></tr>";
+                                                                for($i=1;$i<$p_count;$i++)
+                                                                {
+                                                                    echo "<tr><td><input class='textfield'  name='e_ex_name[]' type='text' value='$db_p_xmname[$i]'/></td><td><input class='box5'  name='e_pass_year[]' type='text' value='$db_p_xmyear[$i]'/></td><td><input class='textfield'  name='e_institute[]' type='text' value='$db_p_xminstitute[$i]'/>
+                                                                                </td><td><input class='textfield'  name='e_board[]' type='text' value='$db_p_xmboard[$i]'/></td><td><input class='box5' name='e_gpa[]' type='text' value='$db_p_xmgpa[$i]'/></td>";
+                                                                   echo "<td><input type='button' class='del2' /></td><td><input type='button' class='add2' /></td></tr>";
+                                                                }
+                                            ?>
                                         </table>
                                     </td>
                                 </tr>
@@ -709,14 +744,16 @@ function goBack()
                                                 <td>বোর্ড / বিশ্ববিদ্যালয়</td>
                                                 <td>জি.পি.এ / বিভাগ</td>      
                                             </tr>
-                                            <tr>
-                                                <td><input class="textfield"  name="n_ex_name[]" type="text" /></td>
-                                                <td><input class="box5"  name="n_pass_year[]" type="text" /></td>
-                                                <td><input class="textfield"  name="n_institute[]" type="text" /></td>
-                                                <td><input class="textfield"  name="n_board[]" type="text" /></td>
-                                                <td style="padding-right: 45px;"><input class="box5"  name="n_gpa[]" type="text" /></td>                                             
-                                                <td ><input type="button" class="add3" /></td>
-                                            </tr>
+                                            <?php
+                                                            echo "<tr><td><input class='textfield'  name='n_ex_name[]' type='text' value='$db_n_xmname[0]'/></td><td><input class='box5'  name='n_pass_year[]' type='text' value='$db_n_xmyear[0]'/></td><td><input class='textfield'  name='n_institute[]' type='text' value='$db_n_xminstitute[0]'/>
+                                                                                </td><td><input class='textfield'  name='n_board[]' type='text' value='$db_n_xmboard[0]'/></td><td><input class='box5' name='n_gpa[]' type='text' value='$db_n_xmgpa[0]'/></td><td><input type='button' class='add3' /></td></tr>";
+                                                                for($i=1;$i<$n_count;$i++)
+                                                                {
+                                                                    echo "<tr><td><input class='textfield'  name='n_ex_name[]' type='text' value='$db_n_xmname[$i]'/></td><td><input class='box5'  name='n_pass_year[]' type='text' value='$db_n_xmyear[$i]'/></td><td><input class='textfield'  name='n_institute[]' type='text' value='$db_n_xminstitute[$i]'/>
+                                                                                </td><td><input class='textfield'  name='n_board[]' type='text' value='$db_n_xmboard[$i]'/></td><td><input class='box5' name='n_gpa[]' type='text' value='$db_n_xmgpa[$i]'/></td>";
+                                                                   echo "<td><input type='button' class='del3' /></td><td><input type='button' class='add3' /></td></tr>";
+                                                                }
+                                            ?>
                                         </table>
                                     </td>
                                 </tr>
@@ -738,11 +775,6 @@ function goBack()
                 <table  class="formstyle">     
                     <tr><th colspan="4" style="text-align: center" colspan="2"><h1>প্রোপ্রাইটারের প্রয়োজনীয় তথ্য</h1></th></tr>
                     <tr><td colspan="4" ></td>
-                        <?php
-                        if ($msg != "") {
-                            echo '<tr> <td colspan="2" style="text-allign: center; color: green; font-size: 15px"><b>' . $msg . '</b></td></tr>';
-                        }
-                        ?>
                     </tr>                  
                     <tr>	
                         <td  style="width: 110px;" font-weight="bold" > এস.এস.সির সার্টিফিকেট</td>
