@@ -418,8 +418,7 @@ xmlhttp.send();
                                                                     }
                                                                     else
                                                                     {
-                                                                        echo "<td></td>";
-                                                                        echo "<td><input type='button' class='add' /></td>";
+                                                                        echo "<td><input type='button' class='del' /></td><td><input type='button' class='add' /></td>";
                                                                      }
                                                                     echo "</tr>";
                                                                 }

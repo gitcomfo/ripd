@@ -52,7 +52,7 @@ if (isset($_POST['submit1'])) {
     // picture, sign, sign
     $allowedExts = array("gif", "jpeg", "jpg", "png", "JPG", "JPEG", "GIF", "PNG");
     $extension = end(explode(".", $_FILES["image"]["name"]));
-    $image_name = "picture" . "_" . $_FILES["image"]["name"];
+    $image_name = "picture" . "-" . $_FILES["image"]["name"];
     $image_path = "pic/" . $image_name;
     if (($_FILES["image"]["size"] < 999999999999) && in_array($extension, $allowedExts)) {
         move_uploaded_file($_FILES["image"]["tmp_name"], "pic/" . $image_name);
@@ -62,7 +62,7 @@ if (isset($_POST['submit1'])) {
 
     $allowedExts = array("gif", "jpeg", "jpg", "png", "JPG", "JPEG", "GIF", "PNG");
     $extension = end(explode(".", $_FILES["scanDoc_signature"]["name"]));
-    $sign_name = "signature" . "_" . $_FILES["scanDoc_signature"]["name"];
+    $sign_name = "signature" . "-" . $_FILES["scanDoc_signature"]["name"];
     $sing_path = "sign/" . $sign_name;
     if (($_FILES["scanDoc_signature"]["size"] < 999999999999) && in_array($extension, $allowedExts)) {
         move_uploaded_file($_FILES["scanDoc_signature"]["tmp_name"], "sign/" . $sign_name);
@@ -72,7 +72,7 @@ if (isset($_POST['submit1'])) {
 
     $allowedExts = array("gif", "jpeg", "jpg", "png", "JPG", "JPEG", "GIF", "PNG");
     $extension = end(explode(".", $_FILES["scanDoc_finger_print"]["name"]));
-    $finger_name = "fingerprint" . "_" . $_FILES["scanDoc_finger_print"]["name"];
+    $finger_name = "fingerprint" . "-" . $_FILES["scanDoc_finger_print"]["name"];
     $finger_path = "fingerprints/" . $finger_name;
     if (($_FILES["scanDoc_finger_print"]["size"] < 999999999999) && in_array($extension, $allowedExts)) {
         move_uploaded_file($_FILES["scanDoc_finger_print"]["tmp_name"], "fingerprints/" . $finger_name);
@@ -132,7 +132,7 @@ if (isset($_POST['submit1'])) {
     //Insert Into Nominee table
     $allowedExts = array("gif", "jpeg", "jpg", "png", "JPG", "JPEG", "GIF", "PNG");
     $extension = end(explode(".", $_FILES["nominee_picture"]["name"]));
-    $image_name = "picture" . "_" . $_FILES["nominee_picture"]["name"];
+    $image_name = "picture" . "-" . $_FILES["nominee_picture"]["name"];
     $image_path = "pic/" . $image_name;
     if (($_FILES["nominee_picture"]["size"] < 999999999999) && in_array($extension, $allowedExts)) {
         move_uploaded_file($_FILES["nominee_picture"]["tmp_name"], "pic/" . $image_name);
@@ -245,13 +245,13 @@ if (isset($_POST['submit1'])) {
                         <td >মার নাম </td>
                         <td>:  <input class="box" type="text" id="cust_motherName" name="cust_motherName"/></td>
                         <td  font-weight="bold" >স্বাক্ষর</td>
-                        <td >:  <input class="box1" type="file" id="scanDoc_signature" name="scanDoc_signature" style="font-size:10px;"/> </td>
+                        <td >:  <input class="box" type="file" id="scanDoc_signature" name="scanDoc_signature" style="font-size:10px;"/> </td>
                     </tr>
                     <tr>
                         <td >দম্পতির নাম  </td>
                         <td>:  <input class="box" type="text" id="cust_spouseName" name="cust_spouseName" /> </td>	
                         <td font-weight="bold" > টিপসই</td>
-                        <td >:   <input class="box5" type="file" id="scanDoc_finger_print" name="scanDoc_finger_print" style="font-size:10px;"/> </td> 		
+                        <td >:   <input class="box" type="file" id="scanDoc_finger_print" name="scanDoc_finger_print" style="font-size:10px;"/> </td> 		
                     </tr>
                     <tr>
                         <td >পেশা</td>
@@ -413,7 +413,7 @@ if (isset($_POST['submit1'])) {
                         <td >নমিনির নাম</td>
                         <td>:  <input class="box" type="text" id="nominee_name" name="nominee_name" /></td>	
                         <td  font-weight="bold" >পাসপোর্ট ছবি </td>
-                        <td >:  <input class="box1" type="file" id="nominee_picture" name="nominee_picture" style="font-size:10px;"/></td>
+                        <td >:  <input class="box" type="file" id="nominee_picture" name="nominee_picture" style="font-size:10px;"/></td>
                     </tr>     
                     <tr>
                         <td >বয়স</td>

@@ -25,18 +25,18 @@ if($_POST['submit'])
         $account_type = $_POST['account_type'];
         if($account_type == "proprietor")
         {
-             mysql_query("INSERT INTO cfs_user (user_name, password, blocked, overall_access, account_name, account_number, account_open_date, mobile, email, cfs_account_status, user_type)
-                                                                        VALUES ('$user_username', '$user_password', '0', 'blank', '$account_name', '$account_number', NOW(), '$account_mobile', '$account_email', 'active', 'owner')") or exit(mysql_error()." sorry");
+             mysql_query("INSERT INTO cfs_user (user_name, password, blocked, account_name, account_number, account_open_date, mobile, email, cfs_account_status, user_type)
+                                                                        VALUES ('$user_username', '$user_password', '0', '$account_name', '$account_number', NOW(), '$account_mobile', '$account_email', 'active', 'owner')") or exit(mysql_error()." sorry");
         }
         elseif($account_type == "employee")
         {
             $p_employee_type = $_POST['employee_type']; 
-            mysql_query("INSERT INTO cfs_user (user_name, password, blocked, overall_access, account_name, account_number, account_open_date, mobile, email, cfs_account_status, user_type)
-                                                                        VALUES ('$user_username', '$user_password', '0', 'blank', '$account_name', '$account_number', NOW(), '$account_mobile', '$account_email', 'active', '$p_employee_type')") or exit(mysql_error()." sorry");
+            mysql_query("INSERT INTO cfs_user (user_name, password, blocked, account_name, account_number, account_open_date, mobile, email, cfs_account_status, user_type)
+                                                                        VALUES ('$user_username', '$user_password', '0', '$account_name', '$account_number', NOW(), '$account_mobile', '$account_email', 'active', '$p_employee_type')") or exit(mysql_error()." sorry");
         }
  else {
-     mysql_query("INSERT INTO cfs_user (user_name, password, blocked, overall_access, account_name, account_number, account_open_date, mobile, email, cfs_account_status, user_type)
-                                                                        VALUES ('$user_username', '$user_password', '0', 'blank', '$account_name', '$account_number', NOW(), '$account_mobile', '$account_email', 'active', 'customer')") or exit(mysql_error()." sorry");
+     mysql_query("INSERT INTO cfs_user (user_name, password, blocked, account_name, account_number, account_open_date, mobile, email, cfs_account_status, user_type)
+                                                                        VALUES ('$user_username', '$user_password', '0', '$account_name', '$account_number', NOW(), '$account_mobile', '$account_email', 'active', 'customer')") or exit(mysql_error()." sorry");
  }
        
         $cfs_user_id = mysql_insert_id();
@@ -78,7 +78,7 @@ if($_POST['submit'])
                     $db_accounttypeID = $actyperow['idAccount_type'];
                     //cutomer_account table-e insert*************
                     mysql_query("INSERT into $dbname.customer_account (opening_pin_no, referer_id, Account_type_idAccount_type, Designation_idDesignation, cfs_user_idUser)
-                                            VALUES ('$pin_number', $db_referid, $db_accounttypeID, 1, $cfs_user_id )");
+                                            VALUES ('$pin_number', $db_referid, $db_accounttypeID, 1, $cfs_user_id )") or exit(mysql_error());
                     $cust_acc_id= mysql_insert_id();
                     $pass_message = "create_customer_account.php?custACid=".$cust_acc_id;
                 }
