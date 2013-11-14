@@ -21,8 +21,7 @@ include_once 'includes/columnLeft.php';
             </tr>
             <tr><th style="text-align: center" colspan="2"><h1>কমান্ড কার্যকর</h1></th></tr>
             <tr>
-                <td><a href="command_list.php">কমান্ড লিস্ট দেখুন</a></td>
-                <td><a href="#">কমান্ড কার্যকর করুন</a></td>               
+                <td><a href="command_list.php">কমান্ড লিস্ট</a></td>          
             </tr>
             <tr><th style="text-align: center" colspan="2"><h1>সিকিউরিটি</h1></th></tr>
             <tr>
