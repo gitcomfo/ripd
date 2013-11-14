@@ -35,39 +35,25 @@
                     <div class="menu">
 
                     <ul>
-                        <li><a href="index.php">এবাউট কোম্পানি</a></li>
-                        <li><a href="#">প্রোডাক্ট<!--[if IE 7]><!--></a> 
-                 <!--<![endif]--> <!--[if lte IE 6]><table><tr><td><![endif]-->
+                        <li><a href="index.php">হোম</a></li>
+                        <li><a href="#">মাস্টার চার্ট</a></li>
+                        <li><a href="#">কন্টাক্ট</a>
                             <ul>
-                                <li><a href="#" title="">প্রোডাক্ট ইনফরমেশন</a></li>
-                                <li><a href="masterChart.php" title="">মাস্টার চার্ট</a></li>
-                            </ul> <!--[if lte IE 6]></td></tr></table></a><![endif]-->
-                        </li>
-                        <li><a href="#">কন্টাক্ট<!--[if IE 7]><!-->
-                        </a> <!--<![endif]--> <!--[if lte IE 6]><table><tr><td><![endif]-->
-                            <ul>
-                                <li><a href="officeNcontact.php">অফিস এন্ড কন্টাক্ট</a></li>
-                                <li><a href="salesStoreAndContact.php" title="">সেল্‌স স্টোর এন্ড কন্টাক্ট</a></li>
+                                <li><a href="#">অফিস এন্ড কন্টাক্ট</a></li>
+                                <li><a href="#" title="">সেল্‌স স্টোর এন্ড কন্টাক্ট</a></li>
                                 <li><a href="#" title="">অফিস ডে অ্যান্ড অফ ডে</a></li>
-                            </ul> <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+                            </ul>
                         </li>
-                        <li><a href="#">নিউজ<!--[if IE 7]><!-->
-                        </a> <!--<![endif]--> <!--[if lte IE 6]><table><tr><td><![endif]-->
-                            <ul>
-                                <li><a href="awards.php" title="">অ্যাওয়ার্ড</a></li>
-                                <li><a href="#" title="">নোটিস বোর্ড</a>
-                                    <ul>
-                                        <li><a href="program.php" title="">প্রোগ্রাম</a></li>
-                                        <li><a href="presentation.php" title="">প্রেজেন্টেশন</a></li>
-                                        <li><a href="program.php" title="">ট্রেইনিং</a></li>
-                                        <li><a href="presentation.php" title="">ট্রাভেল</a></li>
-                                    </ul> <!--[if lte IE 6]></td></tr></table></a><![endif]-->
-                                </li>
-                            </ul> <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+                        <li><a href="#">প্যাটেন্ট</a></li>
+                        <li><a href="#">এওয়ার্ড</a></li>
+                        <li><a href="#">নোটিস বোর্ড</a>
+                        <ul>
+                            <li><a href="#" title="">প্রোগ্রাম</a></li>
+                            <li><a href="#" title="">প্রেজেন্টেশন</a></li>
+                            <li><a href="#" title="">ট্রেইনিং</a></li>
+                            <li><a href="#" title="">ট্রাভেল</a></li>
+                        </ul>
                         </li>
-                        <li><a href="patent.php">প্যাটেন্ট</a></li>
-                        <li><a href="programProfile.php">প্রোগ্রাম প্রোফাইল</a></li>
-                        <li><a href="makeapplication.php">মেইক এপ্লিকেশন</a></li>
                         <li><a href="logout.php">সাইন আউট</a> </li>
                     </ul>
                 </div>
