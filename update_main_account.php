@@ -14,7 +14,6 @@ $showAccountType  = $arrayAccountType[$input];
 <script type="text/javascript">
     function infoFromThana()
     {
-        var type = <?php echo $g_type;?>;
         var xmlhttp;
         if (window.XMLHttpRequest) xmlhttp=new XMLHttpRequest();
         else xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
@@ -27,7 +26,7 @@ $showAccountType  = $arrayAccountType[$input];
         division_id = document.getElementById('division_id').value;
         district_id = document.getElementById('district_id').value;
         thana_id = document.getElementById('thana_id').value;
-        xmlhttp.open("GET","includes/updateOfficeFromThana.php?dsd="+district_id+"&dvd="+division_id+"&ttid="+thana_id+"&type="+type,true);
+        xmlhttp.open("GET","includes/updateEmpFromOffThana.php?dsd="+district_id+"&dvd="+division_id+"&ttid="+thana_id,true);
         xmlhttp.send();
     }
 </script>
@@ -44,7 +43,7 @@ $showAccountType  = $arrayAccountType[$input];
             </table>
             <fieldset id="fieldset_style" style=" width: 90% !important; margin-left: 30px !important;" >
                 <?php
-                if($input == 'customer' || $input=='employee') {
+                if($input=='employee') {
                     include_once 'includes/areaSearch.php';
                     getArea("infoFromThana()");
                     ?>
@@ -63,9 +62,11 @@ $showAccountType  = $arrayAccountType[$input];
                         <?php if($input == 'employee') {?>
                         <th><?php echo $showAccountType." মোবাইল নং"; ?></th>
                         <th><?php echo "অফিসের নাম"; ?></th>
+                        
                         <?php } elseif ($input == 'proprietor') {?>
                         <th><?php echo "হেড পাওয়ারস্টোরের নাম"; ?></th>
-                        <?php } else {?>
+                        
+                            <?php } else {?>
                         <th><?php echo $showAccountType." মোবাইল নং"; ?></th>
                         <th><?php echo " থানা"; ?></th>
                         <?php }?>
