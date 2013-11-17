@@ -266,19 +266,19 @@ if (isset($_POST['submit1'])) {
                         <td>স্বত্বাধিকারীর নাম</td>
                         <td>:  <input  class="box" type="text" id="prop_name" name="prop_name" /><input type="hidden" name="proprietorID" value="<?php echo $proprietorID;?>"/></td>   
                         <td font-weight="bold" >ছবি </td>
-                        <td>:   <input class="box5" type="file" id="image" name="image" style="font-size:10px;"/></td>               
+                        <td>:   <input class="box" type="file" id="image" name="image" style="font-size:10px;"/></td>               
                     </tr>
                     <tr>
                         <td >বাবার নাম </td>
                         <td>:  <input class="box" type="text" id="prop_father_name" name="prop_father_name" /></td>	
                         <td font-weight="bold" >স্বাক্ষর</td>
-                        <td >:   <input class="box5" type="file" id="scanDoc_signature" name="scanDoc_signature" style="font-size:10px;"/> </td> 
+                        <td >:   <input class="box" type="file" id="scanDoc_signature" name="scanDoc_signature" style="font-size:10px;"/> </td> 
                     </tr>
                     <tr>
                         <td >মার নাম </td>
                         <td>:  <input class="box" type="text" id="prop_motherName" name="prop_motherName"/></td>
                         <td font-weight="bold" > টিপসই</td>
-                        <td >:   <input class="box5" type="file" id="scanDoc_finger_print" name="scanDoc_finger_print" style="font-size:10px;"/> </td> 
+                        <td >:   <input class="box" type="file" id="scanDoc_finger_print" name="scanDoc_finger_print" style="font-size:10px;"/> </td> 
                     </tr>
                     <tr>
                         <td >দম্পতির নাম  </td>
@@ -441,18 +441,11 @@ if (isset($_POST['submit1'])) {
             <form method="POST" onsubmit="" style=" padding-right: 70px;" enctype="multipart/form-data" action="" id="emp_form1" name="emp_form1">	
                 <table  class="formstyle">     
                     <tr><th colspan="4" style="text-align: center" colspan="2"><h1>পাওয়ারস্টোর ওউনার একাউন্ট তৈরির ফর্ম</h1></th></tr>
-                    <tr><td colspan="4" ></td>
-                        <?php
-                        if ($msg1 != "") {
-                            echo '<tr> <td colspan="2" style="text-allign: center; color: green; font-size: 15px"><b>' . $msg1 . '</b></td></tr>';
-                        }
-                        ?>
-                    </tr>
                     <tr>
                         <td >নমিনির নাম</td>
                         <td>:  <input class="box" type="text" id="nominee_name" name="nominee_name" /></td>	
                         <td  font-weight="bold" >পাসপোর্ট ছবি </td>
-                        <td >:  <input class="box1" type="file" id="nominee_picture" name="nominee_picture" style="font-size:10px;"/></td>
+                        <td >:  <input class="box" type="file" id="nominee_picture" name="nominee_picture" style="font-size:10px;"/></td>
                     </tr>     
                     <tr>
                         <td >বয়স</td>
@@ -574,13 +567,6 @@ if (isset($_POST['submit1'])) {
             <form method="POST" onsubmit="">	
                 <table  class="formstyle">          
                     <tr><th colspan="4" style="text-align: center" colspan="2"><h1>পাওয়ারস্টোর ওউনার একাউন্ট তৈরির ফর্ম</h1></th></tr>
-                    <tr><td colspan="4" ></td>
-                        <?php
-                        if ($msg3 != "") {
-                            echo '<tr> <td colspan="2" style="text-allign: center; color: green; font-size: 15px"><b>' . $msg3 . '</b></td></tr>';
-                        }
-                        ?>
-                    </tr>   
                     <tr>
                         <td colspan="2" > 
                     </tr>
@@ -660,14 +646,7 @@ if (isset($_POST['submit1'])) {
             <h2><a name="04" id="04"></a></h2><br/>
             <form name="scanDoc_form" method="POST" enctype="multipart/form-data" onsubmit="">	
                 <table  class="formstyle">     
-                    <tr><th colspan="4" style="text-align: center" colspan="2"><h1>পাওয়ারস্টোর ওউনার একাউন্ট তৈরির ফর্ম</h1></th></tr>
-                    <tr><td colspan="4" ></td>
-                        <?php
-                        if ($msg_scan_doc != "") {
-                            echo '<tr> <td colspan="2" style="text-allign: center; color: green; font-size: 15px"><b>' . $msg_scan_doc . '</b></td></tr>';
-                        }
-                        ?>
-                    </tr>                  
+                    <tr><th colspan="4" style="text-align: center" colspan="2"><h1>পাওয়ারস্টোর ওউনার একাউন্ট তৈরির ফর্ম</h1></th></tr>        
                     <tr>	
                         <td  style="width: 110px;" font-weight="bold" > এস.এস.সির সার্টিফিকেট</td>
                         <td>:  <input class="box" type="file" id="scanDoc1" name="scanDoc1" style="font-size:10px;"/></td>

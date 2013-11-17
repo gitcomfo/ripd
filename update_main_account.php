@@ -102,6 +102,7 @@ $showAccountType  = $arrayAccountType[$input];
                             $db_accNumber = $row_officeNcontact['account_number'];
                             $db_email = $row_officeNcontact['email'];
                             $db_mobile = $row_officeNcontact['mobile'];
+                            $db_empID = $row_officeNcontact['idEmployee'];
                             $db_onsType = $row_officeNcontact['catagory'];
                             $db_onsID = $row_officeNcontact['add_ons_id'];
                             if($db_onsType == 'office')
@@ -122,8 +123,8 @@ $showAccountType  = $arrayAccountType[$input];
                             echo "<td>$db_email</td>";
                             echo "<td>$db_mobile</td>";
                             echo "<td>$onsName</td>";
-                            //$v = base64_encode($db_proprietorID);
-                            echo "<td><a href='#'>আপডেট</a></td>";
+                            $v = base64_encode($db_empID);
+                            echo "<td><a href='update_employee_account.php?id=$v'>আপডেট</a></td>";
                             echo "</tr>";
                         }
                     }
