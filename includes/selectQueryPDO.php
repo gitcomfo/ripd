@@ -1,5 +1,5 @@
 <?php
-include 'connectionPDO.php';
+include_once 'connectionPDO.php';
 $sql_select_command = $conn->prepare("SELECT * FROM command ORDER BY commandno ASC");
 $sql_select_account_type = $conn->prepare("SELECT idAccount_type, account_name FROM account_type LIMIT 5");
 $sql_pv_view = $conn->prepare("SELECT
@@ -9,4 +9,5 @@ $sql_pv_view = $conn->prepare("SELECT
                                                                         FROM view_pv_view WHERE idcommand=?
                                                                                 ORDER BY cust_type ASC");
 $sql_current_command = $conn->prepare("SELECT * FROM running_command LIMIT 1");
+$sql_select_login = $conn->prepare("SELECT * FROM cfs_user WHERE user_name=? AND password=?");
 ?>

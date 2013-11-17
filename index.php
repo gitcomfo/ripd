@@ -1,5 +1,5 @@
 <?php
-error_reporting(0);
+//error_reporting(0);
 session_start();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -127,13 +127,25 @@ session_start();
             <div id="header">
                 <a href="index.php"><div id="logo"></div></a>
                 <div class="banner_adds"></div>
-                <div class ="login"><?php
-    if ($_SESSION['UserID'] == 'admin' || $_SESSION['UserID'] == 'customer' || $_SESSION['UserID'] == 'employee') {
-        echo '<a href="?apps=LOG_OUT">সাইন আউট</a>';
-    } else {
-        echo '<a href="?apps=LOG">সাইন ইন/রেজিস্টার</a>';
-    }
-    ?></div>
+                <div class ="login">
+                    <?php
+                        if ($_SESSION['success'] == 'done') 
+                            {
+                            echo '<a href="?apps=LOG_OUT">সাইন আউট</a>';
+                            }
+                        else 
+                            {
+                            echo '<a href="?apps=LOG">সাইন ইন/রেজিস্টার</a>';
+                            }
+                    ?>
+            </div>
+                    <?php
+                        if ($_SESSION['success'] == 'done') 
+                            {
+                            $session_account_name = $_SESSION['UsersRealName'];
+                            echo "<div style='float: right; background-color: #F2EFEF'>স্বাগতম, <b>$session_account_name</b></div>";
+                            }
+                    ?>
                 <div class="banner_sub_adds"></div>
                 <div class="menu">
                     <ul>
