@@ -5,23 +5,34 @@ include 'includes/header.php';
 error_reporting(0);
 ?>
 <style type="text/css">@import "css/bush.css";</style>
+<script src="javascripts/jquery.min.js"></script>
+<script src="javascripts/jquery.editable.js"></script>
+<script type="text/javascript">
+    $(function(){
+        // editbale in div#group2
+        // these samples are with 2 way connection for updating
+        $('#iftee').editables( 
+        { 
+            beforeEdit: function(field){
+                field.val(this.text());
+            },
+            beforeFreeze: function(display){ 
+                display.text(this.val());
+            }
+        } );
+    });
+</script>
 <div class="column6">
     <div class="main_text_box">	      
         <div>  
             <div style="padding-left: 110px;"><a href="index.php?apps=VA"><b>ফিরে যান</b></a></div>
-            <form method="POST" enctype="multipart/form-data" action="" id="cust_form" name="cust_form">	
-                <table  class="formstyle"> 
+              <div id='iftee'>
+            <form method="POST" enctype="multipart/form-data" action="" style=" width: 85%; " id="cust_form" name="cust_form">	
+                 <table class="formstyle" style=" width: 85%; padding-left: 15px; padding-top: 5px;padding-bottom: 8px;" >    
                     <?php
-                 //   $user_id = $_SESSION['UserID'];
-                    //      $Customer_account=$_GET['id'];
-                    //$result0 = mysql_query("Select  * from $dbname.customer_account");
-                    //$row = mysql_fetch_array($result0);
-                    //  $id = $row['idCustomer_account'];
-                   // $id = '2';
-                    
                     $result0 = mysql_query("Select  * from $dbname.cfs_user where idUser=4");
                     $row1 = mysql_fetch_array($result0);
-                    
+
                     $account_name = $row1['account_name'];
                     $mobile = $row1['mobile'];
                     $email = $row1['email'];
@@ -75,63 +86,63 @@ error_reporting(0);
                                 </tr>
                                 <tr>
                                     <td>একাউন্টধারীর নাম </td>
-                                    <td>: $account_name</td>         
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_name'>$account_name</label><input class='textfield' id='p_name' name='p_name' value='$account_name'/></td>         
                                     <td  colspan='2'> </td>
-                                    <td rowspan='5'><img src=$cust_photo width='140px' height='140px'/> </td>           
+                                    <td rowspan='5'><label><img src=$cust_photo width='140px' height='140px'/></label> </td>           
                                 </tr>
                                 <tr>
-                                    <td  >বাবার নাম </td>
-                                    <td>: $cust_father_name</td>   
+                                    <td >বাবার নাম </td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_cust_father_name'> $cust_father_name</label><input class='textfield' id='p_cust_father_name' name='p_cust_father_name' value='$cust_father_name'/></td>
                                 </tr>
                                 <tr>
                                     <td>মার নাম </td>
-                                    <td>   :  $cust_mother_name</td>             
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_cust_mother_name'>  $cust_mother_name</label><input class='textfield' id='p_cust_mother_name' name='p_cust_mother_name' value='$cust_mother_name'/></td>         
                                 </tr>
                                 <tr>
                                     <td>স্পাউসের নাম </td>
-                                    <td>   :  $cust_spouse_name</td>             
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_cust_spouse_name'> $cust_spouse_name</label><input class='textfield' id='p_cust_spouse_name' name='p_cust_spouse_name' value='$cust_spouse_name'/></td>             
                                 </tr>
                                 <tr>
                                     <td >পেশা</td>
-                                    <td>:  $cust_occupation</td>                               
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_cust_occupation'>$cust_occupation</label><input class='textfield' id='p_cust_occupation' name='p_cust_occupation' value='$cust_occupation'/></td>                             
                                 </tr>
                                 <tr>
                                     <td>ধর্ম </td>
-                                    <td>: $cust_religion</td>	
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_cust_religion'> $cust_religion</label><input class='textfield' id='p_cust_religion' name='p_cust_religion' value='$cust_religion'/></td>
                                     <td colspan='2'></td>
-                                    <td  rowspan='3'><img src=$cust_sign width='140px' height='70px'/> </td>                  
+                                    <td  rowspan='3'><label><img src=$cust_sign width='140px' height='70px'/> </label></td>                  
                                 </tr>
                                 <tr>
                                     <td >জাতীয়তা</td>
-                                    <td>: $cust_nationality</td>			
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_cust_nationality'> $cust_nationality</label><input class='textfield' id='p_cust_nationality' name='p_cust_nationality' value='$cust_nationality'/></td>			
                                 </tr>
                                 <tr>
                                     <td >মোবাইল নং</td>
-                                    <td>: $mobile</td>			
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_mobile'> $mobile</label><input class='textfield' id='p_mobile' name='p_mobile' value='$mobile'/></td>			
                                 </tr>
                                 <tr>
                                     <td >ইমেল</td>
-                                    <td>: $email</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_email'>$email</label><input class='textfield' id='p_email' name='p_email' value='$email'/></td>
                                     <td colspan='2'></td>
-                                    <td  rowspan='4'><img src=$cust_finger width='140px' height='70px'/> </td>   				
+                                    <td  rowspan='4'><label><img src=$cust_finger width='140px' height='70px'/> </label></td>   				
                                 </tr>
                                 <tr>
                                     <td >জন্মতারিখ</td>
-                                    <td>: $cust_date_of_birth</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_cust_date_of_birth'> $cust_date_of_birth</label><input class='textfield' id='p_cust_date_of_birth' name='p_cust_date_of_birth' value='$cust_date_of_birth'/></td>		
                                 </tr>
                                     <td >জাতীয় পরিচয়পত্র নং</td>
-                                    <td>:  $cust_nationalID_no</td>			
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_cust_nationalID_no'>$cust_nationalID_no</label><input class='textfield' id='p_cust_nationalID_no' name='p_cust_nationalID_no' value='$cust_nationalID_no'/></td>			
                                 </tr>
                                 <tr>
                                     <td >পাসপোর্ট আইডি নং</td>
-                                    <td>: $cust_passportID_no </td>			
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_cust_passportID_no'>$cust_passportID_no </label><input class='textfield' id='p_cust_passportID_no' name='p_cust_passportID_no' value='$cust_passportID_no'/></td>		
                                 </tr>
                                 <tr>
                                     <td >জন্ম সনদ নং</td>
-                                    <td>: $birth_certificate_no </td>			
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_birth_certificate_no'>$birth_certificate_no </label><input class='textfield' id='p_birth_certificate_no' name='p_birth_certificate_no' value='$birth_certificate_no'/></td>			
                                 </tr>";
 
-                    $result3 = mysql_query("SELECT * FROM $dbname.education WHERE cepn_id='2' and education_type='cust' ");
+                    $result3 = mysql_query("SELECT * FROM $dbname.education WHERE cepn_id='1' and education_type='cust' ");
                     echo "<tr>
                                     <td ><font color=\"#3933CC\"><b>শিক্ষাগত যোগ্যতা</b></font></td>		
                                 </tr>
@@ -150,11 +161,11 @@ error_reporting(0);
                         $institute_name = $row['institute_name'];
 
                         echo "<tr>
-                                    <td>$exam_name </td>
-                                    <td>$passing_year</td>
-                                    <td>$institute_name</td>
-                                    <td>$board</td>
-                                    <td>$gpa </td>
+                                    <td><label data-type='editable' data-for='#p_exam_name'>$exam_name </label><input class='textfield' id='p_exam_name' name='p_exam_name' value='$exam_name'/></td>
+                                    <td><label data-type='editable' data-for='#p_passing_year'>$passing_year</label><input class='textfield' id='p_passing_year' name='p_passing_year' value='$passing_year'/></td>
+                                    <td><label data-type='editable' data-for='#p_institute_name'>$institute_name</label><input class='textfield' id='p_institute_name' name='p_institute_name' value='$institute_name'/></td>
+                                    <td><label data-type='editable' data-for='#p_board'>$board</label><input class='textfield' id='p_board' name='p_board' value='$board'/></td>
+                                    <td><label data-type='editable' data-for='#p_gpa'>$gpa </label><input class='textfield' id='p_gpa' name='p_gpa' value='$gpa'/></td>
                                 </tr>";
                     }
                     echo "<tr>
@@ -162,19 +173,19 @@ error_reporting(0);
                                 </tr>                             
                                 <tr>
                                     <td >পরিবারের সদস্য সংখ্যা</td>
-                                    <td>: $cust_family_member</td>			
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_cust_family_member'>$cust_family_member</label><input class='textfield' id='p_cust_family_member' name='p_cust_family_member' value='$cust_family_member'/></td>			
                                 </tr>
                                 <tr>
                                     <td >ছেলের সন্তানের সংখ্যা</td>
-                                    <td colspan='2'>: $cust_son_no</td>
+                                    <td colspan='2'>:<label data-type='editable' data-for='#p_cust_son_no'> $cust_son_no</label><input class='textfield' id='p_cust_son_no' name='p_cust_son_no' value='$cust_son_no'/></td>
                                     <td >মেয়ের সন্তানের সংখ্যা </td>
-                                    <td>: $cust_daughter_no</td>			
+                                    <td colspan='2'>:<label data-type='editable' data-for='#p_cust_daughter_no'> $cust_daughter_no</label><input class='textfield' id='p_cust_daughter_no' name='p_cust_daughter_no' value='$cust_daughter_no'/></td>			
                                 </tr>
                                 <tr>
                                     <td >ছেলে  ষ্টুডেন্ট</td>
-                                    <td colspan='2'>: $cust_son_student_no</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_cust_son_student_no'> $cust_son_student_no</label><input class='textfield' id='p_cust_son_student_no' name='p_cust_son_student_no' value='$cust_son_student_no'/></td>
                                     <td >মেয়ে  ষ্টুডেন্ট</td>
-                                    <td>: $cust_daughter_student_no</td>			
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_cust_daughter_student_no'> $cust_daughter_student_no</label><input class='textfield' id='p_cust_daughter_student_no' name='p_cust_daughter_student_no' value='$cust_daughter_student_no'/></td>		
                                 </tr>";
 
                     $result5 = mysql_query("SELECT * FROM $dbname.children WHERE Customer_account_idCustomer_account='2' and type='M'");
@@ -184,9 +195,9 @@ error_reporting(0);
 
                         echo "<tr>
                                     <td >ছেলে সন্তানের বয়স</td>
-                                    <td colspan='2'>: $children_age বছর</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_children_age'> $children_age বছর</label><input class='textfield' id='p_children_age' name='p_children_age' value='$children_age'/></td>
                                     <td >অধ্যয়ণরত শ্রেণী</td>	
-                                    <td >: $children_class</td>	
+                                    <td >: <label data-type='editable' data-for='#p_children_class'> $children_class</label><input class='textfield' id='p_children_class' name='p_children_class' value='$children_class'/></td>
                                 </tr>";
                     }
                     $result6 = mysql_query("SELECT * FROM $dbname.children WHERE Customer_account_idCustomer_account='2' and type='F'");
@@ -196,12 +207,12 @@ error_reporting(0);
 
                         echo "<tr>
                                     <td >মেয়ে সন্তানের বয়স</td>
-                                    <td colspan='2'>: $children_age বছর</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_p_children_age'> $children_age বছর</label><input class='textfield' id='p_p_children_age' name='p_p_children_age' value='$children_age'/></td>
                                     <td >অধ্যয়ণরত শ্রেণী</td>	
-                                    <td >: $children_class</td>	
+                                    <td >: <label data-type='editable' data-for='#p_p_children_class'>$children_class</label><input class='textfield' id='p_p_children_class' name='p_p_children_class' value='$children_class'/></td>	
                                 </tr>";
                     }
-                    $result7 = mysql_query("SELECT * FROM $dbname.address WHERE adrs_cepng_id='2' and address_whom='cust' and address_type='Present'");
+                    $result7 = mysql_query("SELECT * FROM $dbname.address WHERE adrs_cepng_id='1' and address_whom='cust' and address_type='Present'");
                     $row = mysql_fetch_array($result7);
                     $address_type = $row['address_type'];
                     $house = $row['house'];
@@ -226,34 +237,34 @@ error_reporting(0);
                                 </tr>
                                 <tr>
                                     <td >বাড়ির নাম / ফ্ল্যাট নং</td>
-                                    <td colspan='2'>: $house</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_house'> $house</label><input class='textfield' id='p_house' name='p_house' value='$house'/></td>
                                     <td >বাড়ি নং</td>
-                                    <td colspan='2'>: $house_no</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_house_no'> $house_no</label><input class='textfield' id='p_house_no' name='p_house_no' value='$house_no'/></td>		
                                 </tr>
                                 <tr>
                                     <td >রোড নং</td>
-                                    <td colspan='2'>: $road</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_road'> $road</label><input class='textfield' id='p_road' name='p_road' value='$road'/></td>
                                     <td >পোষ্ট কোড</td>
-                                    <td colspan='2'>: $post_code</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_post_code'> $post_code</label><input class='textfield' id='p_post_code' name='p_post_code' value='$post_code'/></td>		
                                 </tr>
                                 <tr>
                                     <td >গ্রাম</td>
-                                    <td colspan='2'>: $selected_village_name</td>	
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_selected_village_name'>$selected_village_name</label><input class='textfield' id='p_selected_village_name' name='p_selected_village_name' value='$selected_village_name'/></td>	
                                     <td >পোষ্ট অফিস </td>
-                                    <td colspan='2'>: $selected_post_offc_name </td>	
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_selected_post_offc_name'>$selected_post_offc_name</label><input class='textfield' id='p_selected_post_offc_name' name='p_selected_post_offc_name' value='$selected_post_offc_name'/></td>	
                                 </tr>
                                 <tr>
                                     <td >উপজেলা / থানা</td>
-                                    <td colspan='2'>: $selected_thana_name</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_selected_thana_name'>$selected_thana_name</label><input class='textfield' id='p_selected_thana_name' name='p_selected_thana_name' value='$selected_thana_name'/></td>
                                     <td >জেলা</td>
-                                    <td colspan='2'>: $selected_district_name</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_selected_district_name'> $selected_district_name</label><input class='textfield' id='p_selected_district_name' name='p_selected_district_name' value='$selected_district_name'/></td>	
                                 </tr>
                                 <tr>
                                     <td >বিভাগ</td>
-                                    <td colspan='2'>: $selected_division_name</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_selected_division_name'>$selected_division_name</label><input class='textfield' id='p_selected_division_name' name='p_selected_division_name' value='$selected_division_name'/></td>	
                                 </tr> ";
 
-                    $result8 = mysql_query("SELECT * FROM $dbname.address WHERE  adrs_cepng_id='2' and address_whom='cust' and address_type='Permanent'");
+                    $result8 = mysql_query("SELECT * FROM $dbname.address WHERE  adrs_cepng_id='1' and address_whom='cust' and address_type='Permanent'");
                     $row = mysql_fetch_array($result8);
                     $address_type = $row['address_type'];
                     $house = $row['house'];
@@ -281,31 +292,31 @@ error_reporting(0);
                                 </tr>
                                 <tr>
                                     <td >বাড়ির নাম / ফ্ল্যাট নং</td>
-                                    <td colspan='2'>: $house</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_p_house'>$house</label><input class='textfield' id='p_p_house' name='p_p_house' value='$house'/></td>
                                     <td >বাড়ি নং</td>
-                                    <td colspan='2'>: $house_no</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_p_house_no'> $house_no</label><input class='textfield' id='p_p_house_no' name='p_p_house_no' value='$house_no'/></td>	
                                 </tr>
                                 <tr>
                                     <td >রোড নং</td>
-                                    <td colspan='2'>: $road</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_p_road'> $road</label><input class='textfield' id='p_p_road' name='p_p_road' value='$road'/></td>
                                     <td >পোষ্ট কোড</td>
-                                    <td colspan='2'>: $post_code</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_p_post_code'> $post_code</label><input class='textfield' id='p_p_post_code' name='p_p_post_code' value='$post_code'/></td>	
                                 </tr>
                                 <tr>
                                     <td >গ্রাম</td>
-                                    <td colspan='2'>: $selected_village_name</td>	
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_p_selected_village_name'> $selected_village_name</label><input class='textfield' id='p_p_selected_village_name' name='p_p_selected_village_name' value='$selected_village_name'/></td>
                                     <td >পোষ্ট অফিস </td>
-                                    <td colspan='2'>: $selected_post_offc_name </td>	
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_p_selected_post_offc_name'> $selected_post_offc_name</label><input class='textfield' id='p_p_selected_post_offc_name' name='p_p_selected_post_offc_name' value='$selected_post_offc_name'/></td>
                                 </tr>
                                 <tr>
                                     <td >উপজেলা / থানা</td>
-                                    <td colspan='2'>: $selected_thana_name</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_p_selected_thana_name'>$selected_thana_name</label><input class='textfield' id='p_p_selected_thana_name' name='p_p_selected_thana_name' value='$selected_thana_name'/></td>
                                     <td >জেলা</td>
-                                    <td colspan='2'>: $selected_district_name</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_p_selected_district_name'>$selected_district_name</label><input class='textfield' id='p_p_selected_district_name' name='p_p_selected_district_name' value='$selected_district_name'/></td>	
                                 </tr>
                                 <tr>
                                     <td >বিভাগ</td>
-                                    <td colspan='2'>: $selected_division_name</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#p_p_selected_division_name'> $selected_division_name</label><input class='textfield' id='p_p_selected_division_name' name='p_p_selected_division_name' value='$selected_division_name'/></td>	
                                 </tr> ";
 
                     echo "<tr>
@@ -316,35 +327,35 @@ error_reporting(0);
                                 </tr>                              
                                 <tr>
                                     <td >অভিভাবকের নাম</td>
-                                    <td>:  $cust_gurdian_name</td>	
+                                    <td>: <label data-type='editable' data-for='#p_cust_gurdian_name'>$cust_gurdian_name</label><input class='textfield' id='p_cust_gurdian_name' name='p_cust_gurdian_name' value='$cust_gurdian_name'/></td>		
                                     <td colspan='2'></td>
-                                    <td  rowspan='5'><img src=$cust_gurd_scanpic width='140px' height='140px'/> </td>		
+                                    <td  rowspan='5'><label><img src=$cust_gurd_scanpic width='140px' height='140px'/> </label></td>		
                                 </tr>
                                 <tr>
                                     <td >সম্পর্ক</td>
-                                    <td>:  $cust_gurdian_relation</td>			
+                                    <td>: <label data-type='editable' data-for='#p_cust_gurdian_relation'>$cust_gurdian_relation</label><input class='textfield' id='p_cust_gurdian_relation' name='p_cust_gurdian_relation' value='$cust_gurdian_relation'/></td>				
                                 </tr>
                                 <tr>
                                     <td >মোবাইল নং</td>
-                                    <td>:  $cust_gurdian_mobile</td>			
+                                    <td>: <label data-type='editable' data-for='#p_cust_gurdian_mobile'>$cust_gurdian_mobile</label><input class='textfield' id='p_cust_gurdian_mobile' name='p_cust_gurdian_mobile' value='$cust_gurdian_mobile'/></td>			
                                 </tr>
                                 <tr>
                                     <td >ইমেইল</td>
-                                    <td>: $cust_gurdian_email </td>			
+                                    <td>: <label data-type='editable' data-for='#p_cust_gurdian_email'> $cust_gurdian_email </label><input class='textfield' id='p_cust_gurdian_email' name='p_cust_gurdian_email' value='$cust_gurdian_email'/></td>			
                                 </tr>
                                 <tr>
                                     <td >জাতীয় পরিচয়পত্র নং</td>
-                                    <td>:  $cust_gurdian_nationalID_no</td>			
+                                    <td>: <label data-type='editable' data-for='#p_cust_gurdian_nationalID_no'> $cust_gurdian_nationalID_no</label><input class='textfield' id='p_cust_gurdian_nationalID_no' name='p_cust_gurdian_nationalID_no' value='$cust_gurdian_nationalID_no'/></td>		
                                 </tr>
                                 <tr>
                                     <td >পাসপোর্ট আইডি নং</td>
-                                    <td>: $cust_gurdian_passportID_no </td>			
+                                    <td>: <label data-type='editable' data-for='#p_cust_gurdian_passportID_no'>$cust_gurdian_passportID_no</label><input class='textfield' id='p_cust_gurdian_passportID_no' name='p_cust_gurdian_passportID_no' value='$cust_gurdian_passportID_no'/></td>			
                                 </tr>
                                 <tr>
                                     <td >শিক্ষাগত যোগ্যতা</td>
-                                    <td>: $cust_gurdian_education </td>			
+                                    <td>: <label data-type='editable' data-for='#p_cust_gurdian_education'>$cust_gurdian_education </label><input class='textfield' id='p_cust_gurdian_education' name='p_cust_gurdian_education' value='$cust_gurdian_education'/></td>			
                                 </tr>";
-                    $result10 = mysql_query("SELECT * FROM $dbname.address WHERE  adrs_cepng_id='2' and address_whom='cust_prnt' and address_type='Present'");
+                    $result10 = mysql_query("SELECT * FROM $dbname.address WHERE  adrs_cepng_id='1' and address_whom='cust_prnt' and address_type='Present'");
                     $row = mysql_fetch_array($result10);
                     $address_type = $row['address_type'];
                     $house = $row['house'];
@@ -365,39 +376,39 @@ error_reporting(0);
                     $selected_thana_name = $rows['thana_name'];
                     $selected_post_offc_name = $rows['post_offc_name'];
                     $selected_village_name = $rows['village_name'];
-                    echo "<tr>
+                   echo "<tr>
                                     <td ><font color=\"#3933CC\"><b>বর্তমান ঠিকানা</b></font></td>
                                     <td colspan='2'> </td>
                                 </tr>
                                 <tr>
                                     <td >বাড়ির নাম / ফ্ল্যাট নং</td>
-                                    <td colspan='2'>: $house</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#g_house'> $house</label><input class='textfield' id='g_house' name='g_house' value='$house'/></td>
                                     <td >বাড়ি নং</td>
-                                    <td colspan='2'>: $house_no</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#g_house_no'> $house_no</label><input class='textfield' id='g_house_no' name='g_house_no' value='$house_no'/></td>		
                                 </tr>
                                 <tr>
                                     <td >রোড নং</td>
-                                    <td colspan='2'>: $road</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#g_road'> $road</label><input class='textfield' id='g_road' name='g_road' value='$road'/></td>
                                     <td >পোষ্ট কোড</td>
-                                    <td colspan='2'>: $post_code</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#g_post_code'> $post_code</label><input class='textfield' id='g_post_code' name='g_post_code' value='$post_code'/></td>		
                                 </tr>
                                 <tr>
                                     <td >গ্রাম</td>
-                                    <td colspan='2'>: $selected_village_name</td>	
+                                    <td colspan='2'>: <label data-type='editable' data-for='#g_selected_village_name'>$selected_village_name</label><input class='textfield' id='g_selected_village_name' name='g_selected_village_name' value='$selected_village_name'/></td>	
                                     <td >পোষ্ট অফিস </td>
-                                    <td colspan='2'>: $selected_post_offc_name </td>	
+                                    <td colspan='2'>: <label data-type='editable' data-for='#g_selected_post_offc_name'>$selected_post_offc_name</label><input class='textfield' id='g_selected_post_offc_name' name='g_selected_post_offc_name' value='$selected_post_offc_name'/></td>	
                                 </tr>
                                 <tr>
                                     <td >উপজেলা / থানা</td>
-                                    <td colspan='2'>: $selected_thana_name</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#g_selected_thana_name'>$selected_thana_name</label><input class='textfield' id='g_selected_thana_name' name='g_selected_thana_name' value='$selected_thana_name'/></td>
                                     <td >জেলা</td>
-                                    <td colspan='2'>: $selected_district_name</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#g_selected_district_name'> $selected_district_name</label><input class='textfield' id='g_selected_district_name' name='g_selected_district_name' value='$selected_district_name'/></td>	
                                 </tr>
                                 <tr>
                                     <td >বিভাগ</td>
-                                    <td colspan='2'>: $selected_division_name</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#g_selected_division_name'>$selected_division_name</label><input class='textfield' id='g_selected_division_name' name='g_selected_division_name' value='$selected_division_name'/></td>	
                                 </tr> ";
-                    $result9 = mysql_query("SELECT * FROM $dbname.address WHERE  adrs_cepng_id='2' and address_whom='cust_prnt' and address_type='Permanent'");
+                    $result9 = mysql_query("SELECT * FROM $dbname.address WHERE  adrs_cepng_id='1' and address_whom='cust_prnt' and address_type='Permanent'");
                     $row = mysql_fetch_array($result9);
                     $address_type = $row['address_type'];
                     $house = $row['house'];
@@ -424,33 +435,33 @@ error_reporting(0);
                                 </tr>
                                 <tr>
                                     <td >বাড়ির নাম / ফ্ল্যাট নং</td>
-                                    <td colspan='2'>: $house</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#g_p_house'>$house</label><input class='textfield' id='g_p_house' name='g_p_house' value='$house'/></td>
                                     <td >বাড়ি নং</td>
-                                    <td colspan='2'>: $house_no</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#g_p_house_no'> $house_no</label><input class='textfield' id='g_p_house_no' name='g_p_house_no' value='$house_no'/></td>	
                                 </tr>
                                 <tr>
                                     <td >রোড নং</td>
-                                    <td colspan='2'>: $road</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#g_p_road'> $road</label><input class='textfield' id='g_p_road' name='g_p_road' value='$road'/></td>
                                     <td >পোষ্ট কোড</td>
-                                    <td colspan='2'>: $post_code</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#g_p_post_code'> $post_code</label><input class='textfield' id='g_p_post_code' name='g_p_post_code' value='$post_code'/></td>	
                                 </tr>
                                 <tr>
                                     <td >গ্রাম</td>
-                                    <td colspan='2'>: $selected_village_name</td>	
+                                    <td colspan='2'>: <label data-type='editable' data-for='#g_p_selected_village_name'> $selected_village_name</label><input class='textfield' id='g_p_selected_village_name' name='g_p_selected_village_name' value='$selected_village_name'/></td>
                                     <td >পোষ্ট অফিস </td>
-                                    <td colspan='2'>: $selected_post_offc_name </td>	
+                                    <td colspan='2'>: <label data-type='editable' data-for='#g_p_selected_post_offc_name'> $selected_post_offc_name</label><input class='textfield' id='g_p_selected_post_offc_name' name='g_p_selected_post_offc_name' value='$selected_post_offc_name'/></td>
                                 </tr>
                                 <tr>
                                     <td >উপজেলা / থানা</td>
-                                    <td colspan='2'>: $selected_thana_name</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#g_p_selected_thana_name'>$selected_thana_name</label><input class='textfield' id='g_p_selected_thana_name' name='g_p_selected_thana_name' value='$selected_thana_name'/></td>
                                     <td >জেলা</td>
-                                    <td colspan='2'>: $selected_district_name</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#g_p_selected_district_name'>$selected_district_name</label><input class='textfield' id='g_p_selected_district_name' name='g_p_selected_district_name' value='$selected_district_name'/></td>	
                                 </tr>
                                 <tr>
                                     <td >বিভাগ</td>
-                                    <td colspan='2'>: $selected_division_name</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#g_p_selected_division_name'> $selected_division_name</label><input class='textfield' id='g_p_selected_division_name' name='g_p_selected_division_name' value='$selected_division_name'/></td>	
                                 </tr> ";
-                    $result_nominee = mysql_query("SELECT * FROM $dbname.nominee WHERE cep_nominee_id = '2'");
+                    $result_nominee = mysql_query("SELECT * FROM $dbname.nominee WHERE cep_nominee_id = '1'");
                     while ($row = mysql_fetch_array($result_nominee)) {
                         $nominee_name = $row['nominee_name'];
                         $nominee_relation = $row['nominee_relation'];
@@ -469,36 +480,36 @@ error_reporting(0);
                                 </tr>
                                     <tr>
                                         <td >নমিনির নাম</td>
-                                        <td>:  $nominee_name</td>
+                                        <td>: <label data-type='editable' data-for='#p_nominee_name'> $nominee_name</label><input class='textfield' id='p_nominee_name' name='p_nominee_name' value='$nominee_name'/></td>
                                     <td colspan='2'></td>
-                                    <td  rowspan='5'><img src=$nominee_picture width='140px' height='140px'/> </td>	
+                                    <td  rowspan='5'><label><img src=$nominee_picture width='140px' height='140px'/></label> </td>	
                                     </tr>
                                     <tr>
                                         <td >বয়স</td>
-                                        <td>: $nominee_age</td>			
+                                        <td>: <label data-type='editable' data-for='#p_nominee_age'> $nominee_age</label><input class='textfield' id='p_nominee_age' name='p_nominee_age' value='$nominee_age'/></td>			
                                     </tr>
                                     <tr>
                                         <td >সম্পর্ক</td>
-                                        <td>: $nominee_relation</td>			
+                                        <td>: <label data-type='editable' data-for='#p_nominee_relation'>$nominee_relation</label><input class='textfield' id='p_nominee_relation' name='p_nominee_relation' value='$nominee_relation'/></td>			
                                     </tr>
                                     <tr>
                                         <td >মোবাইল নং</td>
-                                        <td>: $nominee_mobile</td>			
+                                        <td>: <label data-type='editable' data-for='#p_nominee_mobile'> $nominee_mobile</label><input class='textfield' id='p_nominee_mobile' name='p_nominee_mobile' value='$nominee_mobile'/></td>			
                                     </tr>
                                     <tr>
                                         <td >ইমেইল</td>
-                                        <td>: $nominee_email</td>			
+                                        <td>: <label data-type='editable' data-for='#p_nominee_email'> $nominee_email</label><input class='textfield' id='p_nominee_email' name='p_nominee_email' value='$nominee_email'/></td>			
                                     </tr>
                                     <tr>
                                         <td >জাতীয় পরিচয়পত্র নং</td>
-                                        <td>: $nominee_national_ID </td>			
+                                        <td>: <label data-type='editable' data-for='#p_nominee_national_ID'> $nominee_national_ID</label><input class='textfield' id='p_nominee_national_ID' name='p_nominee_national_ID' value='$nominee_national_ID'/></td>			
                                     </tr>
                                     <tr>
                                         <td >পাসপোর্ট আইডি নং</td>
-                                        <td>:  $nominee_passport_ID</td>			
+                                        <td>: <label data-type='editable' data-for='#p_nominee_passport_ID'>$nominee_passport_ID</label><input class='textfield' id='p_nominee_passport_ID' name='p_nominee_passport_ID' value='$nominee_name'/></td>			
                                     </tr>";
 
-                        $result4 = mysql_query("SELECT * FROM $dbname.education WHERE cepn_id='2' and education_type='nmn' ");
+                        $result4 = mysql_query("SELECT * FROM $dbname.education WHERE cepn_id='1' and education_type='nmn' ");
                         echo "<tr>
                                     <td ><font color=\"#3933CC\"><b>শিক্ষাগত যোগ্যতা</b></font></td>		
                                 </tr>
@@ -517,14 +528,14 @@ error_reporting(0);
                             $institute_name = $row['institute_name'];
 
                             echo "<tr>
-                                    <td>$exam_name </td>
-                                    <td>$passing_year</td>
-                                    <td>$institute_name</td>
-                                    <td>$board</td>
-                                    <td>$gpa </td>
+                                    <td><label>$exam_name</label> </td>
+                                    <td><label>$passing_year</label></td>
+                                    <td><label>$institute_name</label></td>
+                                    <td><label>$board</label></td>
+                                    <td><label>$gpa</label> </td>
                                 </tr>";
                         }
-                        $result13 = mysql_query("SELECT * FROM $dbname.address WHERE  adrs_cepng_id='2' and address_whom='nmn' and address_type='Present'");
+                        $result13 = mysql_query("SELECT * FROM $dbname.address WHERE  adrs_cepng_id='1' and address_whom='nmn' and address_type='Present'");
                         $row = mysql_fetch_array($result13);
                         $address_type = $row['address_type'];
                         $house = $row['house'];
@@ -552,33 +563,33 @@ error_reporting(0);
                                 </tr>
                                 <tr>
                                     <td >বাড়ির নাম / ফ্ল্যাট নং</td>
-                                    <td colspan='2'>: $house</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#n_house'> $house</label><input class='textfield' id='n_house' name='n_house' value='$house'/></td>
                                     <td >বাড়ি নং</td>
-                                    <td colspan='2'>: $house_no</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#n_house_no'> $house_no</label><input class='textfield' id='n_house_no' name='n_house_no' value='$house_no'/></td>		
                                 </tr>
                                 <tr>
                                     <td >রোড নং</td>
-                                    <td colspan='2'>: $road</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#n_road'> $road</label><input class='textfield' id='n_road' name='n_road' value='$road'/></td>
                                     <td >পোষ্ট কোড</td>
-                                    <td colspan='2'>: $post_code</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#n_post_code'> $post_code</label><input class='textfield' id='n_post_code' name='n_post_code' value='$post_code'/></td>		
                                 </tr>
                                 <tr>
                                     <td >গ্রাম</td>
-                                    <td colspan='2'>: $selected_village_name</td>	
+                                    <td colspan='2'>: <label data-type='editable' data-for='#n_selected_village_name'>$selected_village_name</label><input class='textfield' id='n_selected_village_name' name='n_selected_village_name' value='$selected_village_name'/></td>	
                                     <td >পোষ্ট অফিস </td>
-                                    <td colspan='2'>: $selected_post_offc_name </td>	
+                                    <td colspan='2'>: <label data-type='editable' data-for='#n_selected_post_offc_name'>$selected_post_offc_name</label><input class='textfield' id='n_selected_post_offc_name' name='n_selected_post_offc_name' value='$selected_post_offc_name'/></td>	
                                 </tr>
                                 <tr>
                                     <td >উপজেলা / থানা</td>
-                                    <td colspan='2'>: $selected_thana_name</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#n_selected_thana_name'>$selected_thana_name</label><input class='textfield' id='n_selected_thana_name' name='n_selected_thana_name' value='$selected_thana_name'/></td>
                                     <td >জেলা</td>
-                                    <td colspan='2'>: $selected_district_name</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#n_selected_district_name'> $selected_district_name</label><input class='textfield' id='n_selected_district_name' name='n_selected_district_name' value='$selected_district_name'/></td>	
                                 </tr>
                                 <tr>
                                     <td >বিভাগ</td>
-                                    <td colspan='2'>: $selected_division_name</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#n_selected_division_name'>$selected_division_name</label><input class='textfield' id='n_selected_division_name' name='n_selected_division_name' value='$selected_division_name'/></td>	
                                 </tr> ";
-                        $result14 = mysql_query("SELECT * FROM $dbname.address WHERE  adrs_cepng_id='2' and address_whom='nmn' and address_type='Permanent'");
+                        $result14 = mysql_query("SELECT * FROM $dbname.address WHERE  adrs_cepng_id='1' and address_whom='nmn' and address_type='Permanent'");
                         $row = mysql_fetch_array($result14);
                         $address_type = $row['address_type'];
                         $house = $row['house'];
@@ -599,43 +610,44 @@ error_reporting(0);
                         $selected_thana_name = $rows['thana_name'];
                         $selected_post_offc_name = $rows['post_offc_name'];
                         $selected_village_name = $rows['village_name'];
-                        echo "<tr>
+                       echo "<tr>
                                     <td ><font color=\"#3933CC\"><b>স্থায়ী ঠিকানা</b></font></td>
                                     <td colspan='2'> </td>
                                 </tr>
                                 <tr>
                                     <td >বাড়ির নাম / ফ্ল্যাট নং</td>
-                                    <td colspan='2'>: $house</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#n_p_house'>$house</label><input class='textfield' id='n_p_house' name='n_p_house' value='$house'/></td>
                                     <td >বাড়ি নং</td>
-                                    <td colspan='2'>: $house_no</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#n_p_house_no'> $house_no</label><input class='textfield' id='n_p_house_no' name='n_p_house_no' value='$house_no'/></td>	
                                 </tr>
                                 <tr>
                                     <td >রোড নং</td>
-                                    <td colspan='2'>: $road</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#n_p_road'> $road</label><input class='textfield' id='n_p_road' name='n_p_road' value='$road'/></td>
                                     <td >পোষ্ট কোড</td>
-                                    <td colspan='2'>: $post_code</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#n_p_post_code'> $post_code</label><input class='textfield' id='n_p_post_code' name='n_p_post_code' value='$post_code'/></td>	
                                 </tr>
                                 <tr>
                                     <td >গ্রাম</td>
-                                    <td colspan='2'>: $selected_village_name</td>	
+                                    <td colspan='2'>: <label data-type='editable' data-for='#n_p_selected_village_name'> $selected_village_name</label><input class='textfield' id='n_p_selected_village_name' name='n_p_selected_village_name' value='$selected_village_name'/></td>
                                     <td >পোষ্ট অফিস </td>
-                                    <td colspan='2'>: $selected_post_offc_name </td>	
+                                    <td colspan='2'>: <label data-type='editable' data-for='#n_p_selected_post_offc_name'> $selected_post_offc_name</label><input class='textfield' id='n_p_selected_post_offc_name' name='n_p_selected_post_offc_name' value='$selected_post_offc_name'/></td>
                                 </tr>
                                 <tr>
                                     <td >উপজেলা / থানা</td>
-                                    <td colspan='2'>: $selected_thana_name</td>
+                                    <td colspan='2'>: <label data-type='editable' data-for='#n_p_selected_thana_name'>$selected_thana_name</label><input class='textfield' id='n_p_selected_thana_name' name='n_p_selected_thana_name' value='$selected_thana_name'/></td>
                                     <td >জেলা</td>
-                                    <td colspan='2'>: $selected_district_name</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#n_p_selected_district_name'>$selected_district_name</label><input class='textfield' id='n_p_selected_district_name' name='n_p_selected_district_name' value='$selected_district_name'/></td>	
                                 </tr>
                                 <tr>
                                     <td >বিভাগ</td>
-                                    <td colspan='2'>: $selected_division_name</td>		
+                                    <td colspan='2'>: <label data-type='editable' data-for='#n_p_selected_division_name'> $selected_division_name</label><input class='textfield' id='n_p_selected_division_name' name='n_p_selected_division_name' value='$selected_division_name'/></td>	
                                 </tr> ";
                     }
                     ?>
                     </div>
                 </table>
             </form>
+            </div>
         </div>
     </div>
     <?php

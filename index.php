@@ -11,7 +11,7 @@ session_start();
         'SD' => 'শপিং ক্যালেন্ডার',
         'PP' => 'অনুষ্ঠানসূচি',
         'MA' => 'আবেদনপত্র');
-    if ($_SESSION['UserID'] == 'admin') {
+    if ($_SESSION['userType'] == 'owner') {
         $quickLinkList['AREA'] = 'এরিয়া মেকিং';
         $quickLinkList['OSP'] = 'অফিস এবং সেলসস্টোর ';
         $quickLinkList['HRE'] = 'এইচ আর এবং কর্মচারী ';
@@ -30,10 +30,10 @@ session_start();
         $quickLinkList['ASS'] = 'এডমিন সেলসস্টোর';
         $quickLinkList['NUR'] = 'প্যাটেন্ট নুর হোসাইন';*/
         $quickLinkList['OTH'] = 'অন্যান্য';
-    } else if ($_SESSION['UserID'] == 'customer') {
+    } else if ($_SESSION['userType'] == 'customer') {
         $quickLinkList['VA'] = 'ভিউ একাউন্ট';
     }
-    else if ($_SESSION['UserID'] == 'employee') {
+    else if ($_SESSION['userType'] == 'employee') {
         $quickLinkList['EA'] = 'ভিউ একাউন্ট';
     }
     // global $sub_title;
@@ -329,9 +329,3 @@ session_start();
         </div>
     </body>
 </html>
-
-
-
-
-
-

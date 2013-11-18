@@ -139,15 +139,15 @@ $showAccountType  = $arrayAccountType[$input];
                             $db_email = $row_officeNcontact['email'];
                             $db_mobile = $row_officeNcontact['mobile'];
                             $db_thana = $row_officeNcontact['thana_name'];
-                            
+                            $db_custID = $row_officeNcontact['idCustomer_account'];
                             echo "<tr>";
                             echo "<td>$db_Name</td>";
                             echo "<td>$db_accNumber</td>";
                             echo "<td>$db_email</td>";
                             echo "<td>$db_mobile</td>";
                             echo "<td>$db_thana</td>";
-                           // $v = base64_encode($db_proprietorID);
-                            echo "<td><a href='#'>আপডেট</a></td>";
+                           $v = base64_encode($db_custID);
+                            echo "<td><a href='update_customer_account.php?id=$v'>আপডেট</a></td>";
                             echo "</tr>";
                         }
                     }
