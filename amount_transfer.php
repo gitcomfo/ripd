@@ -102,10 +102,21 @@ function checkPass(passvalue) // check password in repeat
         
 function beforeSave()
         {
-            if(document.getElementById('showError').innerHTML != "") 
+        if(document.getElementById('showError').innerHTML != "") 
                 {
                 document.getElementById('save').disabled= true;
                 }
+        else{
+            document.getElementById('passcheck').style.color='green';
+            document.getElementById('passcheck').innerHTML="OK";
+            document.getElementById('save').disabled= false;
+        }
+}
+function beforeSave()
+{
+    if(document.getElementById('showError').innerHTML != "") 
+        {
+            document.getElementById('save').disabled= true;
         }
 
 function  checkCorrectPass() // match password with account
