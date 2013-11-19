@@ -201,6 +201,9 @@ if (isset($_POST['submit1'])) {
         $emp_edu = mysql_query($sql_insert_emp_edu) or exit('query failed: ' . mysql_error());
     }
     //nominee education
+     $sel_nominee = mysql_query("SELECT * FROM nominee WHERE cep_nominee_id= $emp2 AND cep_type='emp'");
+    $nomrow = mysql_fetch_assoc($sel_nominee);
+    $db_nomID = $nomrow['idNominee'];
     $n_ex_name = $_POST['n_ex_name'];
     $n_pass_year = $_POST['n_pass_year'];
     $n_institute = $_POST['n_institute'];
@@ -208,7 +211,7 @@ if (isset($_POST['submit1'])) {
     $n_gpa = $_POST['n_gpa'];
     $b = count($n_ex_name);
     for ($i = 0; $i < $b; $i++) {
-        $sql_insert_nom_edu = "INSERT INTO " . $dbname . ".`education` ( `exam_name` ,`passing_year` ,`institute_name`,`board`,`gpa`,`education_type`,`cepn_id`) VALUES ('$n_ex_name[$i]', '$n_pass_year[$i]','$n_institute[$i]','$n_board[$i]','$n_gpa[$i]','nmn','$emp2');";
+        $sql_insert_nom_edu = "INSERT INTO " . $dbname . ".`education` ( `exam_name` ,`passing_year` ,`institute_name`,`board`,`gpa`,`education_type`,`cepn_id`) VALUES ('$n_ex_name[$i]', '$n_pass_year[$i]','$n_institute[$i]','$n_board[$i]','$n_gpa[$i]','nmn','$db_nomID');";
         $nom_edu = mysql_query($sql_insert_nom_edu) or exit('query failed: ' . mysql_error());
     }
     if ($emp_edu || $nom_edu) {

@@ -259,6 +259,9 @@ elseif (isset($_POST['submit3'])) {
         $cus_edu = mysql_query($sql_insert_cus_edu) or exit('query failed: ' . mysql_error());
     }
     //nominee education
+    $sel_nominee = mysql_query("SELECT * FROM nominee WHERE cep_nominee_id= $custAcid AND cep_type='cust'");
+    $nomrow = mysql_fetch_assoc($sel_nominee);
+    $db_nomID = $nomrow['idNominee'];
     $n_ex_name = $_POST['n_ex_name'];
     $n_pass_year = $_POST['n_pass_year'];
     $n_institute = $_POST['n_institute'];
@@ -267,7 +270,7 @@ elseif (isset($_POST['submit3'])) {
     $b = count($n_ex_name);
     for ($i = 0; $i < $b; $i++) {
         $sql_insert_nom_edu = "INSERT INTO " . $dbname . ".`education` ( `exam_name` ,`passing_year` ,`institute_name`,`board`,`gpa`,`education_type`,`cepn_id`) 
-                                                VALUES ('$n_ex_name[$i]', '$n_pass_year[$i]','$n_institute[$i]','$n_board[$i]','$n_gpa[$i]','nmn','$custAcid');";
+                                                VALUES ('$n_ex_name[$i]', '$n_pass_year[$i]','$n_institute[$i]','$n_board[$i]','$n_gpa[$i]','nmn','$db_nomID');";
         $nom_edu = mysql_query($sql_insert_nom_edu) or exit('query failed: ' . mysql_error());
     }
     if ($cus_edu || $nom_edu) {

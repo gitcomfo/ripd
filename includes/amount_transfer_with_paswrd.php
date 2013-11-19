@@ -14,7 +14,7 @@ echo " <tr>
                             <span id='passcheck'></span></td>   
                     </tr>
                     <tr>                    
-                        <td colspan='2' style='text-align:center; ' ></br><input class='btn' style =' font-size: 12px; ' type='submit' name='save' value='সেভ' />
+                        <td colspan='2' style='text-align:center; ' ></br><input class='btn' style =' font-size: 12px; ' onclick='beforeSave();' type='submit' id='save' name='save' disabled value='সেভ' />
                         <input class='btn' style =' font-size: 12px' type='reset' name='reset' value='রিসেট' /></td>                           
                     </tr></table>";
 ?>
