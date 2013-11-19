@@ -1,5 +1,5 @@
 <?php
-include 'connectionPDO.php';
+include_once 'connectionPDO.php';
 
 //command option insert BASIC
 $sql_insert_command = $conn->prepare("INSERT into command (commandno, command_desc, pv_value) VALUES (?, ?, ?)");    
