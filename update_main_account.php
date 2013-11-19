@@ -14,7 +14,6 @@ $showAccountType  = $arrayAccountType[$input];
 <script type="text/javascript">
     function infoFromThana()
     {
-        var type = <?php echo $g_type;?>;
         var xmlhttp;
         if (window.XMLHttpRequest) xmlhttp=new XMLHttpRequest();
         else xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
@@ -27,7 +26,7 @@ $showAccountType  = $arrayAccountType[$input];
         division_id = document.getElementById('division_id').value;
         district_id = document.getElementById('district_id').value;
         thana_id = document.getElementById('thana_id').value;
-        xmlhttp.open("GET","includes/updateOfficeFromThana.php?dsd="+district_id+"&dvd="+division_id+"&ttid="+thana_id+"&type="+type,true);
+        xmlhttp.open("GET","includes/updateEmpFromOffThana.php?dsd="+district_id+"&dvd="+division_id+"&ttid="+thana_id,true);
         xmlhttp.send();
     }
 </script>
@@ -44,7 +43,7 @@ $showAccountType  = $arrayAccountType[$input];
             </table>
             <fieldset id="fieldset_style" style=" width: 90% !important; margin-left: 30px !important;" >
                 <?php
-                if($input == 'customer' || $input=='employee') {
+                if($input=='employee') {
                     include_once 'includes/areaSearch.php';
                     getArea("infoFromThana()");
                     ?>
@@ -63,9 +62,11 @@ $showAccountType  = $arrayAccountType[$input];
                         <?php if($input == 'employee') {?>
                         <th><?php echo $showAccountType." মোবাইল নং"; ?></th>
                         <th><?php echo "অফিসের নাম"; ?></th>
+                        
                         <?php } elseif ($input == 'proprietor') {?>
                         <th><?php echo "হেড পাওয়ারস্টোরের নাম"; ?></th>
-                        <?php } else {?>
+                        
+                            <?php } else {?>
                         <th><?php echo $showAccountType." মোবাইল নং"; ?></th>
                         <th><?php echo " থানা"; ?></th>
                         <?php }?>
@@ -102,6 +103,7 @@ $showAccountType  = $arrayAccountType[$input];
                             $db_accNumber = $row_officeNcontact['account_number'];
                             $db_email = $row_officeNcontact['email'];
                             $db_mobile = $row_officeNcontact['mobile'];
+                            $db_empID = $row_officeNcontact['idEmployee'];
                             $db_onsType = $row_officeNcontact['catagory'];
                             $db_onsID = $row_officeNcontact['add_ons_id'];
                             if($db_onsType == 'office')
@@ -122,8 +124,8 @@ $showAccountType  = $arrayAccountType[$input];
                             echo "<td>$db_email</td>";
                             echo "<td>$db_mobile</td>";
                             echo "<td>$onsName</td>";
-                            //$v = base64_encode($db_proprietorID);
-                            echo "<td><a href='#'>আপডেট</a></td>";
+                            $v = base64_encode($db_empID);
+                            echo "<td><a href='update_employee_account.php?id=$v'>আপডেট</a></td>";
                             echo "</tr>";
                         }
                     }
@@ -137,15 +139,15 @@ $showAccountType  = $arrayAccountType[$input];
                             $db_email = $row_officeNcontact['email'];
                             $db_mobile = $row_officeNcontact['mobile'];
                             $db_thana = $row_officeNcontact['thana_name'];
-                            
+                            $db_custID = $row_officeNcontact['idCustomer_account'];
                             echo "<tr>";
                             echo "<td>$db_Name</td>";
                             echo "<td>$db_accNumber</td>";
                             echo "<td>$db_email</td>";
                             echo "<td>$db_mobile</td>";
                             echo "<td>$db_thana</td>";
-                           // $v = base64_encode($db_proprietorID);
-                            echo "<td><a href='#'>আপডেট</a></td>";
+                           $v = base64_encode($db_custID);
+                            echo "<td><a href='update_customer_account.php?id=$v'>আপডেট</a></td>";
                             echo "</tr>";
                         }
                     }
