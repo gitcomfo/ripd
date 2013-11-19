@@ -1,9 +1,10 @@
 <?php
+error_reporting(0);
 include_once 'includes/MiscFunctions.php';
 include 'includes/ConnectDB.inc';
 include 'includes/header.php';
-error_reporting(0);
 ?>
+<title>ভিউ একাউন্ট</title>
 <style type="text/css">@import "css/bush.css";</style>
 <script src="javascripts/jquery.min.js"></script>
 <script src="javascripts/jquery.editable.js"></script>
@@ -27,20 +28,21 @@ error_reporting(0);
         <div>  
             <div style="padding-left: 110px;"><a href="index.php?apps=VA"><b>ফিরে যান</b></a></div>
               <div id='iftee'>
-            <form method="POST" enctype="multipart/form-data" action="" style=" width: 85%; " id="cust_form" name="cust_form">	
+            <form method="POST" enctype="multipart/form-data" action="" style=" width: 100%; " id="cust_form" name="cust_form">	
                  <table class="formstyle" style=" width: 85%; padding-left: 15px; padding-top: 5px;padding-bottom: 8px;" >    
                     <?php
-                    $result0 = mysql_query("Select  * from $dbname.cfs_user where idUser=4");
+                    $session_user_id = $_SESSION['userIDUser'];
+                    $result0 = mysql_query("Select  * from $dbname.cfs_user where idUser=$session_user_id");
                     $row1 = mysql_fetch_array($result0);
 
                     $account_name = $row1['account_name'];
                     $mobile = $row1['mobile'];
                     $email = $row1['email'];
-                    $result = mysql_query("Select  * from $dbname.customer_account where idCustomer_account =1");
+                    $result = mysql_query("Select  * from $dbname.customer_account where cfs_user_idUser =$session_user_id");
                     $row = mysql_fetch_array($result);
 
                     $cust_photo = $row['scanDoc_picture'];
-                    $cust_sign = $row['scanDoc_signature'];
+                    //$cust_sign = $row['scanDoc_signature'];
                     $cust_finger = $row['scanDoc_finger_print'];
                     $cust_father_name = $row['cust_father_name'];
                     $cust_mother_name = $row['cust_mother_name'];
@@ -99,7 +101,7 @@ error_reporting(0);
                                     <td colspan='2'>: <label data-type='editable' data-for='#p_cust_mother_name'>  $cust_mother_name</label><input class='textfield' id='p_cust_mother_name' name='p_cust_mother_name' value='$cust_mother_name'/></td>         
                                 </tr>
                                 <tr>
-                                    <td>স্পাউসের নাম </td>
+                                    <td>স্বামী/স্ত্রীর নাম </td>
                                     <td colspan='2'>: <label data-type='editable' data-for='#p_cust_spouse_name'> $cust_spouse_name</label><input class='textfield' id='p_cust_spouse_name' name='p_cust_spouse_name' value='$cust_spouse_name'/></td>             
                                 </tr>
                                 <tr>
@@ -110,7 +112,7 @@ error_reporting(0);
                                     <td>ধর্ম </td>
                                     <td colspan='2'>: <label data-type='editable' data-for='#p_cust_religion'> $cust_religion</label><input class='textfield' id='p_cust_religion' name='p_cust_religion' value='$cust_religion'/></td>
                                     <td colspan='2'></td>
-                                    <td  rowspan='3'><label><img src=$cust_sign width='140px' height='70px'/> </label></td>                  
+                                    <td  rowspan='3'><label><img src=$cust_finger width='140px' height='70px'/> </label></td>                  
                                 </tr>
                                 <tr>
                                     <td >জাতীয়তা</td>
@@ -123,8 +125,7 @@ error_reporting(0);
                                 <tr>
                                     <td >ইমেল</td>
                                     <td colspan='2'>: <label data-type='editable' data-for='#p_email'>$email</label><input class='textfield' id='p_email' name='p_email' value='$email'/></td>
-                                    <td colspan='2'></td>
-                                    <td  rowspan='4'><label><img src=$cust_finger width='140px' height='70px'/> </label></td>   				
+                                    <td colspan='2'></td>				
                                 </tr>
                                 <tr>
                                     <td >জন্মতারিখ</td>

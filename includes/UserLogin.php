@@ -34,11 +34,13 @@ function userLogin($Name, $Password)
                                 $db_account_name = $la_key['account_name'];
                                 $db_account_status = $la_key['cfs_account_status'];
                                 $db_user_type = $la_key['user_type'];
+                                $db_account_number= $la_key['account_number'];
                                 }
                         $_SESSION['success'] = "done";
                         $_SESSION['userIDUser'] = $db_idUser;
                         $_SESSION['systemUser'] = "ripdSystem";
                         $_SESSION['userType'] = $db_user_type;
+                        $_SESSION['accountNumber'] = $db_account_number;
                         //$_SESSION['overallAccess'] = explode(",", $myrow['overall_access']);
                         $_SESSION['AttemptsCounter'] = 0;
                         //$_SESSION['AccessLevel'] = $myrow['fullaccess'];
