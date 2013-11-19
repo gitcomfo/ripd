@@ -38,6 +38,7 @@ function userLogin($Name, $Password)
                         $_SESSION['success'] = "done";
                         $_SESSION['userIDUser'] = $db_idUser;
                         $_SESSION['systemUser'] = "ripdSystem";
+                        $_SESSION['userType'] = $db_user_type;
                         //$_SESSION['overallAccess'] = explode(",", $myrow['overall_access']);
                         $_SESSION['AttemptsCounter'] = 0;
                         //$_SESSION['AccessLevel'] = $myrow['fullaccess'];
