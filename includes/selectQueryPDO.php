@@ -10,4 +10,9 @@ $sql_pv_view = $conn->prepare("SELECT
                                                                                 ORDER BY cust_type ASC");
 $sql_current_command = $conn->prepare("SELECT * FROM running_command LIMIT 1");
 $sql_select_login = $conn->prepare("SELECT * FROM cfs_user WHERE user_name=? AND password=?");
+$sql_select_cfs_user_all = $conn->prepare("SELECT * FROM cfs_user WHERE idUser = ?");
+$sql_select_cust_basic = $conn->prepare("SELECT designation_name, designation_star, scanDoc_finger_print, scanDoc_picture, referer_id
+                                                                                FROM customer_account, designation
+                                                                                    WHERE idDesignation=Designation_idDesignation 
+                                                                                        AND cfs_user_idUser = ?");
 ?>

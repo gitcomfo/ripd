@@ -1,7 +1,5 @@
 <?php
 error_reporting(0);
-include 'ConnectDB.inc';
-include_once 'MiscFunctions.php';
 
 echo "<table>";
 echo " <tr>
@@ -14,7 +12,6 @@ echo " <tr>
                             <span id='passcheck'></span></td>   
                     </tr>
                     <tr>                    
-                        <td colspan='2' style='text-align:center; ' ></br><input class='btn' style =' font-size: 12px; ' onclick='beforeSave();' type='submit' id='save' name='save' disabled value='সেভ' />
-                        <input class='btn' style =' font-size: 12px' type='reset' name='reset' value='রিসেট' /></td>                           
+                        <td colspan='2' style='text-align:center; ' ></br><input class='btn' style =' font-size: 12px; ' onclick='beforeSave();' type='submit' id='save' name='save' disabled value='সেভ' /></td>                           
                     </tr></table>";
 ?>
