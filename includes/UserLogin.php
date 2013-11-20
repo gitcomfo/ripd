@@ -35,9 +35,11 @@ function userLogin($Name, $Password)
                                 $db_account_status = $la_key['cfs_account_status'];
                                 $db_user_type = $la_key['user_type'];
                                 $db_account_number= $la_key['account_number'];
+                                $db_user_name = $la_key['user_name'];
                                 }
                         $_SESSION['success'] = "done";
                         $_SESSION['userIDUser'] = $db_idUser;
+                        $_SESSION['UserID']= $db_user_name;
                         $_SESSION['systemUser'] = "ripdSystem";
                         $_SESSION['userType'] = $db_user_type;
                         $_SESSION['accountNumber'] = $db_account_number;

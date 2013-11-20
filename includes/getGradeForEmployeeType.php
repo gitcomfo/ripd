@@ -55,9 +55,13 @@ elseif ($_GET['step']==3) {
 elseif($_GET['step'] == 4)
 {
 $g_onsid = $_GET['onsid'];
+$sel_ons = mysql_query("SELECT * FROM ons_relation WHERE idons_relation= $g_onsid");
+$onsrow = mysql_fetch_assoc($sel_ons);
+$db_onstype = $onsrow['catagory'];
+$db_onsid = $onsrow['add_ons_id'];
 
   echo  ": <select class='box' name='post' onchange='showTypeBox()'><option value=0> -সিলেক্ট করুন- </option>";
-    $sql_post= mysql_query("SELECT * FROM `post`, `post_in_ons` WHERE Post_idPost = 	idPost AND post_onsid = '$g_onsid' AND free_post > '0';");
+    $sql_post= mysql_query("SELECT * FROM `post`, `post_in_ons` WHERE Post_idPost = 	idPost AND post_onsid = '$db_onsid' AND post_onstype='$db_onstype' AND free_post > '0';");
     while($postrow = mysql_fetch_assoc($sql_post))
     {
         echo  "<option value=".$postrow['idpostinons'].">".$postrow['post_name']."</option>";

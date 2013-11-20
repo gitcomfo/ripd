@@ -142,7 +142,11 @@ if(isset($_POST['submit0']))
     
      $ownsql = "INSERT INTO ". $dbname .".`ons_deed` (`owner_name` ,`owner_address` ,`cell_number` ,`owner_email` ,`owner_photo` ,`owner_signature`  ,`expire_date` ,`scan_documents` ,`ons_relation_idons_relation`,`owner_fingerprint`) VALUES  ( '$own_name', '$own_add' , '$own_mbl' , '$own_mail'  , '$image_path' , '$sing_path'  , '$own_valid' , '$scan_path' , '$ons' , '$finger_path');";
      $ownreslt = mysql_query($ownsql) or exit('query failed: '.mysql_error());
-     if($ownreslt == 1)
+     // ****************** default insert into post_in_ons ***************************************
+     $ins_postinons = mysql_query("INSERT INTO post_in_ons (number_of_post, free_post, post_onstype, used_post, post_onsid, Post_idPost)
+                                                        VALUES (1, 1, 'office', 0, $off, 11)");
+     
+     if($ownreslt && $ins_postinons)
      {
          $msg = "অফিস তৈরি হয়েছে";
      }

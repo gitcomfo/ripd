@@ -19,7 +19,8 @@
                 <tbody>                    
                     <?php
                     $joinArray = implode(',', $arr_thanaID);
-                    $sql_officeTable = "SELECT * from cfs_user,employee,ons_relation,office WHERE idons_relation=emp_ons_id AND employee_type='employee' AND cfs_user_idUser= idUser AND user_type='employee' AND idOffice = add_ons_id AND add_ons_id = ANY(SELECT idOffice FROM office WHERE Thana_idThana IN ($joinArray))";
+                    $sql_officeTable = "SELECT * from cfs_user,employee,ons_relation,office WHERE idons_relation=emp_ons_id AND cfs_user_idUser= idUser 
+                                                    AND (user_type='employee' OR user_type='programmer' OR user_type='presenter' OR user_type='trainer') AND idOffice = add_ons_id AND add_ons_id = ANY(SELECT idOffice FROM office WHERE Thana_idThana IN ($joinArray))";
                     $rs = mysql_query($sql_officeTable);
                     //echo mysql_num_rows($rs);
                     while ($row_officeNcontact = mysql_fetch_array($rs)) {

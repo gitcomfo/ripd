@@ -17,7 +17,7 @@ function showPowerHeads()
 if($_POST['submit'])
         {
         $user_username = $_POST['user_username'];
-        $user_password = $_POST['user_password'];
+        $user_password = md5($_POST['user_password']);
         $account_name = $_POST['name'];
         $account_number = $_POST['acc_num'];
         $account_email = $_POST['email'];
