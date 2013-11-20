@@ -283,7 +283,7 @@ if (isset($_POST['submit1'])) {
     $n1 = count($m_children_age);
     for ($i1 = 0; $i1 < $n1; $i1++) {
         $sql_insert_malechild = "INSERT INTO `children` ( `children_age` ,`children_class` ,`type`,`Customer_account_idCustomer_account`) VALUES ('$m_children_age[$i1]', '$m_children_class[$i1]','M',$custAcid)";
-        $child_male = mysql_query($sql_insert_malechild) or exit('query failed: ' . mysql_error());
+        $child_male = mysql_query($sql_insert_malechild);
     }
     //female child
     $f_children_age = $_POST['f_children_age'];
@@ -292,7 +292,7 @@ if (isset($_POST['submit1'])) {
     $del_f_children = mysql_query("DELETE FROM children WHERE type='F' AND Customer_account_idCustomer_account=$custAcid");
     for ($i = 0; $i < $m; $i++) {
         $sql_insert_femalechild = "INSERT INTO " . $dbname . ".`children` ( `children_age` ,`children_class` ,`type`,`Customer_account_idCustomer_account`) VALUES ('$f_children_age[$i]', '$f_children_class[$i]','F','$custAcid');";
-        $child_female = mysql_query($sql_insert_femalechild) or exit('query failed: ' . mysql_error());
+        $child_female = mysql_query($sql_insert_femalechild);
     }
     
      //Current Address Infromation
@@ -317,7 +317,7 @@ if (isset($_POST['submit1'])) {
     {
     $sql_g_insert_current_address = mysql_query("INSERT INTO $dbname.address 
                                     (address_type, house, house_no, road, address_whom, post_code,Thana_idThana,  post_idpost, village_idvillage ,adrs_cepng_id)
-                                     VALUES ('Present', '$g_house', '$g_house_no', '$g_road',  'cust_prnt', '$g_post_code', '$g_Thana_idThana', '$g_Post_idPost', '$g_Village_idVillage','$custAcid')")or exit(mysql_error());
+                                     VALUES ('Present', '$g_house', '$g_house_no', '$g_road',  'cust_prnt', '$g_post_code', '$g_Thana_idThana', '$g_Post_idPost', '$g_Village_idVillage','$custAcid')");
     }
  else {
         echo $sql_g_insert_current_address = mysql_query("UPDATE address SET house ='$g_house', house_no='$g_house_no' , road='$g_road' ,  post_code='$g_post_code',Thana_idThana='$g_Thana_idThana',  post_idpost='$g_Post_idPost', village_idvillage='$g_Village_idVillage'
@@ -333,7 +333,7 @@ if (isset($_POST['submit1'])) {
     }
     else {
         $sql_gp_insert_present_address = mysql_query("UPDATE address SET  house ='$gp_house', house_no='$gp_house_no' , road='$gp_road' ,  post_code='$gp_post_code',Thana_idThana='$gp_Thana_idThana',  post_idpost='$gp_Post_idPost', village_idvillage='$gp_Village_idVillage'
-                                                                                    WHERE address_type='Permanent'  AND address_whom='cust_prnt' AND adrs_cepng_id='$custAcid'") or exit(mysql_error());
+                                                                                    WHERE address_type='Permanent'  AND address_whom='cust_prnt' AND adrs_cepng_id='$custAcid'");
     }
     if ($sql_update_customer && $child_male && $child_female && $sql_g_insert_current_address && $sql_gp_insert_present_address) {
         $msg = "তথ্য সংরক্ষিত হয়েছে";
@@ -372,20 +372,62 @@ elseif (isset($_POST['submit2'])) {
                     echo "Invalid file format.";
                     }
         }
-  echo $sql_sel_nominee = mysql_query("SELECT * FROM nominee WHERE idNominee = $nominee_id") or exit(mysql_error());
+$sql_sel_nominee = mysql_query("SELECT * FROM nominee WHERE idNominee = $nominee_id");
     if(mysql_num_rows($sql_sel_nominee) <1)
     {
         $sql_nominee = mysql_query("INSERT INTO $dbname.nominee(nominee_name, nominee_relation, nominee_mobile,
                                        nominee_email, nominee_national_ID, nominee_age, nominee_passport_ID, nominee_picture,cep_type, cep_nominee_id) 
                                        VALUES('$nominee_name','$nominee_relation','$nominee_mobile','$nominee_email','$nominee_national_ID',
                                        '$nominee_age','$nominee_passport_ID','$image_path','cust','$custAcid')");
+        $nominee_id = mysql_insert_id(); 
     }
      else   {$sql_nominee = mysql_query("UPDATE nominee SET nominee_name='$nominee_name', nominee_picture='$image_path', nominee_relation='$nominee_relation', 
                                                         nominee_mobile='$nominee_mobile', nominee_email='$nominee_email', nominee_national_ID='$nominee_national_ID', nominee_age='$nominee_age', 
                                                         nominee_passport_ID='$nominee_passport_ID' WHERE idNominee = $nominee_id"); }
-    // $nominee_id = mysql_insert_id(); //Contains the last inserted id (nominee_id)
+    
+     //Current Address Infromation
+    $n_Village_idVillage = $_POST['vilg_id'];
+    $n_Post_idPost = $_POST['post_id'];
+    $n_Thana_idThana = $_POST['thana_id'];
+    $n_house = $_POST['n_house'];
+    $n_house_no = $_POST['n_house_no'];
+    $n_road = $_POST['n_road'];
+    $n_post_code = $_POST['n_post_code'];
+    //Permanent Address information
+    $np_Village_idVillage = $_POST['vilg_id1'];
+    $np_Post_idPost = $_POST['post_id1'];
+    $np_Thana_idThana = $_POST['thana_id1'];
+    $np_house = $_POST['np_house'];
+    $np_house_no = $_POST['np_house_no'];
+    $np_road = $_POST['np_road'];
+    $np_post_code = $_POST['np_post_code'];
+    //nominee address_type=Present
+     $sql_n_sel_present_adrs= mysql_query("SELECT * FROM address WHERE adrs_cepng_id=$nominee_id AND address_whom='nmn' AND address_type='Present' ");
+    if(mysql_num_rows($sql_n_sel_present_adrs) < 1)
+    {
+        $sql_n_insert_current_address = mysql_query("INSERT INTO address 
+                                    (address_type, house, house_no,road, address_whom, post_code,Thana_idThana,  post_idpost, village_idvillage ,adrs_cepng_id)
+                                     VALUES ('Present', '$n_house', '$n_house_no', '$n_road', 'nmn', '$n_post_code', '$n_Thana_idThana', '$n_Post_idPost', '$n_Village_idVillage','$nominee_id')");
+    }
+    else {
+        $sql_n_insert_current_address = mysql_query("UPDATE address 
+                                                                    SET house='$n_house', house_no='$n_house_no', road='$n_road', post_code='$n_post_code',Thana_idThana='$n_Thana_idThana', post_idpost='$n_Post_idPost', village_idvillage='$n_Village_idVillage'  
+                                                                    WHERE adrs_cepng_id=$nominee_id AND address_whom='nmn' AND address_type='Present' ");}
+    //nominee address_type=Permanent
+    $sql_n_sel_permanent_adrs= mysql_query("SELECT * FROM address WHERE adrs_cepng_id=$nominee_id AND address_whom='nmn' AND address_type='Permanent' ");
+    if(mysql_num_rows($sql_n_sel_permanent_adrs)<1)
+    {
+         $sql_np_insert_permanent_address = mysql_query("INSERT INTO address 
+                                    (address_type, house, house_no, road, address_whom,post_code,Thana_idThana,  post_idpost, village_idvillage ,adrs_cepng_id)
+                                     VALUES ('Permanent', '$np_house', '$np_house_no','$np_road', 'nmn',  '$np_post_code','$np_Thana_idThana','$np_Post_idPost', '$np_Village_idVillage','$nominee_id')");
+    }
+    else {
+        $sql_n_insert_permanent_address = mysql_query("UPDATE address 
+                                                                    SET house='$np_house', house_no='$np_house_no', road='$np_road', post_code='$np_post_code',Thana_idThana='$np_Thana_idThana', post_idpost='$np_Post_idPost', village_idvillage='$np_Village_idVillage'  
+                                                                    WHERE adrs_cepng_id=$nominee_id AND address_whom='nmn' AND address_type='Permanent' ");
+    }    
 
-    if ($sql_nominee) {
+    if ($sql_nominee && $sql_n_insert_current_address && $sql_np_insert_permanent_address) {
         $msg = "তথ্য সংরক্ষিত হয়েছে";
     } else {
         $msg = "ভুল হয়েছে";
@@ -403,7 +445,7 @@ elseif (isset($_POST['submit3'])) {
     for ($i = 0; $i < $a; $i++) {
         $sql_insert_cus_edu = "INSERT INTO " . $dbname . ".`education` ( `exam_name` ,`passing_year` ,`institute_name`,`board`,`gpa`,`education_type`,`cepn_id`) 
                                             VALUES ('$c_ex_name[$i]', '$c_pass_year[$i]','$c_institute[$i]','$c_board[$i]','$c_gpa[$i]','cust','$custAcid');";
-        $cus_edu = mysql_query($sql_insert_cus_edu) or exit('query failed: ' . mysql_error());
+        $cus_edu = mysql_query($sql_insert_cus_edu);
     }
     //nominee education
     $sel_nominee = mysql_query("SELECT * FROM nominee WHERE cep_nominee_id= $custAcid AND cep_type='cust'");
@@ -419,7 +461,7 @@ elseif (isset($_POST['submit3'])) {
     for ($i = 0; $i < $b; $i++) {
         $sql_insert_nom_edu = "INSERT INTO " . $dbname . ".`education` ( `exam_name` ,`passing_year` ,`institute_name`,`board`,`gpa`,`education_type`,`cepn_id`) 
                                                 VALUES ('$n_ex_name[$i]', '$n_pass_year[$i]','$n_institute[$i]','$n_board[$i]','$n_gpa[$i]','nmn','$db_nomID');";
-        $nom_edu = mysql_query($sql_insert_nom_edu) or exit('query failed: ' . mysql_error());
+        $nom_edu = mysql_query($sql_insert_nom_edu);
     }
     if ($cus_edu || $nom_edu) {
         $msg = "তথ্য সংরক্ষিত হয়েছে";
@@ -429,57 +471,43 @@ elseif (isset($_POST['submit3'])) {
 } 
 elseif (isset($_POST['submit4'])) {
     //Current Address Infromation
-    $c_Village_idVillage = $_POST['village_id1'];
-    $c_Post_idPost = $_POST['post_id1'];
-    $c_Thana_idThana = $_POST['thana_id1'];
+    $c_Village_idVillage = $_POST['vilg_id'];
+    $c_Post_idPost = $_POST['post_id'];
+    $c_Thana_idThana = $_POST['thana_id'];
     $c_house = $_POST['c_house'];
     $c_house_no = $_POST['c_house_no'];
     $c_road = $_POST['c_road'];
     $c_post_code = $_POST['c_post_code'];
     //Permanent Address information
-    $cp_Village_idVillage = $_POST['village_id2'];
-    $cp_Post_idPost = $_POST['post_id2'];
-    $cp_Thana_idThana = $_POST['thana_id2'];
+    $cp_Village_idVillage = $_POST['vilg_id1'];
+    $cp_Post_idPost = $_POST['post_id1'];
+    $cp_Thana_idThana = $_POST['thana_id1'];
     $cp_house = $_POST['cp_house'];
     $cp_house_no = $_POST['cp_house_no'];
     $cp_road = $_POST['cp_road'];
     $cp_post_code = $_POST['cp_post_code'];
    
-    //Current Address Infromation
-    $n_Village_idVillage = $_POST['village_id5'];
-    $n_Post_idPost = $_POST['post_id5'];
-    $n_Thana_idThana = $_POST['thana_id5'];
-    $n_house = $_POST['n_house'];
-    $n_house_no = $_POST['n_house_no'];
-    $n_road = $_POST['n_road'];
-    $n_post_code = $_POST['n_post_code'];
-    //Permanent Address information
-    $np_Village_idVillage = $_POST['village_id6'];
-    $np_Post_idPost = $_POST['post_id6'];
-    $np_Thana_idThana = $_POST['thana_id6'];
-    $np_house = $_POST['np_house'];
-    $np_house_no = $_POST['np_house_no'];
-    $np_road = $_POST['np_road'];
-    $np_post_code = $_POST['np_post_code'];
     //customer address_type=Present
+    $sql_sel_present_adrs= mysql_query("SELECT * FROM address WHERE adrs_cepng_id=$custAcid AND address_whom='cust' AND address_type='Present' ");
+    if(mysql_num_rows($sql_sel_present_adrs)<1)
+    {
     $sql_c_insert_current_address = mysql_query("INSERT INTO $dbname.address 
                                     (address_type, house, house_no, road, address_whom, post_code,Thana_idThana, post_idpost, village_idvillage ,adrs_cepng_id)
                                      VALUES ('Present', '$c_house', '$c_house_no', '$c_road', 'cust', '$c_post_code','$c_Thana_idThana','$c_Post_idPost', '$c_Village_idVillage', '$custAcid')");
-    //customer address_type=Permanent
+    }
+    else {$sql_c_insert_current_address = mysql_query("UPDATE address 
+                                                                    SET house='$c_house', house_no='$c_house_no', road='$c_road', post_code='$c_post_code',Thana_idThana='$c_Thana_idThana', post_idpost='$c_Post_idPost', village_idvillage='$c_Village_idVillage'  WHERE adrs_cepng_id=$custAcid AND address_whom='cust' AND address_type='Present' ");}
+//customer address_type=Permanent
+   $sql_sel_permanent_adrs= mysql_query("SELECT * FROM address WHERE adrs_cepng_id=$custAcid AND address_whom='cust' AND address_type='Permanent' ");
+    if(mysql_num_rows($sql_sel_permanent_adrs)<1)
+    {
     $sql_cp_insert_permanent_address = mysql_query("INSERT INTO $dbname.address 
                                     (address_type, house, house_no, road, address_whom, post_code,Thana_idThana,  post_idpost, village_idvillage ,adrs_cepng_id)
                                      VALUES ('Permanent', '$cp_house', '$cp_house_no', '$cp_road', 'cust', '$cp_post_code','$cp_Thana_idThana', '$cp_Post_idPost', '$cp_Village_idVillage', '$custAcid')");
-    
-    //nominee address_type=Present
-    $sql_n_insert_current_address = mysql_query("INSERT INTO $dbname.address 
-                                    (address_type, house, house_no,road, address_whom, post_code,Thana_idThana,  post_idpost, village_idvillage ,adrs_cepng_id)
-                                     VALUES ('Present', '$n_house', '$n_house_no', '$n_road', 'nmn', '$n_post_code', '$n_Thana_idThana', '$n_Post_idPost', '$n_Village_idVillage','$custAcid')");
-    //nominee address_type=Permanent
-    $sql_np_insert_present_address = mysql_query("INSERT INTO $dbname.address 
-                                    (address_type, house, house_no, road, address_whom,post_code,Thana_idThana,  post_idpost, village_idvillage ,adrs_cepng_id)
-                                     VALUES ('Permanent', '$np_house', '$np_house_no','$np_road', 'nmn',  '$np_post_code','$np_Thana_idThana','$np_Post_idPost', '$np_Village_idVillage','$custAcid')");
-
-    if ($sql_c_insert_current_address || $sql_cp_insert_permanent_address || $sql_g_insert_current_address || $sql_gp_insert_present_address || $sql_n_insert_current_address || $sql_np_insert_present_address) {
+    }
+    else {$sql_cp_insert_permanent_address = mysql_query("UPDATE address 
+                                                                         SET house='$cp_house', house_no='$cp_house_no', road='$cp_road', post_code='$cp_post_code',Thana_idThana='$cp_Thana_idThana', post_idpost='$cp_Post_idPost', village_idvillage='$cp_Village_idVillage'  WHERE adrs_cepng_id=$custAcid AND address_whom='cust' AND address_type ='Permanent' "); }
+    if ($sql_c_insert_current_address && $sql_cp_insert_permanent_address ) {
         $msg = "তথ্য সংরক্ষিত হয়েছে";
     } else {
         $msg = "ভুল হয়েছে";
@@ -565,32 +593,32 @@ elseif (isset($_POST['submit5'])) {
       $db_custGurdPic = $custrow['cust_gurd_scanpic'];
       $gurdPicname = end(explode("-", $db_custGurdPic));
      
-//     $sql_cust_adrs_sel = mysql_query("SELECT * FROM address, division, district, thana, post_office, village WHERE address_whom='emp' AND adrs_cepng_id=$employeeID AND address_type='Present'
-//                                                                    AND village_idvillage=idvillage AND post_idpost=idPost_office AND idDivision = Division_idDivision AND idDistrict= District_idDistrict AND idThana=address.Thana_idThana");
-//     $presentAddrow = mysql_fetch_assoc($sql_cust_adrs_sel);
-//     $preHouse = $presentAddrow['house'];
-//     $preHouseNo = $presentAddrow['house_no'];
-//     $preRode = $presentAddrow['road'];
-//     $prePostCode = $presentAddrow['post_code'];
-//     $prePostID = $presentAddrow['idPost_office'];
-//     $preVilID = $presentAddrow['idvillage'];
-//     $preThanaID = $presentAddrow['idThana'];
-//     $preDisID = $presentAddrow['idDistrict'];
-//     $preDivID = $presentAddrow['idDivision'];
-//          
-//     $sql_cust_Padrs_sel = mysql_query("SELECT * FROM address, division, district, thana, post_office, village WHERE address_whom='emp' AND adrs_cepng_id=$employeeID AND address_type='Permanent'
-//                                                                    AND village_idvillage=idvillage AND post_idpost=idPost_office AND idDivision = Division_idDivision AND idDistrict= District_idDistrict AND idThana=address.Thana_idThana");
-//     $permenentAddrow = mysql_fetch_assoc($sql_cust_Padrs_sel);
-//     $perHouse = $permenentAddrow['house'];
-//     $perHouseNo = $permenentAddrow['house_no'];
-//     $perRode = $permenentAddrow['road'];
-//     $perPostCode = $permenentAddrow['post_code'];
-//     $perPostID = $permenentAddrow['idPost_office'];
-//     $perVilID = $permenentAddrow['idvillage'];
-//     $perThanaID = $permenentAddrow['idThana'];
-//     $perDisID = $permenentAddrow['idDistrict'];
-//     $perDivID = $permenentAddrow['idDivision'];
-//
+     $sql_cust_adrs_sel = mysql_query("SELECT * FROM address, division, district, thana, post_office, village WHERE address_whom='cust' AND adrs_cepng_id=$custAcid AND address_type='Present'
+                                                                    AND village_idvillage=idvillage AND post_idpost=idPost_office AND idDivision = Division_idDivision AND idDistrict= District_idDistrict AND idThana=address.Thana_idThana");
+     $presentAddrow = mysql_fetch_assoc($sql_cust_adrs_sel);
+     $preHouse = $presentAddrow['house'];
+     $preHouseNo = $presentAddrow['house_no'];
+     $preRode = $presentAddrow['road'];
+     $prePostCode = $presentAddrow['post_code'];
+     $prePostID = $presentAddrow['idPost_office'];
+     $preVilID = $presentAddrow['idvillage'];
+     $preThanaID = $presentAddrow['idThana'];
+     $preDisID = $presentAddrow['idDistrict'];
+     $preDivID = $presentAddrow['idDivision'];
+          
+     $sql_cust_Padrs_sel = mysql_query("SELECT * FROM address, division, district, thana, post_office, village WHERE address_whom='cust' AND adrs_cepng_id=$custAcid AND address_type='Permanent'
+                                                                    AND village_idvillage=idvillage AND post_idpost=idPost_office AND idDivision = Division_idDivision AND idDistrict= District_idDistrict AND idThana=address.Thana_idThana");
+     $permenentAddrow = mysql_fetch_assoc($sql_cust_Padrs_sel);
+     $perHouse = $permenentAddrow['house'];
+     $perHouseNo = $permenentAddrow['house_no'];
+     $perRode = $permenentAddrow['road'];
+     $perPostCode = $permenentAddrow['post_code'];
+     $perPostID = $permenentAddrow['idPost_office'];
+     $perVilID = $permenentAddrow['idvillage'];
+     $perThanaID = $permenentAddrow['idThana'];
+     $perDisID = $permenentAddrow['idDistrict'];
+     $perDivID = $permenentAddrow['idDivision'];
+
      $sql_custG_adrs_sel = mysql_query("SELECT * FROM address, division, district, thana, post_office, village WHERE address_whom='cust_prnt' AND adrs_cepng_id=$custAcid AND address_type='Present'
                                                                     AND village_idvillage=idvillage AND post_idpost=idPost_office AND idDivision = Division_idDivision AND idDistrict= District_idDistrict AND idThana=address.Thana_idThana");
      $gpresentAddrow = mysql_fetch_assoc($sql_custG_adrs_sel);
@@ -1128,27 +1156,27 @@ elseif (isset($_POST['submit5'])) {
                     </tr>
                     <tr>
                         <td  >বাড়ির নাম / ফ্ল্যাট নং</td>
-                        <td >: <input class="box" type="text" id="n_house" name="n_house" value="<?php echo $gprePostCode;?>"/></td>
+                        <td >: <input class="box" type="text" id="n_house" name="n_house" value="<?php echo $nompreHouse;?>"/></td>
                         <td  >বাড়ির নাম / ফ্ল্যাট নং</td>
-                        <td >: <input class="box" type="text" id="np_house" name="np_house" value="<?php echo $gprePostCode;?>"/></td>
+                        <td >: <input class="box" type="text" id="np_house" name="np_house" value="<?php echo $nomperHouse;?>"/></td>
                     </tr>
                     <tr>
                         <td  >বাড়ি নং</td>
-                        <td >: <input class="box" type="text" id="n_house_no" name="n_house_no" value="<?php echo $gprePostCode;?>"/></td>
+                        <td >: <input class="box" type="text" id="n_house_no" name="n_house_no" value="<?php echo $nompreHouseNo;?>"/></td>
                         <td >বাড়ি নং</td>
-                        <td>: <input class="box" type="text" id="np_house_no" name="np_house_no" value="<?php echo $gprePostCode;?>"/></td>
+                        <td>: <input class="box" type="text" id="np_house_no" name="np_house_no" value="<?php echo $nomperHouseNo;?>"/></td>
                     </tr>
                     <tr>
                         <td >রোড নং</td>
-                        <td>:   <input class="box" type="text" id="n_road" name="n_road" value="<?php echo $gprePostCode;?>"/> </td>
+                        <td>:   <input class="box" type="text" id="n_road" name="n_road" value="<?php echo $nompreRode;?>"/> </td>
                         <td >রোড নং</td>
-                        <td>:   <input class="box" type="text" id="np_road" name="np_road" value="<?php echo $gprePostCode;?>"/></td>
+                        <td>:   <input class="box" type="text" id="np_road" name="np_road" value="<?php echo $nomperRode;?>"/></td>
                     </tr>
                     <tr>
                         <td >পোষ্ট কোড</td>
-                        <td>:   <input class="box" type="text" id="n_post_code" name="n_post_code" value="<?php echo $gprePostCode;?>"/></td>
+                        <td>:   <input class="box" type="text" id="n_post_code" name="n_post_code" value="<?php echo $nomprePostCode;?>"/></td>
                         <td >পোষ্ট কোড</td>
-                        <td>:   <input class="box" type="text" id="np_post_code" name="np_post_code" value="<?php echo $gprePostCode;?>"/></td>
+                        <td>:   <input class="box" type="text" id="np_post_code" name="np_post_code" value="<?php echo $nomperPostCode;?>"/></td>
                     </tr>
                     <tr>
                         <td colspan="2"><?php getArea($nompreDivID,$nompreDisID,$nompreThanaID,$nomprePostID,$nompreVilID); ?></td>
@@ -1248,12 +1276,8 @@ elseif (isset($_POST['submit5'])) {
             <h2><a name="05" id="05"></a></h2><br/>
             <form method="POST" onsubmit="" action="">
                 <table class="formstyle" style=" width: 90%; padding-left: 15px; padding-top: 5px; padding-bottom: 8px;" >   
-                    <tr><td colspan="4" ></td></tr>
-                    <tr>	
-                        <td  colspan="2" style =" padding-left: 320px; font-size: 15px"><b>কাস্টমারের ঠিকানা</b></td>                            
-                    </tr>
-                    <tr>
-                        <td colspan="4" ><hr /></td>
+                     <tr>	
+                        <td  colspan="4" style =" padding-left: 320px; font-size: 15px"><b><u>কাস্টমারের ঠিকানা</u></b></td>                            
                     </tr>
                     <tr>	
                         <td  colspan="2" style =" font-size: 14px"><b>বর্তমান ঠিকানা </b></td>                            
@@ -1261,77 +1285,31 @@ elseif (isset($_POST['submit5'])) {
                     </tr>
                     <tr>
                         <td  >বাড়ির নাম / ফ্ল্যাট নং</td>
-                        <td >:   <input class="box" type="text" id="c_house" name="c_house" /></td>
+                        <td >:   <input class="box" type="text" id="c_house" name="c_house" value="<?php echo $preHouse;?>"/></td>
                         <td  >বাড়ির নাম / ফ্ল্যাট নং</td>
-                        <td >:   <input class="box" type="text" id="cp_house" name="cp_house" /></td>
+                        <td >:   <input class="box" type="text" id="cp_house" name="cp_house" value="<?php echo $perHouse;?>"/></td>
                     </tr>
                     <tr>
                         <td  >বাড়ি নং</td>
-                        <td >:   <input class="box" type="text" id="c_house_no" name="c_house_no" /></td>
+                        <td >:   <input class="box" type="text" id="c_house_no" name="c_house_no" value="<?php echo $preHouseNo;?>"/></td>
                         <td >বাড়ি নং</td>
-                        <td>:   <input class="box" type="text" id="cp_house_no" name="cp_house_no" /></td>
+                        <td>:   <input class="box" type="text" id="cp_house_no" name="cp_house_no" value="<?php echo $perHouseNo;?>"/></td>
                     </tr>
                     <tr>
                         <td >রোড নং</td>
-                        <td>:   <input class="box" type="text" id="c_road" name="c_road" /> </td>
+                        <td>:   <input class="box" type="text" id="c_road" name="c_road" value="<?php echo $preRode;?>"/> </td>
                         <td >রোড নং</td>
-                        <td>:   <input class="box" type="text" id="cp_road" name="cp_road" /></td>
+                        <td>:   <input class="box" type="text" id="cp_road" name="cp_road" value="<?php echo $perRode;?>"/></td>
                     </tr>
                     <tr>
                         <td >পোষ্ট কোড</td>
-                        <td>:   <input class="box" type="text" id="c_post_code" name="c_post_code" /></td>
+                        <td>:   <input class="box" type="text" id="c_post_code" name="c_post_code" value="<?php echo $prePostCode;?>"/></td>
                         <td >পোষ্ট কোড</td>
-                        <td>:   <input class="box" type="text" id="cp_post_code" name="cp_post_code" /></td>
+                        <td>:   <input class="box" type="text" id="cp_post_code" name="cp_post_code" value="<?php echo $perPostCode;?>"/></td>
                     </tr> 
                     <tr>
-                        <td >বিভাগ</td>
-                        <td>:  <select class="box2" type="text" id="division_id_1" name="c_division_name" onChange="getDistrict1()" />
-                            <option value=1>-বিভাগ-</option>
-                            <?php
-                            $division_sql = mysql_query("SELECT * FROM " . $dbname . ".division ORDER BY division_name ASC");
-                            while ($division_rows = mysql_fetch_array($division_sql)) {
-                                $db_division_id = $division_rows['idDivision'];
-                                $db_division_name = $division_rows['division_name'];
-                                echo'<option style="width: 96%" value=' . $db_division_id . '>' . $db_division_name . '</option>';
-                            }
-                            ?>
-                            </select></td>                                
-                        <td >বিভাগ</td>
-                        <td>:  <select class="box2" type="text" id="division_id_2" name="p_division_name" onChange="getDistrict2()" />
-                            <option value=1>-বিভাগ-</option>
-                            <?php
-                            $division_sql = mysql_query("SELECT * FROM " . $dbname . ".division ORDER BY division_name ASC");
-                            while ($division_rows = mysql_fetch_array($division_sql)) {
-                                $db_division_id = $division_rows['idDivision'];
-                                $db_division_name = $division_rows['division_name'];
-                                echo'<option style="width: 96%" value=' . $db_division_id . '>' . $db_division_name . '</option>';
-                            }
-                            ?>
-                            </select></td>
-                    </tr>
-                    <tr>
-                        <td >জেলা</td>
-                        <td>: <span id="did"></span></td>
-                        <td >জেলা</td>
-                        <td>: <span id="did2"></span></td>
-                    </tr>                        
-                    <tr>
-                        <td>উপজেলা / থানা</td>
-                        <td>: <span id="tidd"></span></td>      
-                        <td>উপজেলা / থানা</td>
-                        <td>: <span id="tidd2"></span></td>
-                    </tr>
-                    <tr>
-                        <td >পোষ্ট অফিস</td>
-                        <td>: <span id="pidd"></span></td> 
-                        <td >পোষ্ট অফিস</td>
-                        <td>: <span id="pidd2"></span></td> 
-                    </tr>
-                    <tr>
-                        <td  >গ্রাম</td>
-                        <td>: <span id="vidd"></span></td> 
-                        <td >গ্রাম </td>
-                        <td>: <span id="vidd2"></span></td> 
+                        <td colspan="2"><?php getArea($preDivID,$preDisID,$preThanaID,$prePostID,$preVilID); ?></td>
+                        <td colspan="2"><?php getArea2($perDivID,$perDisID,$perThanaID,$perPostID,$perVilID); ?></td>
                     </tr>
                     <tr>                    
                         <td colspan="4" style="padding-left: 250px; " ><input class="btn" style =" font-size: 12px; " type="submit" name="submit4" value="সেভ করুন" />
