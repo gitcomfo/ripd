@@ -42,10 +42,7 @@ if (isset($_POST['submit1'])) {
     $employee_occupation = $_POST['employee_occupation'];
     $employee_religion = $_POST['employee_religion'];
     $employee_natonality = $_POST['employee_natonality'];
-    $dob_day = $_POST['date'];
-    $dob_month = $_POST['month'];
-    $dob_year = $_POST['year'];
-    $dob = $dob_year . "-" . $dob_month . "-" . $dob_day; //Concating different strings of date written in php function
+    $dob = $_POST['dob'];
     $employee_national_ID = $_POST['employee_national_ID'];
     $employee_passport = $_POST['employee_passport'];
     $employee_birth_certificate_No = $_POST['employee_birth_certificate_No'];
@@ -297,7 +294,7 @@ if (isset($_POST['submit1'])) {
                         <td >দম্পতির নাম  </td>
                         <td>:  <input class="box" type="text" id="employee_spouseName" name="employee_spouseName" /> </td>	
                         <td font-weight="bold" > টিপসই</td>
-                        <td >:   <input class="box5" type="file" id="scanDoc_finger_print" name="scanDoc_finger_print" style="font-size:10px;"/> </td> 		
+                        <td >:   <input class="box" type="file" id="scanDoc_finger_print" name="scanDoc_finger_print" style="font-size:10px;"/> </td> 		
                     </tr>
                     <tr>
                         <td >পেশা</td>
@@ -312,41 +309,7 @@ if (isset($_POST['submit1'])) {
                         <td>:  <input class="box" type="text" id="employee_natonality" name="employee_natonality" /> </td>			
                     </tr>
                     <td>জন্মতারিখ</td>
-                    <td >:   <select  class="box"  name="date" style =" font-size: 11px">
-                            <option >দিন</option>
-                            <?php
-                            for ($i = 1; $i <= 31; $i++) {
-                                $date = english2bangla($i);
-                                echo "<option value=$i>" . $date . "</option>";
-                            }
-                            ?>
-                        </select>				
-
-                        <select class="box" name="month" style =" font-size: 11px">
-                            <option >মাস</option>
-                            <option value="1">জানুয়ারি</option>
-                            <option value="2">ফেব্রুয়ারী</option>
-                            <option value="3">মার্চ</option>
-                            <option value="4">এপ্রিল </option>
-                            <option value="5">মে</option>
-                            <option value="6">জুন</option>
-                            <option value="7">জুলাই</option>
-                            <option value="8">আগষ্ট</option>
-                            <option value="9">সেপ্টেম্বর</option>
-                            <option value="10">অক্টোবর </option>
-                            <option value="11">নভেম্বর</option>
-                            <option value="12">ডিসেম্বর</option> 
-                        </select>
-
-                        <select class="box" id="year" name="year" style =" font-size: 11px" >
-                            <option>বছর </option>
-                            <?php
-                            for ($i = 2020; $i >= 1900; $i--) {
-                                $year = english2bangla($i);
-                                echo "<option value=$i>" . $year . "</option>";
-                            }
-                            ?>
-                        </select>
+                    <td >: <input class="box" type="date" name="dob"/>
                     </td>			
                     </tr>                     
                     <td >জাতীয় পরিচয়পত্র নং</td>
