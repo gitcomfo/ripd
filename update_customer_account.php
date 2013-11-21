@@ -26,13 +26,13 @@ for ($i = 4; $i <= 30; $i++) {
     echo "<option value='$age'>" . $age . "</option>";
 }
 ?></select> </td> \n\
-                <td style= 'padding-left: 62px;' >  <select class='box2' name='m_children_class[]' style ='font-size: 11px'><option>একটি নির্বাচন করুন</option> \n\
+                <td style= 'padding-left: 95px;' >  <select class='box2' name='m_children_class[]' style ='font-size: 11px'><option>একটি নির্বাচন করুন</option> \n\
 <?php
 for ($i = 0; $i <= 18; $i++) {
     $class = number($i);
     echo "<option value='$class'>" . $class . "</option>";
 }
-?></select> </td><td style= 'padding-left: 23px;'><input type='button' class='del' /></td><td>&nbsp;<input type='button' class='add' /></td>"+count1
+?></select> </td><td style= 'padding-left: 60px;'><input type='button' class='del' /></td><td>&nbsp;&nbsp;&nbsp;&nbsp;<input type='button' class='add' /></td>"+count1
             "</tr>";
             $("#container_others30:last").after(appendTxt);
             
@@ -53,13 +53,13 @@ for ($i = 4; $i <= 30; $i++) {
     echo "<option value='$age'>" . $age . "</option>";
 }
 ?></select> </td> \n\
-                <td style= 'padding-left: 62px;'>  <select class='box2' name='f_children_class[]' style ='font-size: 11px'><option>একটি নির্বাচন করুন</option> \n\
+                <td style= 'padding-left: 115px;'>  <select class='box2' name='f_children_class[]' style ='font-size: 11px'><option>একটি নির্বাচন করুন</option> \n\
 <?php
 for ($i = 0; $i <= 18; $i++) {
     $class = number($i);
     echo "<option value='$class'>" . $class . "</option>";
 }
-?></select> </td><td style= 'padding-left: 23px;'><input type='button' class='del1' /></td><td>&nbsp;<input type='button' class='add1' /></td></tr>";
+?></select> </td><td style= 'padding-left: 35px;'><input type='button' class='del1' /></td><td>&nbsp;&nbsp;&nbsp;&nbsp;<input type='button' class='add1' /></td></tr>";
             $("#container_others31:last").after(appendTxt);           
         }  
         count2 = count2 + 1;        
@@ -766,7 +766,7 @@ elseif (isset($_POST['submit5'])) {
         <div>
             <h2><a name="02" id="02"></a></h2><br/>
             <form method="POST" onsubmit="" enctype="multipart/form-data" action="" id="cust_form" name="cust_form">	
-                <table class="formstyle" style=" width: 90%; padding-left: 15px; padding-top: 5px;padding-bottom: 8px;" >            
+                <table class="formstyle" style=" width: 95%; padding-left: 15px; padding-top: 5px;padding-bottom: 8px;" >            
                <tr><td colspan="4" ></td></tr>
                     <tr>
                         <td >পেশা</td>
@@ -788,32 +788,32 @@ elseif (isset($_POST['submit5'])) {
                         <td >জন্ম সনদ নং</td>
                         <td>:   <input class="box" type="text" id="birth_certificate_no" name="birth_certificate_no" value="<?php echo $db_custDOBID;?>"/></td>
                         <td  font-weight="bold" >জন্ম সনদ </td>
-                        <td>: <img src="<?php echo $db_custDOBC;?>" width="80px" height="80px"/><input type="hidden" name="DOBCname" value="<?php echo $DOBCname;?>"/> &nbsp;<input class="box" type="file" id="scanDoc_birth_certificate" name="scanDoc_birth_certificate" style="font-size:10px;"/></td> 
+                        <td>: <img src="<?php echo $db_custDOBC;?>" width="80px" height="80px"/> <input class="box5" type="file" id="scanDoc_birth_certificate" name="scanDoc_birth_certificate" style="font-size:10px;"/><input type="hidden" name="DOBCname" value="<?php echo $DOBCname;?>"/> </td> 
                         
                     </tr>                
                     <tr>
                         <td >জাতীয় পরিচয়পত্র নং</td>
                         <td>:   <input class="box" type="text" id="cust_nationalID_no" name="cust_nationalID_no" value="<?php echo $db_custNID;?>"/></td>
                         <td style="width: 100px;" font-weight="bold" > জাতীয় পরিচয়পত্র</td>
-                        <td >: <img src="<?php echo $db_custNIDC;?>" width="80px" height="80px"/><input type="hidden" name="NIDCname" value="<?php echo $NIDCname;?>"/> &nbsp;<input class="box" type="file" id="scanDoc_national_id" name="scanDoc_national_id" style="font-size:10px;"/> </td>
+                        <td >: <img src="<?php echo $db_custNIDC;?>" width="80px" height="80px"/><input type="hidden" name="NIDCname" value="<?php echo $NIDCname;?>"/> <input class="box5" type="file" id="scanDoc_national_id" name="scanDoc_national_id" style="font-size:10px;"/> </td>
                     </tr>
                     <tr>
                         <td >পাসপোর্ট আইডি নং</td>
                         <td>:    <input class="box" type="text" id="cust_passportID_no" name="cust_passportID_no" value="<?php echo $db_custPID;?>"/> </td>
                         <td  font-weight="bold" >চারিত্রিক সনদ</td>
-                        <td >: <img src="<?php echo $db_custCC;?>" width="80px" height="80px"/><input type="hidden" name="CCname" value="<?php echo $CCname;?>"/> &nbsp;<input class="box" type="file" id="scanDoc_chairman_certificate" name="scanDoc_chairman_certificate" style="font-size:10px;"/></td>
+                        <td >: <img src="<?php echo $db_custCC;?>" width="80px" height="80px"/><input type="hidden" name="CCname" value="<?php echo $CCname;?>"/> <input class="box5" type="file" id="scanDoc_chairman_certificate" name="scanDoc_chairman_certificate" style="font-size:10px;"/></td>
                     </tr>      
                     <tr>  
                         <td font-weight="bold" >ছবি </td>
-                        <td>: <img src="<?php echo $db_custPic;?>" width="80px" height="80px"/><input type="hidden" name="imagename" value="<?php echo $picname;?>"/> &nbsp;<input class="box" type="file" id="image" name="image" style="font-size:10px;" /></td>             
+                        <td>: <img src="<?php echo $db_custPic;?>" width="80px" height="80px"/><input type="hidden" name="imagename" value="<?php echo $picname;?>"/> &nbsp;<input class="box5" type="file" id="image" name="image" style="font-size:10px;" /></td>             
                     </tr>
                     <tr>  
                         <td font-weight="bold" >স্বাক্ষর</td>
-                        <td >: <img src="<?php echo $db_custSig;?>" width="80px" height="80px"/><input type="hidden" name="signname" value="<?php echo $signname;?>"/> &nbsp;<input class="box" type="file" id="scanDoc_signature" name="scanDoc_signature" style="font-size:10px;" /> </td>                  
+                        <td >: <img src="<?php echo $db_custSig;?>" width="80px" height="80px"/><input type="hidden" name="signname" value="<?php echo $signname;?>"/> &nbsp;<input class="box5" type="file" id="scanDoc_signature" name="scanDoc_signature" style="font-size:10px;" /> </td>                  
                     </tr>
                     <tr>	        
                         <td font-weight="bold" > টিপসই</td>
-                        <td >: <img src="<?php echo $db_custFP;?>" width="80px" height="80px"/><input type="hidden" name="fingername" value="<?php echo $fingername;?>"/> &nbsp;<input class="box" type="file" id="scanDoc_finger_print" name="scanDoc_finger_print" style="font-size:10px;" /> </td>       
+                        <td >: <img src="<?php echo $db_custFP;?>" width="80px" height="80px"/><input type="hidden" name="fingername" value="<?php echo $fingername;?>"/> &nbsp;<input class="box5" type="file" id="scanDoc_finger_print" name="scanDoc_finger_print" style="font-size:10px;" /> </td>       
                     </tr>
                     <tr>
                         <td colspan="4" ><hr /></td>
@@ -1055,7 +1055,7 @@ elseif (isset($_POST['submit5'])) {
                     </tr>                   
                     <tr>     
                         <td   font-weight="bold" > ছবি </td>
-                        <td> : <img src="<?php echo $db_custGurdPic;?>" width="80px" height="80px"/><input type="hidden" name="gurdimagename" value="<?php echo $gurdPicname;?>"/> &nbsp;<input class="box" type="file" id="cust_gurd_scanpic" name="cust_gurd_scanpic" style="font-size:10px;"/>
+                        <td> : <img src="<?php echo $db_custGurdPic;?>" width="80px" height="80px"/><input type="hidden" name="gurdimagename" value="<?php echo $gurdPicname;?>"/> <input class="box5" type="file" id="cust_gurd_scanpic" name="cust_gurd_scanpic" style="font-size:10px;"/>
                         </td>             
                     </tr>
                     <tr>
@@ -1144,7 +1144,7 @@ elseif (isset($_POST['submit5'])) {
                     </tr>                     
                     <tr>
                         <td  font-weight="bold" >ছবি </td>
-                        <td >: <img src="<?php echo $db_nomPic;?>" width="80px" height="80px"/><input type="hidden" name="nomimagename" value="<?php echo $nompicName;?>"/> &nbsp;<input class="box" type="file" id="nominee_picture" name="nominee_picture" style="font-size:10px;"/></td>
+                        <td >: <img src="<?php echo $db_nomPic;?>" width="80px" height="80px"/><input type="hidden" name="nomimagename" value="<?php echo $nompicName;?>"/> <input class="box5" type="file" id="nominee_picture" name="nominee_picture" style="font-size:10px;"/></td>
                     </tr>
                     <tr><td colspan="4" ><hr /></td></tr> 
                     <tr>	

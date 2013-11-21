@@ -29,6 +29,23 @@ $showAccountType  = $arrayAccountType[$input];
         xmlhttp.open("GET","includes/updateEmpFromOffThana.php?dsd="+district_id+"&dvd="+division_id+"&ttid="+thana_id,true);
         xmlhttp.send();
     }
+function infoFromThana2()
+    {
+        var xmlhttp;
+        if (window.XMLHttpRequest) xmlhttp=new XMLHttpRequest();
+        else xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        xmlhttp.onreadystatechange=function()
+        {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200) 
+                document.getElementById('office').innerHTML=xmlhttp.responseText;
+        }
+        var division_id, district_id, thana_id;
+        division_id = document.getElementById('division_id').value;
+        district_id = document.getElementById('district_id').value;
+        thana_id = document.getElementById('thana_id').value;
+        xmlhttp.open("GET","includes/updateCustFromThana.php?dsd="+district_id+"&dvd="+division_id+"&ttid="+thana_id,true);
+        xmlhttp.send();
+    }
 </script>
 <div class="column6">
     <div class="main_text_box">      
@@ -48,15 +65,13 @@ $showAccountType  = $arrayAccountType[$input];
                     getArea("infoFromThana()");
                     ?>
 <input type="hidden" id="method" value="infoFromThana()">
-    সার্চ/খুঁজুন:  <input type="text" id="search_box_filter">
                 <?php }?>
     <?php
                 if($input=='customer') {
                     include_once 'includes/areaSearch.php';
-                    getArea("infoFromThana()");
+                    getArea("infoFromThana2()");
                     ?>
-<input type="hidden" id="method" value="infoFromThana()">
-    সার্চ/খুঁজুন:  <input type="text" id="search_box_filter">
+<input type="hidden" id="method" value="infoFromThana2()">
                 <?php }?>
     <span id="office">
         <br/><br />

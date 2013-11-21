@@ -398,9 +398,9 @@ if (isset($_POST['submit1'])) {
                         <td>: <span id="pidd2"></span></td> 
                     </tr>
                     <tr>
-                        <td  >গ্রাম</td>
+                        <td>গ্রাম / পাড়া / প্রোজেক্ট</td>
                         <td>: <span id="vidd"></span></td> 
-                        <td >গ্রাম </td>
+                        <td>গ্রাম / পাড়া / প্রোজেক্ট</td>
                         <td>: <span id="vidd2"></span></td> 
                     </tr>
                     <tr>                    
@@ -524,9 +524,9 @@ if (isset($_POST['submit1'])) {
                         <td>: <span id="pidd6"></span></td> 
                     </tr>
                     <tr>
-                        <td  >গ্রাম</td>
+                        <td>গ্রাম / পাড়া / প্রোজেক্ট</td>
                         <td>: <span id="vidd5"></span></td> 
-                        <td >গ্রাম </td>
+                        <td>গ্রাম / পাড়া / প্রোজেক্ট </td>
                         <td>: <span id="vidd6"></span></td> 
                     </tr>
                     <tr>                    

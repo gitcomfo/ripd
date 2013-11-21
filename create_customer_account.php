@@ -24,13 +24,13 @@ for ($i = 4; $i <= 30; $i++) {
     echo "<option value='$age'>" . $age . "</option>";
 }
 ?></select> </td> \n\
-                <td style= 'padding-left: 62px;' >  <select class='box2' name='m_children_class[]' style ='font-size: 11px'><option>একটি নির্বাচন করুন</option> \n\
+                <td style= 'padding-left: 97px;' ><select class='box2' name='m_children_class[]' style ='font-size: 11px'><option>একটি নির্বাচন করুন</option> \n\
 <?php
 for ($i = 0; $i <= 18; $i++) {
     $class = number($i);
     echo "<option value='$class'>" . $class . "</option>";
 }
-?></select> </td><td style= 'padding-left: 23px;'><input type='button' class='del' /></td><td>&nbsp;<input type='button' class='add' /></td>"+count1
+?></select> </td><td style= 'padding-left: 57px;'><input type='button' class='del' /></td><td>&nbsp;<input type='button' class='add' /></td>"+count1
             "</tr>";
             $("#container_others30:last").after(appendTxt);
             
@@ -51,13 +51,13 @@ for ($i = 4; $i <= 30; $i++) {
     echo "<option value='$age'>" . $age . "</option>";
 }
 ?></select> </td> \n\
-                <td style= 'padding-left: 62px;'>  <select class='box2' name='f_children_class[]' style ='font-size: 11px'><option>একটি নির্বাচন করুন</option> \n\
+                <td style= 'padding-left: 97px;'>  <select class='box2' name='f_children_class[]' style ='font-size: 11px'><option>একটি নির্বাচন করুন</option> \n\
 <?php
 for ($i = 0; $i <= 18; $i++) {
     $class = number($i);
     echo "<option value='$class'>" . $class . "</option>";
 }
-?></select> </td><td style= 'padding-left: 23px;'><input type='button' class='del1' /></td><td>&nbsp;<input type='button' class='add1' /></td></tr>";
+?></select> </td><td style= 'padding-left: 57px;'><input type='button' class='del1' /></td><td>&nbsp;<input type='button' class='add1' /></td></tr>";
             $("#container_others31:last").after(appendTxt);           
         }  
         count2 = count2 + 1;        
@@ -830,9 +830,9 @@ elseif (isset($_POST['submit4'])) {
                         <td>: <span id="pidd2"></span></td> 
                     </tr>
                     <tr>
-                        <td  >গ্রাম</td>
+                        <td  >গ্রাম / পাড়া / প্রোজেক্ট</td>
                         <td>: <span id="vidd"></span></td> 
-                        <td >গ্রাম </td>
+                        <td >গ্রাম / পাড়া / প্রোজেক্ট</td>
                         <td>: <span id="vidd2"></span></td> 
                     </tr>
                     <tr>	
@@ -914,9 +914,9 @@ elseif (isset($_POST['submit4'])) {
                         <td>: <span id="pidd4"></span></td> 
                     </tr>
                     <tr>
-                        <td  >গ্রাম</td>
+                        <td>গ্রাম / পাড়া / প্রোজেক্ট</td>
                         <td>: <span id="vidd3"></span></td> 
-                        <td >গ্রাম </td>
+                        <td >গ্রাম / পাড়া / প্রোজেক্ট</td>
                         <td>: <span id="vidd4"></span></td> 
                     </tr>
                     <tr>	
@@ -998,9 +998,9 @@ elseif (isset($_POST['submit4'])) {
                         <td>: <span id="pidd6"></span></td> 
                     </tr>
                     <tr>
-                        <td  >গ্রাম</td>
+                        <td  >গ্রাম / পাড়া / প্রোজেক্ট</td>
                         <td>: <span id="vidd5"></span></td> 
-                        <td >গ্রাম </td>
+                        <td >গ্রাম / পাড়া / প্রোজেক্ট</td>
                         <td>: <span id="vidd6"></span></td> 
                     </tr>
                     </tr>
