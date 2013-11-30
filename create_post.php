@@ -124,10 +124,11 @@ function numbersonly(e)
                                 <thead>
                                     <tr><td colspan="4" style="color: sienna; text-align: center; font-size: 20px;"><?php echo $db_offname; ?></td></tr>
                                     <tr style="border: black solid 1px;">
-                                        <th>পোস্ট</th>
-                                        <th>নাম্বার অফ পোস্ট</th>
-                                        <th>দায়িত্ব</th>
-                                        <th></th>
+                                        <th style="width: 10%">পোস্ট</th>
+                                        <th style="width: 10%">পোস্টের সংখ্যা</th>
+                                        <th style="width: 10%">খালি পোস্টের সংখ্যা</th>
+                                        <th style="width: 55%">দায়িত্ব</th>
+                                        <th style="width: 15%"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -141,10 +142,12 @@ function numbersonly(e)
                                         $db_selected_post_number = $rows_post_in_ons['number_of_post'];
                                         $db_selected_post_responsibility = $rows_post_in_ons['responsibility_desc'];
                                         $db_post_in_ons_id = $rows_post_in_ons['idpostinons'];
+                                        $db_post_avail = $rows_post_in_ons['free_post'];
                                         echo "<tr style='border: black solid 1px;'>";
                                         echo "<td>$db_selected_post_name</td>";
-                                        echo "<td>$db_selected_post_responsibility</td>";
-                                        echo "<td>$db_selected_post_number</td>";
+                                        echo "<td style='text-align:center;'>$db_selected_post_number</td>";
+                                         echo "<td style='text-align:center;'>$db_post_avail</td>";
+                                        echo "<td>$db_selected_post_responsibility</td>";                  
                                         echo "<td><a onclick='update($db_post_in_ons_id)' style='cursor:pointer;color:blue;'><u>এডিট করুন</u></a></td>";
                                         echo "</tr>";
                                     }

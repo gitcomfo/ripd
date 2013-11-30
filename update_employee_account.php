@@ -472,7 +472,7 @@ elseif (isset($_POST['submit5'])) {
             <h2><a name="01" id="01"></a></h2><br/>
             <form method="POST" onsubmit="" style=" padding-right: 70px;" enctype="multipart/form-data" action="" id="emp_form1" name="emp_form1">	
                 <table  class="formstyle">     
-                    <tr><th colspan="4" style="text-align: center" colspan="2"><h1>কর্মচারীর ব্যক্তিগত তথ্য</h1></th></tr>
+                    <tr><th colspan="4" style="text-align: center" colspan="2"><h1>কর্মচারীর মূল তথ্য</h1></th></tr>
                     <tr><td colspan="4" ></td>
                         <?php
                         if ($msg != "") {
@@ -511,7 +511,7 @@ elseif (isset($_POST['submit5'])) {
             <h2><a name="02" id="02"></a></h2><br/>
             <form method="POST" onsubmit="" enctype="multipart/form-data" action="" id="prop_form" name="prop_form">	
                 <table  class="formstyle">  
-                    <tr><th colspan="4" style="text-align: center" colspan="2"><h1>কর্মচারীর পারিবারিক তথ্য</h1></th></tr>
+                    <tr><th colspan="4" style="text-align: center" colspan="2"><h1>কর্মচারীর ব্যক্তিগত তথ্য</h1></th></tr>
                     <tr><td colspan="4" ></td></tr>
                    <tr>
                         <td >বাবার নাম </td>
@@ -544,7 +544,7 @@ elseif (isset($_POST['submit5'])) {
                         <td>:  <input class="box" type="text" id="employee_natonality" name="employee_natonality" value="<?php echo $db_empNation;?>"/> </td>			
                     </tr>
                     <td>জন্মতারিখ</td>
-                    <td>: <input type="date" name="dob" value="<?php echo $db_empDOB;?>"/>  </td>			
+                    <td>: <input class="box" type="date" name="dob" value="<?php echo $db_empDOB;?>"/>  </td>			
                     </tr>
                     <tr>
                     <td >জাতীয় পরিচয়পত্র নং</td>

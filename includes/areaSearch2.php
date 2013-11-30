@@ -69,9 +69,9 @@ function getArea($dv,$d,$t,$p,$v)
             ?>
         </select>
     </span></br>
-    গ্রাম &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : <span id="vid">
+    গ্রাম / পাড়া / প্রোজেক্ট &nbsp;&nbsp; : <span id="vid">
         <select name='vilg_id' id='vilg_id' class="box2" >
-            <option value="all">-গ্রাম-</option>
+            <option value="all">-গ্রাম/পাড়া/প্রোজেক্ট-</option>
             <?php
             $vilg_sql = mysql_query("SELECT * FROM " . $dbname . ".village ORDER BY village_name ASC");
             while ($vilg_rows = mysql_fetch_array($vilg_sql)) {
@@ -161,7 +161,7 @@ function getArea2($dv,$d,$t,$p,$v)
             ?>
         </select>
     </span></br>
-    গ্রাম &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : <span id="vid1">
+    গ্রাম / পাড়া / প্রোজেক্ট &nbsp;&nbsp; : <span id="vid1">
         <select name='vilg_id1' id='vilg_id1' class="box2" >
             <option value="all">-গ্রাম-</option>
             <?php
